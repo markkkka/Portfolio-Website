@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  
+  --color-brand-black: #000000; /* Pure black for modern tech feel */
+  --color-brand-white: #FFFFFF; /* Pure white for max contrast */
+  --color-brand-earth: #A68A56; /* Keep the earth accent, but use it sparingly */
+  --color-brand-slate: #111111;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-black text-brand-white font-sans antialiased selection:bg-brand-earth/30 selection:text-brand-white;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display tracking-tight text-white;
+  }
+}
+
+@layer utilities {
+  /* iPhone Safe Area */
+  .safe-pt {
+    padding-top: max(env(safe-area-inset-top), 1rem);
+  }
+  .safe-pb {
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+  }
+  .safe-px {
+    padding-left: max(env(safe-area-inset-left), 1.5rem);
+    padding-right: max(env(safe-area-inset-right), 1.5rem);
+  }
+  
+  /* Thumb-friendly interactions */
+  .tap-target {
+    @apply min-h-[44px] min-w-[44px] flex items-center justify-center;
+  }
+}
+
+.text-editorial {
+  @apply font-display tracking-tight leading-[1.1];
+}
+
+.glass-panel {
+  @apply bg-white/[0.03] backdrop-blur-md border border-white/10;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Elegant underline hover effect */
+.hover-underline {
+  @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-current after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+}
