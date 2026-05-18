@@ -8,7 +8,6 @@ import {
 } from 'motion/react';
 import {
   ArrowRight,
-  ChevronDown,
   Instagram,
   Mail,
   Menu,
@@ -159,73 +158,65 @@ const Navbar = () => {
 
 const Hero = () => {
   const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 150]);
+  const y = useTransform(scrollY, [0, 500], [0, -60]);
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
-    <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-screen w-full overflow-hidden">
       <VideoBackground src={VIDEOS.hero} />
 
-      <motion.div
-        style={{ y, opacity }}
-        className="relative z-10 max-w-6xl mx-auto px-6 text-center"
-      >
-        <motion.span
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="inline-block mb-6 text-xs font-bold tracking-[0.35em] uppercase text-brand-earth"
-        >
-          B2C Marketing · Content · Campaigns · Digital Experiences
-        </motion.span>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-6xl md:text-8xl lg:text-[7.25rem] font-editorial font-semibold tracking-normal leading-[0.98] mb-8 text-brand-white"
-        >
-          Moving B2C brands forward through content, campaigns, and digital experiences.
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6, duration: 0.8 }}
-          className="max-w-3xl mx-auto text-base md:text-lg text-brand-white/70 leading-relaxed font-light mb-12 px-4"
-        >
-          I create marketing experiences that connect brand storytelling, paid media, landing pages, email campaigns, and content systems into work that feels polished, clear, and built to grow.
-        </motion.p>
-
+      <div className="relative z-10 grid min-h-screen grid-rows-[1fr_auto] px-6 pt-36 md:pt-44">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
-          className="flex flex-col sm:flex-row items-stretch justify-center gap-4 px-4 w-full sm:w-auto"
+          style={{ y, opacity }}
+          className="mx-auto flex max-w-5xl flex-col items-center justify-center self-center pb-16 text-center md:pb-20"
         >
-          <a href="#experience" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] tap-target">
-            View Experience <ArrowRight size={18} />
-          </a>
-          <a href="#contact" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
-            Get in Touch
-          </a>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mb-8 inline-block text-[11px] font-bold tracking-[0.32em] uppercase text-brand-earth md:mb-10"
+          >
+            B2C MARKETING · BRAND GROWTH · DIGITAL CAMPAIGNS
+          </motion.span>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="mb-8 max-w-4xl font-editorial text-6xl font-semibold leading-[1.02] tracking-normal text-brand-white md:text-8xl lg:text-[7.25rem]"
+          >
+            Building brands people remember.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            className="mx-auto mb-11 max-w-2xl px-2 text-base font-light leading-relaxed text-brand-white/78 md:text-lg"
+          >
+            I create content, campaigns, landing pages, and marketing systems that help consumer brands look sharper, communicate clearly, and grow with intention.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="flex w-full flex-col items-stretch justify-center gap-4 px-4 sm:w-auto sm:flex-row"
+          >
+            <a href="#experience" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] tap-target">
+              View Experience <ArrowRight size={18} />
+            </a>
+            <a href="#contact" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
+              Get in Touch
+            </a>
+          </motion.div>
         </motion.div>
-      </motion.div>
 
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-24 sm:bottom-10 left-1/2 -translate-x-1/2 text-white/40 cursor-pointer tap-target"
-        onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-        aria-label="Scroll down"
-      >
-        <ChevronDown size={32} strokeWidth={1.5} />
-      </motion.div>
-
-      <div className="hidden sm:flex absolute bottom-0 left-0 right-0 p-8 safe-pb justify-center border-t border-white/5 bg-brand-black/20 backdrop-blur-sm">
-        <p className="text-[10px] uppercase tracking-[0.3em] font-bold text-white/50 flex flex-wrap justify-center gap-x-8 gap-y-2 text-center">
-          <span>Paid Media</span> <span>·</span> <span>Email Campaigns</span> <span>·</span> <span>Content Creation</span> <span>·</span> <span>Landing Pages</span> <span>·</span> <span>Brand Growth</span> <span>·</span> <span>AI Systems</span>
-        </p>
+        <div className="mx-auto flex w-full max-w-6xl justify-center border-t border-white/5 bg-brand-black/20 px-4 py-6 text-center backdrop-blur-sm safe-pb md:py-8">
+          <p className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
+            <span>CONTENT CREATION</span> <span>·</span> <span>PAID MEDIA</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>LANDING PAGES</span> <span>·</span> <span>BRAND SYSTEMS</span>
+          </p>
+        </div>
       </div>
     </section>
   );
