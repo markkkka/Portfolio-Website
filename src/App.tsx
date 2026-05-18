@@ -30,6 +30,108 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" }
 ];
 
+type SelectedContentVisual = {
+  id: string;
+  layoutClassName: string;
+  surfaceClassName: string;
+  accentClassName?: string;
+  imageSrc?: string;
+  caption?: string;
+};
+
+type SelectedContentCategory = {
+  id: string;
+  label: string;
+  description: string;
+  tags: string[];
+  boardClassName: string;
+  visuals: SelectedContentVisual[];
+};
+
+const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
+  {
+    id: "destination",
+    label: "Destination",
+    description: "Editorial visuals for travel, recreation, and lifestyle moments built around place and atmosphere.",
+    tags: ["Place", "Lifestyle", "Recreation"],
+    boardClassName: "bg-[radial-gradient(circle_at_28%_22%,rgba(166,138,86,0.2),transparent_28%),radial-gradient(circle_at_80%_64%,rgba(80,105,92,0.26),transparent_34%),linear-gradient(135deg,#090909_0%,#11100c_48%,#050505_100%)]",
+    visuals: [
+      {
+        id: "destination-landscape",
+        layoutClassName: "left-5 right-16 top-8 h-52 md:left-8 md:right-32 md:top-10 md:h-64",
+        surfaceClassName: "bg-[linear-gradient(135deg,rgba(255,255,255,0.11),rgba(255,255,255,0.02)),radial-gradient(circle_at_30%_65%,rgba(185,151,107,0.28),transparent_34%),linear-gradient(165deg,#1a221d_0%,#101711_54%,#050505_100%)]",
+        accentClassName: "left-6 right-10 bottom-9 h-px bg-white/20"
+      },
+      {
+        id: "destination-vertical",
+        layoutClassName: "right-5 top-24 h-64 w-32 md:right-12 md:top-28 md:h-72 md:w-40",
+        surfaceClassName: "bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.16),transparent_20%),linear-gradient(180deg,#2b2a22_0%,#111610_58%,#070707_100%)]",
+        accentClassName: "left-4 top-5 h-16 w-px bg-brand-earth/45"
+      },
+      {
+        id: "destination-detail",
+        layoutClassName: "bottom-12 left-8 h-24 w-52 md:bottom-14 md:left-16 md:h-28 md:w-64",
+        surfaceClassName: "bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))]",
+        accentClassName: "left-5 top-5 h-2 w-20 rounded-full bg-brand-earth/45"
+      }
+    ]
+  },
+  {
+    id: "product",
+    label: "Product",
+    description: "Product-focused content that makes features, use cases, and retail value feel clear and desirable.",
+    tags: ["Retail", "Use Cases", "Launch"],
+    boardClassName: "bg-[radial-gradient(circle_at_72%_22%,rgba(185,151,107,0.18),transparent_30%),radial-gradient(circle_at_20%_72%,rgba(255,255,255,0.08),transparent_28%),linear-gradient(135deg,#050505_0%,#111111_48%,#0b0805_100%)]",
+    visuals: [
+      {
+        id: "product-hero",
+        layoutClassName: "left-6 right-10 top-10 h-64 md:left-10 md:right-24 md:h-72",
+        surfaceClassName: "bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.2),transparent_14%),radial-gradient(circle_at_58%_42%,rgba(185,151,107,0.24),transparent_34%),linear-gradient(135deg,#171717_0%,#0c0c0c_100%)]",
+        accentClassName: "right-10 top-10 h-24 w-24 rounded-full border border-brand-earth/30"
+      },
+      {
+        id: "product-caption",
+        layoutClassName: "bottom-12 left-8 h-32 w-56 md:bottom-16 md:left-14 md:h-36 md:w-72",
+        surfaceClassName: "bg-[linear-gradient(135deg,rgba(185,151,107,0.11),rgba(255,255,255,0.025))]",
+        accentClassName: "left-5 top-6 h-px w-24 bg-white/30"
+      },
+      {
+        id: "product-crop",
+        layoutClassName: "bottom-20 right-5 h-44 w-28 md:bottom-14 md:right-12 md:h-52 md:w-36",
+        surfaceClassName: "bg-[linear-gradient(160deg,#2a2117_0%,#121212_56%,#070707_100%)]",
+        accentClassName: "bottom-6 left-5 right-5 h-px bg-brand-earth/50"
+      }
+    ]
+  },
+  {
+    id: "professional",
+    label: "Professional Content",
+    description: "Polished content systems for professional ideas, thought leadership, and B2B brand-building.",
+    tags: ["Thought Leadership", "B2B", "Content Systems"],
+    boardClassName: "bg-[radial-gradient(circle_at_28%_24%,rgba(185,151,107,0.15),transparent_26%),radial-gradient(circle_at_74%_74%,rgba(100,118,132,0.16),transparent_32%),linear-gradient(135deg,#060606_0%,#101010_48%,#050505_100%)]",
+    visuals: [
+      {
+        id: "professional-feature",
+        layoutClassName: "left-5 right-8 top-8 h-56 md:left-10 md:right-20 md:top-10 md:h-64",
+        surfaceClassName: "bg-[linear-gradient(135deg,rgba(255,255,255,0.09),rgba(255,255,255,0.018))]",
+        accentClassName: "left-6 top-7 h-2 w-24 rounded-full bg-brand-earth/40"
+      },
+      {
+        id: "professional-stack",
+        layoutClassName: "bottom-14 left-8 h-36 w-60 md:bottom-16 md:left-14 md:h-40 md:w-72",
+        surfaceClassName: "bg-[linear-gradient(135deg,rgba(100,118,132,0.13),rgba(255,255,255,0.018))]",
+        accentClassName: "left-5 right-8 top-8 h-px bg-white/20"
+      },
+      {
+        id: "professional-vertical",
+        layoutClassName: "bottom-12 right-5 h-56 w-32 md:bottom-12 md:right-12 md:h-64 md:w-40",
+        surfaceClassName: "bg-[linear-gradient(180deg,#171717_0%,#0f1112_54%,#070707_100%)]",
+        accentClassName: "left-5 top-6 h-20 w-px bg-brand-earth/45"
+      }
+    ]
+  }
+];
+
 interface SectionRevealProps {
   children: React.ReactNode;
   className?: string;
@@ -234,10 +336,10 @@ const BrandExperienceStrip = () => {
       <div className="max-w-6xl mx-auto">
         <SectionReveal>
           <p className="mb-8 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85">
-            Brand Experience
+            Work Experience
           </p>
 
-          <div className="grid gap-8 md:grid-cols-2 md:gap-0 rounded-[1.75rem] border border-white/8 bg-white/[0.025] backdrop-blur-md">
+          <div className="work-experience-card grid gap-8 md:grid-cols-2 md:gap-0 rounded-[1.75rem] border border-white/8 bg-white/[0.025] backdrop-blur-md transition-shadow duration-500 hover:shadow-[0_0_34px_rgba(185,151,107,0.08)]">
             {items.map((item, index) => (
               <div key={item.company} className="relative flex flex-col items-center px-8 py-8 text-center md:py-10">
                 {index > 0 && (
@@ -254,6 +356,137 @@ const BrandExperienceStrip = () => {
                 </p>
               </div>
             ))}
+          </div>
+        </SectionReveal>
+      </div>
+    </section>
+  );
+};
+
+const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual; key?: React.Key }) => (
+  <div
+    className={`absolute overflow-hidden rounded-[1.25rem] border border-white/10 bg-white/[0.025] shadow-2xl backdrop-blur-md ${visual.layoutClassName}`}
+  >
+    {visual.imageSrc ? (
+      <img
+        src={visual.imageSrc}
+        alt={visual.caption || ""}
+        className="h-full w-full object-cover"
+      />
+    ) : (
+      <div className={`absolute inset-0 ${visual.surfaceClassName}`} />
+    )}
+    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.08] via-transparent to-black/30" />
+    {visual.accentClassName && (
+      <div className={`absolute ${visual.accentClassName}`} />
+    )}
+    <div className="absolute bottom-5 left-5 right-5">
+      {visual.caption ? (
+        <p className="text-xs font-medium uppercase tracking-[0.18em] text-white/60">
+          {visual.caption}
+        </p>
+      ) : (
+        <div className="grid gap-2">
+          <div className="h-px w-3/4 bg-white/20" />
+          <div className="h-px w-1/2 bg-white/10" />
+        </div>
+      )}
+    </div>
+  </div>
+);
+
+const SelectedContent = () => {
+  const [activeCategoryId, setActiveCategoryId] = useState(SELECTED_CONTENT_CATEGORIES[0].id);
+  const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
+
+  return (
+    <section className="relative overflow-hidden border-t border-white/5 bg-[#030303] px-6 py-24 md:py-32">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(166,138,86,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.025),transparent_36%)]" />
+      <div className="relative z-10 mx-auto max-w-7xl">
+        <SectionReveal>
+          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+            <div className="max-w-xl">
+              <span className="mb-5 block text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth">
+                Content Creation
+              </span>
+              <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
+                Selected Content
+              </h2>
+              <p className="mb-9 text-base font-light leading-relaxed text-white/62 md:text-lg">
+                A curated look at content directions across destination, product, and professional brand systems.
+              </p>
+
+              <div className="mb-8 flex gap-2 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
+                {SELECTED_CONTENT_CATEGORIES.map((category) => {
+                  const isActive = category.id === activeCategory.id;
+
+                  return (
+                    <button
+                      key={category.id}
+                      type="button"
+                      aria-pressed={isActive}
+                      onClick={() => setActiveCategoryId(category.id)}
+                      className={`min-w-max rounded-full border px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 lg:min-w-0 lg:rounded-2xl lg:px-5 lg:py-4 ${
+                        isActive
+                          ? "border-brand-earth/45 bg-brand-earth/10 text-white shadow-[0_0_28px_rgba(166,138,86,0.08)]"
+                          : "border-white/8 bg-white/[0.025] text-white/45 hover:border-white/18 hover:text-white/70"
+                      }`}
+                    >
+                      {category.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory.id}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.3, ease: "easeOut" }}
+                >
+                  <p className="mb-5 text-sm font-light leading-relaxed text-white/58 md:text-base">
+                    {activeCategory.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {activeCategory.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full border border-white/8 bg-white/[0.025] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="relative min-h-[460px] overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-md md:min-h-[560px]">
+              <div className={`absolute inset-0 ${activeCategory.boardClassName}`} />
+              <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.08),transparent_30%,rgba(0,0,0,0.35)_100%)]" />
+              <div className="absolute left-6 top-6 z-20 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/50 backdrop-blur-md">
+                {activeCategory.label}
+              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory.id}
+                  initial={{ opacity: 0, y: 16, scale: 0.99 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.99 }}
+                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+                  className="absolute inset-0"
+                >
+                  {activeCategory.visuals.map((visual) => (
+                    <SelectedContentVisualCard key={visual.id} visual={visual} />
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+
+              <div className="absolute inset-x-8 bottom-8 h-px bg-gradient-to-r from-transparent via-brand-earth/35 to-transparent" />
+            </div>
           </div>
         </SectionReveal>
       </div>
@@ -369,6 +602,7 @@ export default function App() {
       <main className={loading ? 'hidden' : 'block'}>
         <Hero />
         <BrandExperienceStrip />
+        <SelectedContent />
         <PlaceholderSection
           id="experience"
           title="Experience"

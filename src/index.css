@@ -66,6 +66,64 @@
   padding-right: max(env(safe-area-inset-right), 1.5rem);
 }
 
+.work-experience-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --work-border-angle: 18deg;
+}
+
+.work-experience-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  padding: 1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0.42;
+  background: conic-gradient(
+    from var(--work-border-angle),
+    rgba(185, 151, 107, 0.08),
+    rgba(185, 151, 107, 0.52),
+    rgba(255, 255, 255, 0.12),
+    rgba(154, 106, 58, 0.42),
+    rgba(185, 151, 107, 0.08)
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  transition: opacity 500ms ease;
+}
+
+.work-experience-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(185, 151, 107, 0.12), transparent 46%);
+  transition: opacity 500ms ease;
+}
+
+.work-experience-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.work-experience-card:hover::before {
+  opacity: 0.9;
+  animation: work-border-orbit 7s linear infinite;
+}
+
+.work-experience-card:hover::after {
+  opacity: 1;
+}
+
 @media (min-width: 768px) {
   .site-header-inner {
     padding-left: max(env(safe-area-inset-left), 2.5rem);
@@ -89,4 +147,16 @@
 /* Elegant underline hover effect */
 .hover-underline {
   @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-current after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+}
+
+@property --work-border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 18deg;
+}
+
+@keyframes work-border-orbit {
+  to {
+    --work-border-angle: 378deg;
+  }
 }
