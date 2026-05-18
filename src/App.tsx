@@ -58,19 +58,19 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "destination-landscape",
-        layoutClassName: "left-5 right-16 top-8 h-52 md:left-8 md:right-32 md:top-10 md:h-64",
+        layoutClassName: "left-5 right-8 top-16 h-32 md:left-10 md:right-20 md:top-16 md:h-40",
         surfaceClassName: "bg-[linear-gradient(135deg,rgba(255,255,255,0.11),rgba(255,255,255,0.02)),radial-gradient(circle_at_30%_65%,rgba(185,151,107,0.28),transparent_34%),linear-gradient(165deg,#1a221d_0%,#101711_54%,#050505_100%)]",
         accentClassName: "left-6 right-10 bottom-9 h-px bg-white/20"
       },
       {
         id: "destination-vertical",
-        layoutClassName: "right-5 top-24 h-64 w-32 md:right-12 md:top-28 md:h-72 md:w-40",
+        layoutClassName: "left-10 right-5 top-48 h-32 md:left-20 md:right-10 md:top-60 md:h-40",
         surfaceClassName: "bg-[radial-gradient(circle_at_50%_20%,rgba(255,255,255,0.16),transparent_20%),linear-gradient(180deg,#2b2a22_0%,#111610_58%,#070707_100%)]",
         accentClassName: "left-4 top-5 h-16 w-px bg-brand-earth/45"
       },
       {
         id: "destination-detail",
-        layoutClassName: "bottom-12 left-8 h-24 w-52 md:bottom-14 md:left-16 md:h-28 md:w-64",
+        layoutClassName: "bottom-14 left-5 right-16 h-28 md:bottom-16 md:left-10 md:right-32 md:h-36",
         surfaceClassName: "bg-[linear-gradient(135deg,rgba(255,255,255,0.07),rgba(255,255,255,0.015))]",
         accentClassName: "left-5 top-5 h-2 w-20 rounded-full bg-brand-earth/45"
       }
@@ -85,19 +85,19 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "product-hero",
-        layoutClassName: "left-6 right-10 top-10 h-64 md:left-10 md:right-24 md:h-72",
+        layoutClassName: "left-5 right-8 top-16 h-32 md:left-10 md:right-20 md:top-16 md:h-40",
         surfaceClassName: "bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.2),transparent_14%),radial-gradient(circle_at_58%_42%,rgba(185,151,107,0.24),transparent_34%),linear-gradient(135deg,#171717_0%,#0c0c0c_100%)]",
         accentClassName: "right-10 top-10 h-24 w-24 rounded-full border border-brand-earth/30"
       },
       {
         id: "product-caption",
-        layoutClassName: "bottom-12 left-8 h-32 w-56 md:bottom-16 md:left-14 md:h-36 md:w-72",
+        layoutClassName: "left-10 right-5 top-48 h-32 md:left-20 md:right-10 md:top-60 md:h-40",
         surfaceClassName: "bg-[linear-gradient(135deg,rgba(185,151,107,0.11),rgba(255,255,255,0.025))]",
         accentClassName: "left-5 top-6 h-px w-24 bg-white/30"
       },
       {
         id: "product-crop",
-        layoutClassName: "bottom-20 right-5 h-44 w-28 md:bottom-14 md:right-12 md:h-52 md:w-36",
+        layoutClassName: "bottom-14 left-5 right-16 h-28 md:bottom-16 md:left-10 md:right-32 md:h-36",
         surfaceClassName: "bg-[linear-gradient(160deg,#2a2117_0%,#121212_56%,#070707_100%)]",
         accentClassName: "bottom-6 left-5 right-5 h-px bg-brand-earth/50"
       }
@@ -112,19 +112,19 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "professional-feature",
-        layoutClassName: "left-5 right-8 top-8 h-56 md:left-10 md:right-20 md:top-10 md:h-64",
+        layoutClassName: "left-5 right-8 top-16 h-32 md:left-10 md:right-20 md:top-16 md:h-40",
         surfaceClassName: "bg-[linear-gradient(135deg,rgba(255,255,255,0.09),rgba(255,255,255,0.018))]",
         accentClassName: "left-6 top-7 h-2 w-24 rounded-full bg-brand-earth/40"
       },
       {
         id: "professional-stack",
-        layoutClassName: "bottom-14 left-8 h-36 w-60 md:bottom-16 md:left-14 md:h-40 md:w-72",
+        layoutClassName: "left-10 right-5 top-48 h-32 md:left-20 md:right-10 md:top-60 md:h-40",
         surfaceClassName: "bg-[linear-gradient(135deg,rgba(100,118,132,0.13),rgba(255,255,255,0.018))]",
         accentClassName: "left-5 right-8 top-8 h-px bg-white/20"
       },
       {
         id: "professional-vertical",
-        layoutClassName: "bottom-12 right-5 h-56 w-32 md:bottom-12 md:right-12 md:h-64 md:w-40",
+        layoutClassName: "bottom-14 left-5 right-16 h-28 md:bottom-16 md:left-10 md:right-32 md:h-36",
         surfaceClassName: "bg-[linear-gradient(180deg,#171717_0%,#0f1112_54%,#070707_100%)]",
         accentClassName: "left-5 top-6 h-20 w-px bg-brand-earth/45"
       }
@@ -314,7 +314,7 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        <div className="mx-auto flex w-full max-w-6xl justify-center border-t border-white/5 bg-brand-black/20 px-4 py-6 text-center backdrop-blur-sm safe-pb md:py-8">
+        <div className="relative left-1/2 flex w-screen -translate-x-1/2 justify-center border-t border-white/5 bg-brand-black/30 px-6 py-6 text-center backdrop-blur-sm safe-pb md:py-8">
           <p className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
             <span>CONTENT CREATION</span> <span>·</span> <span>PAID MEDIA</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>LANDING PAGES</span> <span>·</span> <span>BRAND SYSTEMS</span>
           </p>
@@ -325,13 +325,19 @@ const Hero = () => {
 };
 
 const BrandExperienceStrip = () => {
+  const handleCardPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    event.currentTarget.style.setProperty("--work-glow-x", `${event.clientX - rect.left}px`);
+    event.currentTarget.style.setProperty("--work-glow-y", `${event.clientY - rect.top}px`);
+  };
+
   const items = [
     { company: "SFA", role: "Marketing Consultant", dates: "2022–2024" },
     { company: "Trend Capital", role: "Marketing & Analytics Specialist", dates: "2025" }
   ];
 
   return (
-    <section className="relative border-y border-white/5 bg-brand-black/95 px-6 py-10 md:py-12 overflow-hidden">
+    <section className="relative border-t border-white/5 bg-brand-black px-6 py-10 md:py-12 overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-earth/30 to-transparent" />
       <div className="max-w-6xl mx-auto">
         <SectionReveal>
@@ -339,7 +345,10 @@ const BrandExperienceStrip = () => {
             Work Experience
           </p>
 
-          <div className="work-experience-card grid gap-8 md:grid-cols-2 md:gap-0 rounded-[1.75rem] border border-white/8 bg-white/[0.025] backdrop-blur-md transition-shadow duration-500 hover:shadow-[0_0_34px_rgba(185,151,107,0.08)]">
+          <div
+            className="work-experience-card grid gap-8 md:grid-cols-2 md:gap-0 rounded-[1.75rem] border border-white/8 bg-white/[0.025] backdrop-blur-md transition-shadow duration-500 hover:shadow-[0_0_34px_rgba(185,151,107,0.08)]"
+            onPointerMove={handleCardPointerMove}
+          >
             {items.map((item, index) => (
               <div key={item.company} className="relative flex flex-col items-center px-8 py-8 text-center md:py-10">
                 {index > 0 && (
@@ -400,20 +409,20 @@ const SelectedContent = () => {
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
 
   return (
-    <section className="relative overflow-hidden border-t border-white/5 bg-[#030303] px-6 py-24 md:py-32">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(166,138,86,0.1),transparent_28%),linear-gradient(180deg,rgba(255,255,255,0.025),transparent_36%)]" />
+    <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionReveal>
+          <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
+            Content Creation
+          </p>
+
           <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
             <div className="max-w-xl">
-              <span className="mb-5 block text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth">
-                Content Creation
-              </span>
               <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
                 Selected Content
               </h2>
               <p className="mb-9 text-base font-light leading-relaxed text-white/62 md:text-lg">
-                A curated look at content directions across destination, product, and professional brand systems.
+                A visual archive of content styles created for lifestyle, product, and professional brand storytelling.
               </p>
 
               <div className="mb-8 flex gap-2 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
@@ -449,16 +458,6 @@ const SelectedContent = () => {
                   <p className="mb-5 text-sm font-light leading-relaxed text-white/58 md:text-base">
                     {activeCategory.description}
                   </p>
-                  <div className="flex flex-wrap gap-2">
-                    {activeCategory.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full border border-white/8 bg-white/[0.025] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/40"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>

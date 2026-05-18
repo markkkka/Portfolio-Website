@@ -71,6 +71,8 @@
   isolation: isolate;
   overflow: hidden;
   --work-border-angle: 18deg;
+  --work-glow-x: 50%;
+  --work-glow-y: 50%;
 }
 
 .work-experience-card::before {
@@ -106,7 +108,7 @@
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(185, 151, 107, 0.12), transparent 46%);
+  background: radial-gradient(circle at var(--work-glow-x) var(--work-glow-y), rgba(185, 151, 107, 0.12), transparent 42%);
   transition: opacity 500ms ease;
 }
 
