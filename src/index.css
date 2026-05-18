@@ -66,11 +66,19 @@
   padding-right: max(env(safe-area-inset-right), 1.5rem);
 }
 
+.full-bleed-strip {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
 .work-experience-card {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   --work-border-angle: 18deg;
+  --work-glow-x: 50%;
+  --work-glow-y: 50%;
 }
 
 .work-experience-card::before {
@@ -81,13 +89,13 @@
   padding: 1px;
   border-radius: inherit;
   pointer-events: none;
-  opacity: 0.42;
+  opacity: 0.64;
   background: conic-gradient(
     from var(--work-border-angle),
     rgba(185, 151, 107, 0.08),
-    rgba(185, 151, 107, 0.52),
-    rgba(255, 255, 255, 0.12),
-    rgba(154, 106, 58, 0.42),
+    rgba(185, 151, 107, 0.46),
+    rgba(255, 255, 255, 0.1),
+    rgba(154, 106, 58, 0.36),
     rgba(185, 151, 107, 0.08)
   );
   -webkit-mask:
@@ -95,6 +103,7 @@
     linear-gradient(#000 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
+  animation: work-border-orbit 8s linear infinite;
   transition: opacity 500ms ease;
 }
 
@@ -106,7 +115,7 @@
   border-radius: inherit;
   pointer-events: none;
   opacity: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(185, 151, 107, 0.12), transparent 46%);
+  background: radial-gradient(circle at var(--work-glow-x) var(--work-glow-y), rgba(185, 151, 107, 0.12), transparent 42%);
   transition: opacity 500ms ease;
 }
 
@@ -116,8 +125,7 @@
 }
 
 .work-experience-card:hover::before {
-  opacity: 0.9;
-  animation: work-border-orbit 7s linear infinite;
+  opacity: 0.84;
 }
 
 .work-experience-card:hover::after {
