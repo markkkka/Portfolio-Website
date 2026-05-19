@@ -76,7 +76,6 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  --work-border-angle: 0deg;
   --work-glow-x: 50%;
   --work-glow-y: 50%;
 }
@@ -84,28 +83,20 @@
 .work-experience-card::before {
   content: "";
   position: absolute;
-  inset: 0;
-  z-index: 2;
-  padding: 1px;
-  border-radius: inherit;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  width: 92px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(154, 106, 58, 0.55), rgba(232, 216, 188, 0.95), rgba(185, 151, 107, 0.68), transparent);
+  filter: drop-shadow(0 0 8px rgba(185, 151, 107, 0.34));
+  offset-path: inset(2px round 1.75rem);
+  offset-anchor: 50% 50%;
+  offset-distance: 0%;
+  offset-rotate: auto;
   pointer-events: none;
-  opacity: 0.92;
-  background: conic-gradient(
-    from var(--work-border-angle),
-    rgba(185, 151, 107, 0) 0deg,
-    rgba(185, 151, 107, 0) 292deg,
-    rgba(154, 106, 58, 0.28) 316deg,
-    rgba(185, 151, 107, 0.95) 338deg,
-    rgba(240, 228, 207, 0.72) 348deg,
-    rgba(185, 151, 107, 0) 360deg
-  );
-  -webkit-mask:
-    linear-gradient(#000 0 0) content-box,
-    linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  animation: work-border-orbit 6.5s linear infinite;
-  filter: drop-shadow(0 0 7px rgba(185, 151, 107, 0.22));
+  animation: work-border-runner 7.25s linear infinite;
 }
 
 .work-experience-card::after {
@@ -211,15 +202,9 @@
   @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-current after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
 }
 
-@property --work-border-angle {
-  syntax: "<angle>";
-  inherits: false;
-  initial-value: 0deg;
-}
-
-@keyframes work-border-orbit {
+@keyframes work-border-runner {
   to {
-    --work-border-angle: 360deg;
+    offset-distance: 100%;
   }
 }
 
