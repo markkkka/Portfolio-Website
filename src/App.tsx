@@ -222,10 +222,10 @@ const Navbar = () => {
         </div>
 
         <a
-          href="#contact"
+          href="/resume.pdf"
           className="hidden md:flex col-start-3 justify-self-end items-center min-h-[44px] text-[13px] font-semibold tracking-[0.12em] uppercase text-white/78 transition-colors duration-300 hover:text-white"
         >
-          Get in Touch
+          View Resume
         </a>
 
         <button
@@ -280,7 +280,7 @@ const Hero = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-8 inline-block text-[11px] font-bold tracking-[0.32em] uppercase text-brand-earth md:mb-10"
+            className="mb-8 inline-block text-[11px] font-bold tracking-[0.32em] uppercase text-[#E8D8BC] drop-shadow-[0_1px_12px_rgba(0,0,0,0.35)] md:mb-10"
           >
             B2C MARKETING · BRAND GROWTH · DIGITAL CAMPAIGNS
           </motion.span>
@@ -291,7 +291,7 @@ const Hero = () => {
             transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             className="mb-8 max-w-4xl font-editorial text-6xl font-semibold leading-[1.02] tracking-normal text-brand-white md:text-8xl lg:text-[7.25rem]"
           >
-            Building brands people remember.
+            Building brands people <span className="italic">remember.</span>
           </motion.h1>
 
           <motion.p
@@ -318,8 +318,8 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        <div className="full-bleed-strip flex justify-center border-t border-white/5 bg-brand-black/30 px-6 py-6 text-center backdrop-blur-sm safe-pb md:py-8">
-          <p className="flex flex-wrap justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
+        <div className="full-bleed-strip flex min-h-[72px] items-center justify-center border-t border-white/5 bg-brand-black/30 px-6 py-0 text-center backdrop-blur-sm md:min-h-[80px]">
+          <p className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase leading-none tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
             <span>CONTENT CREATION</span> <span>·</span> <span>PAID MEDIA</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>LANDING PAGES</span> <span>·</span> <span>BRAND SYSTEMS</span>
           </p>
         </div>
@@ -412,10 +412,10 @@ const SelectedContent = () => {
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
 
   return (
-    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-14 md:pb-32 md:pt-16">
+    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-2 md:pb-32 md:pt-4">
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionReveal>
-          <p className="mb-12 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-16">
+          <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
             Content Creation
           </p>
 
