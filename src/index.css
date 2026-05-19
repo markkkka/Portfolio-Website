@@ -129,6 +129,63 @@
   opacity: 1;
 }
 
+.email-preview-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0a0a0a;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+}
+
+.email-preview-frame::before {
+  content: "";
+  position: absolute;
+  inset: -30%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(115deg, transparent 35%, rgba(232, 216, 188, 0.16) 48%, transparent 60%);
+  transform: translateX(-36%) rotate(8deg);
+  transition: opacity 500ms ease, transform 900ms ease;
+}
+
+.email-campaign-card:hover .email-preview-frame::before {
+  opacity: 1;
+  transform: translateX(36%) rotate(8deg);
+}
+
+.outcome-card {
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+}
+
+.outcome-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 80% 12%, rgba(185, 151, 107, 0.12), transparent 34%);
+  transition: opacity 500ms ease;
+}
+
+.outcome-card:hover::before {
+  opacity: 1;
+}
+
+.outcome-graph-path {
+  stroke: #b9976b;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 8px rgba(185, 151, 107, 0.22));
+  animation: outcome-line-draw 1.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 @media (min-width: 768px) {
   .site-header-inner {
     padding-left: max(env(safe-area-inset-left), 2.5rem);
@@ -163,5 +220,11 @@
 @keyframes work-border-orbit {
   to {
     --work-border-angle: 360deg;
+  }
+}
+
+@keyframes outcome-line-draw {
+  to {
+    stroke-dashoffset: 0;
   }
 }

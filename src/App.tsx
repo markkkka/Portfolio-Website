@@ -46,6 +46,28 @@ type SelectedContentCategory = {
   visuals: SelectedContentVisual[];
 };
 
+type EmailCampaign = {
+  id: string;
+  brand: string;
+  campaignType: string;
+  description: string;
+  previewSrc: string;
+  previewTitle: string;
+  campaignTypes: string[];
+  strategy: {
+    goal: string;
+    approach: string;
+    focus: string;
+  };
+};
+
+type OutcomeCard = {
+  id: string;
+  metric: string;
+  label: string;
+  graphPath: string;
+};
+
 const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
   {
     id: "destination",
@@ -133,6 +155,74 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
         surfaceClassName: "bg-[radial-gradient(circle_at_50%_78%,rgba(185,151,107,0.14),transparent_24%),linear-gradient(180deg,#171717_0%,#0f1112_54%,#070707_100%)]"
       }
     ]
+  }
+];
+
+const EMAIL_CAMPAIGNS: EmailCampaign[] = [
+  {
+    id: "michaelpro",
+    brand: "MichaelPro",
+    campaignType: "Product storytelling and retail promotion",
+    description: "Product-focused email campaigns for new releases, holiday promotions, seasonal sales, and feature-driven product storytelling.",
+    previewSrc: "/emails/michaelpro.html",
+    previewTitle: "MichaelPro product email campaign preview",
+    campaignTypes: [
+      "New product releases",
+      "Holiday and seasonal sales",
+      "Feature spotlight campaigns",
+      "Retail-focused product messaging"
+    ],
+    strategy: {
+      goal: "Product discovery",
+      approach: "New releases, seasonal promotions, and feature-led messaging",
+      focus: "Retail value and purchase intent"
+    }
+  },
+  {
+    id: "grantties",
+    brand: "GrantTies",
+    campaignType: "Offer awareness and customer conversion",
+    description: "Conversion-focused email campaigns built around offer awareness, promotional messaging, and customer follow-up.",
+    previewSrc: "/emails/grantties.html",
+    previewTitle: "GrantTies offer awareness email campaign preview",
+    campaignTypes: [
+      "Offer awareness campaigns",
+      "Promotional emails",
+      "Lead follow-up messaging",
+      "Customer-facing conversion copy"
+    ],
+    strategy: {
+      goal: "Customer action",
+      approach: "Offer awareness, promotional messaging, and follow-up communication",
+      focus: "Clarity, trust, and conversion"
+    }
+  }
+];
+
+const SELECTED_OUTCOMES: OutcomeCard[] = [
+  {
+    id: "followers",
+    metric: "55,000+",
+    label: "Follower Growth",
+    graphPath: "M4 58 C 22 46, 30 50, 44 34 S 70 22, 92 10"
+  },
+  {
+    id: "views",
+    metric: "5M+",
+    label: "Views Generated",
+    graphPath: "M4 56 C 18 48, 30 52, 42 42 S 62 18, 92 12"
+  },
+  {
+    id: "roas",
+    metric: "4.2x",
+    label: "ROAS on Social Campaigns",
+    graphPath: "M4 60 C 18 54, 26 42, 40 44 S 64 34, 92 8"
+  },
+  {
+    id: "engagement",
+    metric: "140%",
+    label: "Engagement Growth",
+    graphPath: "M4 58 C 20 56, 30 44, 42 40 S 66 28, 92 12"
   }
 ];
 
@@ -496,6 +586,175 @@ const SelectedContent = () => {
   );
 };
 
+const EmailCampaigns = () => (
+  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+    <div className="relative z-10 mx-auto max-w-7xl">
+      <SectionReveal>
+        <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
+          EMAIL CAMPAIGNS
+        </p>
+        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
+            Campaigns built for product storytelling and conversion.
+          </h2>
+          <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
+            A focused look at email work across product brands and customer-facing campaigns, from new releases and seasonal promotions to offer education and follow-up messaging.
+          </p>
+        </div>
+      </SectionReveal>
+
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+        {EMAIL_CAMPAIGNS.map((campaign, index) => (
+          <motion.article
+            key={campaign.id}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="email-campaign-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
+          >
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(185,151,107,0.12),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%)] opacity-70" />
+
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
+                className="mb-5"
+              >
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
+                  {campaign.campaignType}
+                </p>
+                <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
+                  {campaign.brand}
+                </h3>
+                <p className="mt-4 text-sm font-light leading-relaxed text-white/58 md:text-base">
+                  {campaign.description}
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 18, scale: 0.99 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+                className="email-preview-frame"
+              >
+                <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
+                  <div className="flex gap-2">
+                    <span className="h-2 w-2 rounded-full bg-white/20" />
+                    <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
+                    <span className="h-2 w-2 rounded-full bg-white/12" />
+                  </div>
+                  <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">
+                    Email Preview
+                  </span>
+                </div>
+                <iframe
+                  src={campaign.previewSrc}
+                  title={campaign.previewTitle}
+                  loading="lazy"
+                  className="h-[460px] w-full border-0 bg-[#f5efe4] md:h-[580px]"
+                />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ delay: 0.3 + index * 0.1, duration: 0.55, ease: "easeOut" }}
+                className="mt-6 grid gap-4 sm:grid-cols-2"
+              >
+                <ul className="grid gap-3">
+                  {campaign.campaignTypes.map((item) => (
+                    <li key={item} className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
+                      <span className="h-px w-5 bg-brand-earth/55" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="strategy-drawer rounded-2xl border border-brand-earth/18 bg-black/32 p-4 backdrop-blur-md md:absolute md:bottom-6 md:right-6 md:max-w-[18rem] md:translate-y-4 md:opacity-0 md:transition-all md:duration-500 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+                  <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-earth/80">
+                    Strategy
+                  </p>
+                  <div className="grid gap-2 text-xs leading-relaxed text-white/58">
+                    <p><span className="text-white/82">Goal:</span> {campaign.strategy.goal}</p>
+                    <p><span className="text-white/82">Approach:</span> {campaign.strategy.approach}</p>
+                    <p><span className="text-white/82">Focus:</span> {campaign.strategy.focus}</p>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
+const MiniOutcomeGraph = ({ path, index }: { path: string; index: number }) => (
+  <svg
+    className="mt-8 h-16 w-full overflow-visible"
+    viewBox="0 0 96 64"
+    fill="none"
+    role="img"
+    aria-label="Minimal upward trend line"
+  >
+    <path
+      d={path}
+      className="outcome-graph-path"
+      style={{ animationDelay: `${index * 120}ms` }}
+      pathLength="1"
+    />
+    <circle cx="92" cy={index === 2 ? "8" : index === 0 ? "10" : "12"} r="2.4" className="fill-[#E8D8BC]" />
+  </svg>
+);
+
+const SelectedOutcomes = () => (
+  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+    <div className="relative z-10 mx-auto max-w-7xl">
+      <SectionReveal>
+        <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
+          SELECTED OUTCOMES
+        </p>
+        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
+            Measured growth across content, campaigns, and brand engagement.
+          </h2>
+          <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
+            A snapshot of performance outcomes tied to content creation, paid media, and social growth.
+          </p>
+        </div>
+      </SectionReveal>
+
+      <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+        {SELECTED_OUTCOMES.map((outcome, index) => (
+          <motion.article
+            key={outcome.id}
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ delay: index * 0.08, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="outcome-card rounded-[1.75rem] border border-white/8 bg-white/[0.025] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/24 md:p-9"
+          >
+            <p className="font-editorial text-6xl font-semibold leading-none text-white md:text-7xl">
+              {outcome.metric}
+            </p>
+            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.22em] text-white/48">
+              {outcome.label}
+            </p>
+            <MiniOutcomeGraph path={outcome.graphPath} index={index} />
+          </motion.article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const PlaceholderSection = ({ id, title, copy }: { id: string, title: string, copy: string }) => (
   <section id={id} className="py-24 md:py-32 px-6 bg-brand-black border-t border-white/5 scroll-mt-24">
     <div className="max-w-7xl mx-auto">
@@ -605,6 +864,8 @@ export default function App() {
         <Hero />
         <BrandExperienceStrip />
         <SelectedContent />
+        <EmailCampaigns />
+        <SelectedOutcomes />
         <PlaceholderSection
           id="experience"
           title="Experience"
