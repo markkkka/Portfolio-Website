@@ -53,12 +53,6 @@ type EmailCampaign = {
   description: string;
   previewSrc: string;
   previewTitle: string;
-  campaignTypes: string[];
-  strategy: {
-    goal: string;
-    approach: string;
-    focus: string;
-  };
 };
 
 type OutcomeCard = {
@@ -66,6 +60,10 @@ type OutcomeCard = {
   metric: string;
   label: string;
   graphPath: string;
+  dot: {
+    cx: number;
+    cy: number;
+  };
 };
 
 const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
@@ -165,18 +163,7 @@ const EMAIL_CAMPAIGNS: EmailCampaign[] = [
     campaignType: "Product storytelling and retail promotion",
     description: "Product-focused email campaigns for new releases, holiday promotions, seasonal sales, and feature-driven product storytelling.",
     previewSrc: "/emails/michaelpro.html",
-    previewTitle: "MichaelPro product email campaign preview",
-    campaignTypes: [
-      "New product releases",
-      "Holiday and seasonal sales",
-      "Feature spotlight campaigns",
-      "Retail-focused product messaging"
-    ],
-    strategy: {
-      goal: "Product discovery",
-      approach: "New releases, seasonal promotions, and feature-led messaging",
-      focus: "Retail value and purchase intent"
-    }
+    previewTitle: "MichaelPro product email campaign preview"
   },
   {
     id: "grantties",
@@ -184,18 +171,7 @@ const EMAIL_CAMPAIGNS: EmailCampaign[] = [
     campaignType: "Offer awareness and customer conversion",
     description: "Conversion-focused email campaigns built around offer awareness, promotional messaging, and customer follow-up.",
     previewSrc: "/emails/grantties.html",
-    previewTitle: "GrantTies offer awareness email campaign preview",
-    campaignTypes: [
-      "Offer awareness campaigns",
-      "Promotional emails",
-      "Lead follow-up messaging",
-      "Customer-facing conversion copy"
-    ],
-    strategy: {
-      goal: "Customer action",
-      approach: "Offer awareness, promotional messaging, and follow-up communication",
-      focus: "Clarity, trust, and conversion"
-    }
+    previewTitle: "GrantTies offer awareness email campaign preview"
   }
 ];
 
@@ -204,27 +180,54 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     id: "followers",
     metric: "55,000+",
     label: "Follower Growth",
-    graphPath: "M4 58 C 22 46, 30 50, 44 34 S 70 22, 92 10"
+    graphPath: "M8 78 C 42 62, 58 68, 84 48 S 138 28, 210 14",
+    dot: { cx: 210, cy: 14 }
   },
   {
     id: "views",
     metric: "5M+",
     label: "Views Generated",
-    graphPath: "M4 56 C 18 48, 30 52, 42 42 S 62 18, 92 12"
+    graphPath: "M8 76 C 36 64, 58 74, 82 58 S 132 18, 210 20",
+    dot: { cx: 210, cy: 20 }
   },
   {
     id: "roas",
     metric: "4.2x",
     label: "ROAS on Social Campaigns",
-    graphPath: "M4 60 C 18 54, 26 42, 40 44 S 64 34, 92 8"
+    graphPath: "M8 80 C 38 72, 52 46, 82 52 S 138 42, 210 12",
+    dot: { cx: 210, cy: 12 }
   },
   {
     id: "engagement",
     metric: "140%",
     label: "Engagement Growth",
-    graphPath: "M4 58 C 20 56, 30 44, 42 40 S 66 28, 92 12"
+    graphPath: "M8 78 C 42 74, 60 54, 86 50 S 142 30, 210 18",
+    dot: { cx: 210, cy: 18 }
   }
 ];
+
+const CORE_COMPETENCY_ROWS = {
+  top: [
+    "Social Media Marketing",
+    "Email Campaigns",
+    "Meta Ads",
+    "Google Ads",
+    "AI Automations",
+    "Content Production",
+    "Landing Page Creation",
+    "Landing Page Optimization"
+  ],
+  bottom: [
+    "Product Marketing",
+    "Creative Direction",
+    "Event Marketing",
+    "Executive Reporting",
+    "Shopify CRO",
+    "Brand Systems",
+    "Marketing Automation",
+    "Email / SMS"
+  ]
+};
 
 interface SectionRevealProps {
   children: React.ReactNode;
@@ -660,33 +663,6 @@ const EmailCampaigns = () => (
                 />
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ delay: 0.3 + index * 0.1, duration: 0.55, ease: "easeOut" }}
-                className="mt-6 grid gap-4 sm:grid-cols-2"
-              >
-                <ul className="grid gap-3">
-                  {campaign.campaignTypes.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.16em] text-white/50">
-                      <span className="h-px w-5 bg-brand-earth/55" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="strategy-drawer rounded-2xl border border-brand-earth/18 bg-black/32 p-4 backdrop-blur-md md:absolute md:bottom-6 md:right-6 md:max-w-[18rem] md:translate-y-4 md:opacity-0 md:transition-all md:duration-500 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-                  <p className="mb-2 text-[10px] font-bold uppercase tracking-[0.24em] text-brand-earth/80">
-                    Strategy
-                  </p>
-                  <div className="grid gap-2 text-xs leading-relaxed text-white/58">
-                    <p><span className="text-white/82">Goal:</span> {campaign.strategy.goal}</p>
-                    <p><span className="text-white/82">Approach:</span> {campaign.strategy.approach}</p>
-                    <p><span className="text-white/82">Focus:</span> {campaign.strategy.focus}</p>
-                  </div>
-                </div>
-              </motion.div>
             </div>
           </motion.article>
         ))}
@@ -695,21 +671,35 @@ const EmailCampaigns = () => (
   </section>
 );
 
-const MiniOutcomeGraph = ({ path, index }: { path: string; index: number }) => (
+const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard["dot"]; index: number }) => (
   <svg
-    className="mt-8 h-16 w-full overflow-visible"
-    viewBox="0 0 96 64"
+    className="h-24 w-full overflow-visible md:h-28"
+    viewBox="0 0 220 92"
     fill="none"
     role="img"
     aria-label="Minimal upward trend line"
   >
-    <path
+    <motion.path
       d={path}
-      className="outcome-graph-path"
-      style={{ animationDelay: `${index * 120}ms` }}
-      pathLength="1"
+      initial={{ pathLength: 0, opacity: 0.25 }}
+      whileInView={{ pathLength: 1, opacity: 1 }}
+      viewport={{ once: true, amount: 0.6 }}
+      transition={{ delay: 0.12 + index * 0.08, duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+      className="outcome-graph-line stroke-[#B9976B]"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
     />
-    <circle cx="92" cy={index === 2 ? "8" : index === 0 ? "10" : "12"} r="2.4" className="fill-[#E8D8BC]" />
+    <motion.circle
+      cx={dot.cx}
+      cy={dot.cy}
+      r="4"
+      initial={{ opacity: 0, scale: 0.35 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true, amount: 0.6 }}
+      transition={{ delay: 0.82 + index * 0.08, duration: 0.4, ease: "easeOut" }}
+      className="outcome-graph-dot fill-[#E8D8BC]"
+    />
   </svg>
 );
 
@@ -739,17 +729,69 @@ const SelectedOutcomes = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.25 }}
             transition={{ delay: index * 0.08, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="outcome-card rounded-[1.75rem] border border-white/8 bg-white/[0.025] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/24 md:p-9"
+            className="outcome-card flex min-h-[260px] flex-col justify-between rounded-[1.75rem] border border-white/8 bg-white/[0.025] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/24 md:min-h-[300px] md:p-9"
           >
-            <p className="font-editorial text-6xl font-semibold leading-none text-white md:text-7xl">
-              {outcome.metric}
-            </p>
-            <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.22em] text-white/48">
-              {outcome.label}
-            </p>
-            <MiniOutcomeGraph path={outcome.graphPath} index={index} />
+            <div>
+              <p className="font-editorial text-6xl font-semibold leading-none text-white md:text-7xl">
+                {outcome.metric}
+              </p>
+              <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.22em] text-white/48">
+                {outcome.label}
+              </p>
+            </div>
+            <div className="mt-10 w-full overflow-visible opacity-90 md:ml-auto md:max-w-[22rem]">
+              <MiniOutcomeGraph path={outcome.graphPath} dot={outcome.dot} index={index} />
+            </div>
           </motion.article>
         ))}
+      </div>
+    </div>
+  </section>
+);
+
+const CompetencyMarqueeRow = ({ items, direction = "left" }: { items: string[]; direction?: "left" | "right" }) => {
+  const repeatedItems = [...items, ...items];
+
+  return (
+    <div className="competency-marquee">
+      <div
+        className={`competency-marquee-track ${direction === "right" ? "competency-marquee-track-reverse" : ""}`}
+        aria-hidden="true"
+      >
+        {repeatedItems.map((item, index) => (
+          <span key={`${item}-${index}`} className="competency-card">
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const CoreCompetenciesMarquee = () => (
+  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+    <div className="relative z-10 mx-auto max-w-7xl">
+      <SectionReveal>
+        <div className="mx-auto mb-14 max-w-4xl text-center md:mb-16">
+          <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
+            CORE COMPETENCIES
+          </p>
+          <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
+            Operator experience, not agency theater.
+          </h2>
+        </div>
+      </SectionReveal>
+
+      <ul className="sr-only">
+        {[...CORE_COMPETENCY_ROWS.top, ...CORE_COMPETENCY_ROWS.bottom].map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
+
+      <div className="grid gap-4 md:gap-5">
+        <CompetencyMarqueeRow items={CORE_COMPETENCY_ROWS.top} />
+        <CompetencyMarqueeRow items={CORE_COMPETENCY_ROWS.bottom} direction="right" />
       </div>
     </div>
   </section>
@@ -866,6 +908,7 @@ export default function App() {
         <SelectedContent />
         <EmailCampaigns />
         <SelectedOutcomes />
+        <CoreCompetenciesMarquee />
         <PlaceholderSection
           id="experience"
           title="Experience"
