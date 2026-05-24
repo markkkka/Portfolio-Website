@@ -71,6 +71,7 @@ type OutcomeCard = {
   id: string;
   metric: string;
   label: string;
+  explanation: string;
   graphPath: string;
   dot: {
     cx: number;
@@ -215,6 +216,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     id: "followers",
     metric: "55,000+",
     label: "Follower Growth",
+    explanation: "Audience growth supported through consistent content, social strategy, and brand-focused storytelling.",
     graphPath: "M8 102 C 48 92, 72 98, 104 76 S 176 50, 252 24",
     dot: { cx: 252, cy: 24 }
   },
@@ -222,6 +224,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     id: "views",
     metric: "5M+",
     label: "Views Generated",
+    explanation: "Short-form and campaign-driven content created to expand reach and increase brand visibility.",
     graphPath: "M8 100 C 42 88, 70 100, 104 82 S 170 28, 252 34",
     dot: { cx: 252, cy: 34 }
   },
@@ -229,6 +232,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     id: "roas",
     metric: "4.2x",
     label: "ROAS on Social Campaigns",
+    explanation: "Paid social performance supported through stronger creative, clearer messaging, and campaign optimization.",
     graphPath: "M8 104 C 44 96, 62 58, 104 66 S 176 58, 252 22",
     dot: { cx: 252, cy: 22 }
   },
@@ -236,6 +240,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     id: "engagement",
     metric: "140%",
     label: "Engagement Growth",
+    explanation: "Improved interaction driven by content direction, message clarity, and more relevant creative.",
     graphPath: "M8 102 C 48 98, 70 72, 106 68 S 180 42, 252 28",
     dot: { cx: 252, cy: 28 }
   }
@@ -543,7 +548,7 @@ const SelectedContent = () => {
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
 
   return (
-    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-2 md:pb-32 md:pt-4">
+    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-24 md:pb-32 md:pt-32">
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionReveal>
           <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -810,7 +815,7 @@ const LandingPages = () => (
         </div>
       </SectionReveal>
 
-      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+      <div className="mx-auto grid max-w-6xl gap-8 md:gap-10">
         {LANDING_PAGES.map((page, index) => (
           <motion.article
             key={page.id}
@@ -821,13 +826,13 @@ const LandingPages = () => (
             className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
-            <div className="relative z-10">
+            <div className="relative z-10 grid gap-6 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
-                className="mb-5"
+                className="lg:pr-4"
               >
                 <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
                   {page.pageType}
@@ -914,12 +919,12 @@ const SelectedOutcomes = () => (
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
           SELECTED OUTCOMES
         </p>
-        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
-          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
+        <div className="mx-auto mb-14 max-w-5xl text-center md:mb-16">
+          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
             Measured marketing growth.
           </h2>
-          <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
-            A snapshot of performance outcomes tied to content creation, paid media, and social growth.
+          <p className="mx-auto max-w-3xl text-base font-light leading-relaxed text-white/62 md:text-lg">
+            Performance outcomes across content, paid media, and social growth.
           </p>
         </div>
       </SectionReveal>
@@ -944,6 +949,9 @@ const SelectedOutcomes = () => (
             </div>
             <div className="mt-7 w-full overflow-visible opacity-95 md:mt-8">
               <MiniOutcomeGraph path={outcome.graphPath} dot={outcome.dot} index={index} />
+            </div>
+            <div className="outcome-card-reveal">
+              <p>{outcome.explanation}</p>
             </div>
           </motion.article>
         ))}
@@ -1109,9 +1117,9 @@ export default function App() {
         <Hero />
         <BrandExperienceStrip />
         <SelectedContent />
+        <SelectedOutcomes />
         <EmailCampaigns />
         <LandingPages />
-        <SelectedOutcomes />
         <CoreCompetenciesMarquee />
         <PlaceholderSection
           id="experience"

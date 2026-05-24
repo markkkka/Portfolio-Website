@@ -83,20 +83,28 @@
 .work-experience-card::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0;
+  inset: 0;
   z-index: 3;
-  width: clamp(260px, 34vw, 420px);
-  height: 5px;
-  border-radius: 999px;
-  background: linear-gradient(90deg, transparent 0%, rgba(154, 106, 58, 0.04) 8%, rgba(185, 151, 107, 0.18) 25%, rgba(232, 216, 188, 0.5) 48%, rgba(185, 151, 107, 0.28) 70%, rgba(154, 106, 58, 0.08) 88%, transparent 100%);
-  filter: blur(1.2px) drop-shadow(0 0 14px rgba(185, 151, 107, 0.24));
-  offset-path: inset(2px round 1.75rem);
-  offset-anchor: 50% 50%;
-  offset-distance: 0%;
-  offset-rotate: auto;
+  padding: 1px;
+  border-radius: inherit;
   pointer-events: none;
-  animation: work-border-runner 9.25s linear infinite;
+  background: conic-gradient(
+    from var(--work-border-angle),
+    rgba(185, 151, 107, 0) 0deg,
+    rgba(154, 106, 58, 0.04) 214deg,
+    rgba(185, 151, 107, 0.16) 246deg,
+    rgba(232, 216, 188, 0.5) 286deg,
+    rgba(185, 151, 107, 0.2) 326deg,
+    rgba(154, 106, 58, 0.06) 350deg,
+    rgba(185, 151, 107, 0) 360deg
+  );
+  filter: blur(0.7px) drop-shadow(0 0 13px rgba(185, 151, 107, 0.22));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: work-border-orbit 9.75s linear infinite;
 }
 
 .work-experience-card::after {
@@ -185,7 +193,7 @@
 }
 
 .landing-preview-canvas {
-  aspect-ratio: 16 / 9;
+  aspect-ratio: 16 / 8.4;
   overflow: auto;
   background: #f5efe4;
 }
@@ -210,6 +218,36 @@
 
 .outcome-card:hover::before {
   opacity: 1;
+}
+
+.outcome-card-reveal {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(18%);
+  transition: opacity 520ms ease, transform 620ms cubic-bezier(0.16, 1, 0.3, 1);
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.88)),
+    radial-gradient(circle at 18% 78%, rgba(232, 216, 188, 0.09), transparent 34%);
+}
+
+.outcome-card-reveal p {
+  margin: 0;
+  max-width: 25rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.9rem;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+.outcome-card:hover .outcome-card-reveal {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .outcome-graph {
@@ -310,9 +348,15 @@
   @apply relative inline-block after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-[1px] after:bottom-0 after:left-0 after:bg-current after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
 }
 
-@keyframes work-border-runner {
+@property --work-border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes work-border-orbit {
   to {
-    offset-distance: 100%;
+    --work-border-angle: 360deg;
   }
 }
 
@@ -339,12 +383,45 @@
     height: 6.5rem;
   }
 
+  .outcome-card-reveal {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    margin-top: 1.1rem;
+    padding: 1rem;
+    opacity: 1;
+    transform: none;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.035);
+  }
+
+  .outcome-card-reveal p {
+    font-size: 0.82rem;
+    line-height: 1.6;
+  }
+
   .competency-card {
     min-width: 11.5rem;
     border-radius: 1rem;
     padding: 0.95rem 1.1rem;
     font-size: 0.66rem;
     letter-spacing: 0.13em;
+  }
+}
+
+@media (hover: none) {
+  .outcome-card-reveal {
+    position: relative;
+    inset: auto;
+    z-index: 1;
+    margin-top: 1.1rem;
+    padding: 1rem;
+    opacity: 1;
+    transform: none;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.035);
   }
 }
 
