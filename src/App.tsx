@@ -55,6 +55,18 @@ type EmailCampaign = {
   previewTitle: string;
 };
 
+type LandingPagePanel = {
+  id: string;
+  brand: string;
+  pageType: string;
+  description: string;
+  previewType: "iframe" | "image";
+  previewSrc?: string;
+  imageSrc?: string | null;
+  alt: string;
+  previewTitle: string;
+};
+
 type OutcomeCard = {
   id: string;
   metric: string;
@@ -172,6 +184,29 @@ const EMAIL_CAMPAIGNS: EmailCampaign[] = [
     description: "Conversion-focused email campaigns built around offer awareness, promotional messaging, and customer follow-up.",
     previewSrc: "/emails/grantties.html",
     previewTitle: "GrantTies offer awareness email campaign preview"
+  }
+];
+
+const LANDING_PAGES: LandingPagePanel[] = [
+  {
+    id: "michaelpro",
+    brand: "MichaelPro",
+    pageType: "Product landing page",
+    description: "Product-focused landing pages built to highlight features, communicate value, and support retail-driven customer action.",
+    previewType: "iframe",
+    previewSrc: "/landing-pages/michaelpro.html",
+    alt: "MichaelPro product landing page preview.",
+    previewTitle: "MichaelPro product landing page preview"
+  },
+  {
+    id: "revpie",
+    brand: "RevPie",
+    pageType: "B2B platform landing page",
+    description: "B2B landing page work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
+    previewType: "image",
+    imageSrc: null,
+    alt: "RevPie platform landing page preview placeholder.",
+    previewTitle: "RevPie platform landing page preview"
   }
 ];
 
@@ -674,6 +709,153 @@ const EmailCampaigns = () => (
   </section>
 );
 
+const BrowserTopBar = ({ label }: { label: string }) => (
+  <div className="flex h-10 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
+    <div className="flex gap-2">
+      <span className="h-2 w-2 rounded-full bg-white/18" />
+      <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
+      <span className="h-2 w-2 rounded-full bg-white/12" />
+    </div>
+    <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">
+      {label}
+    </span>
+  </div>
+);
+
+const RevPieLandingPlaceholder = ({ alt }: { alt: string }) => (
+  <div
+    role="img"
+    aria-label={alt}
+    className="relative min-h-full overflow-hidden bg-[#f3efe8] text-[#16130f]"
+  >
+    <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(185,151,107,0.22),transparent_30%),radial-gradient(circle_at_82%_72%,rgba(35,48,58,0.14),transparent_34%)]" />
+    <div className="relative grid min-h-full grid-cols-[0.92fr_1.08fr] gap-5 p-5 sm:p-7">
+      <div className="flex flex-col justify-between">
+        <div>
+          <div className="mb-5 h-2 w-20 rounded-full bg-[#b9976b]/50" />
+          <h4 className="max-w-[13rem] font-editorial text-2xl font-semibold leading-none text-[#15120f] sm:text-3xl">
+            Monetization built into the user journey.
+          </h4>
+          <p className="mt-4 max-w-[14rem] text-[10px] font-semibold uppercase leading-relaxed tracking-[0.16em] text-[#16130f]/48">
+            A platform-focused landing page designed to explain value clearly.
+          </p>
+        </div>
+        <div className="mt-5 flex gap-2">
+          <span className="h-8 w-24 rounded-full bg-[#15120f]" />
+          <span className="h-8 w-10 rounded-full border border-[#15120f]/12" />
+        </div>
+      </div>
+      <div className="grid content-center gap-3">
+        <div className="rounded-2xl border border-[#15120f]/8 bg-white/72 p-3 shadow-[0_18px_50px_rgba(22,19,15,0.1)]">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="h-2 w-16 rounded-full bg-[#15120f]/18" />
+            <span className="h-6 w-6 rounded-full bg-[#b9976b]/28" />
+          </div>
+          <div className="grid gap-2">
+            <span className="h-10 rounded-xl bg-[#15120f]/8" />
+            <span className="h-10 rounded-xl bg-[#b9976b]/18" />
+            <span className="h-10 rounded-xl bg-[#15120f]/8" />
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <span className="h-14 rounded-2xl bg-[#15120f]/8" />
+          <span className="h-14 rounded-2xl bg-[#b9976b]/22" />
+          <span className="h-14 rounded-2xl bg-[#15120f]/8" />
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => (
+  <div className="landing-preview-frame">
+    <BrowserTopBar label={page.previewType === "iframe" ? "HTML Preview" : "Image Preview"} />
+    <div className="landing-preview-canvas">
+      {page.previewType === "iframe" && page.previewSrc ? (
+        <iframe
+          src={page.previewSrc}
+          title={page.previewTitle}
+          loading="lazy"
+          className="h-full w-full border-0 bg-[#f5efe4]"
+        />
+      ) : page.imageSrc ? (
+        <img
+          src={page.imageSrc}
+          alt={page.alt}
+          className="h-full w-full object-cover"
+          loading="lazy"
+        />
+      ) : (
+        <RevPieLandingPlaceholder alt={page.alt} />
+      )}
+    </div>
+  </div>
+);
+
+const LandingPages = () => (
+  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
+    <div className="relative z-10 mx-auto max-w-7xl">
+      <SectionReveal>
+        <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
+          LANDING PAGES
+        </p>
+        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
+          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
+            Pages built to turn interest into action.
+          </h2>
+          <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
+            A look at landing page work across product storytelling, offer positioning, and conversion-focused digital experiences.
+          </p>
+        </div>
+      </SectionReveal>
+
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
+        {LANDING_PAGES.map((page, index) => (
+          <motion.article
+            key={page.id}
+            initial={{ opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+            className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
+          >
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
+            <div className="relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
+                className="mb-5"
+              >
+                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
+                  {page.pageType}
+                </p>
+                <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
+                  {page.brand}
+                </h3>
+                <p className="mt-4 text-sm font-light leading-relaxed text-white/58 md:text-base">
+                  {page.description}
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 18, scale: 0.99 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <LandingPagePreview page={page} />
+              </motion.div>
+            </div>
+          </motion.article>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard["dot"]; index: number }) => {
   const ref = useRef<SVGSVGElement | null>(null);
   const isInView = useInView(ref, { amount: 0.65, once: false });
@@ -928,6 +1110,7 @@ export default function App() {
         <BrandExperienceStrip />
         <SelectedContent />
         <EmailCampaigns />
+        <LandingPages />
         <SelectedOutcomes />
         <CoreCompetenciesMarquee />
         <PlaceholderSection

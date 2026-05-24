@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MichaelPro Landing Page Preview</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #f6f0e6;
+        color: #17130f;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .page {
+        min-height: 100vh;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 78% 16%, rgba(185, 151, 107, 0.26), transparent 30%),
+          radial-gradient(circle at 14% 78%, rgba(23, 19, 15, 0.08), transparent 34%),
+          #f6f0e6;
+      }
+
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 22px clamp(22px, 5vw, 56px);
+        border-bottom: 1px solid rgba(23, 19, 15, 0.08);
+      }
+
+      .brand {
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(22px, 3vw, 34px);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+      }
+
+      .nav-pill {
+        border: 1px solid rgba(23, 19, 15, 0.12);
+        border-radius: 999px;
+        padding: 10px 16px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: clamp(24px, 5vw, 64px);
+        align-items: center;
+        padding: clamp(34px, 6vw, 78px) clamp(22px, 5vw, 56px) clamp(28px, 5vw, 54px);
+      }
+
+      .eyebrow {
+        margin: 0 0 18px;
+        color: rgba(23, 19, 15, 0.48);
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        max-width: 560px;
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: clamp(46px, 7vw, 86px);
+        font-weight: 600;
+        letter-spacing: -0.055em;
+        line-height: 0.92;
+      }
+
+      .copy {
+        max-width: 440px;
+        margin: 24px 0 0;
+        color: rgba(23, 19, 15, 0.62);
+        font-size: clamp(14px, 1.7vw, 18px);
+        line-height: 1.65;
+      }
+
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 32px;
+      }
+
+      .button {
+        display: inline-flex;
+        min-height: 44px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 13px 20px;
+        font-size: 12px;
+        font-weight: 800;
+        text-decoration: none;
+      }
+
+      .button.primary {
+        background: #17130f;
+        color: #fffaf2;
+      }
+
+      .button.secondary {
+        border: 1px solid rgba(23, 19, 15, 0.12);
+        color: #17130f;
+      }
+
+      .product-stage {
+        position: relative;
+        min-height: 330px;
+        border-radius: 34px;
+        background:
+          linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.34)),
+          #ebe0d0;
+        box-shadow: 0 30px 90px rgba(23, 19, 15, 0.16);
+        overflow: hidden;
+      }
+
+      .product-stage::before {
+        content: "";
+        position: absolute;
+        inset: 12%;
+        border-radius: 999px;
+        background: radial-gradient(circle, rgba(185, 151, 107, 0.42), transparent 58%);
+        filter: blur(18px);
+      }
+
+      .product {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: min(42%, 210px);
+        aspect-ratio: 0.78;
+        transform: translate(-50%, -50%) rotate(-7deg);
+        border-radius: 28px;
+        background:
+          linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(185, 151, 107, 0.2)),
+          #26201a;
+        box-shadow: 0 34px 60px rgba(23, 19, 15, 0.22);
+      }
+
+      .product::before,
+      .product::after {
+        content: "";
+        position: absolute;
+        left: 18%;
+        right: 18%;
+        border-radius: 999px;
+        background: rgba(255, 250, 242, 0.76);
+      }
+
+      .product::before {
+        top: 20%;
+        height: 12px;
+      }
+
+      .product::after {
+        bottom: 18%;
+        height: 44px;
+        background: rgba(255, 250, 242, 0.22);
+      }
+
+      .feature-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        padding: 0 clamp(22px, 5vw, 56px) clamp(28px, 5vw, 52px);
+      }
+
+      .feature {
+        min-height: 112px;
+        border: 1px solid rgba(23, 19, 15, 0.08);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.46);
+        padding: 18px;
+      }
+
+      .feature span {
+        display: block;
+        width: 34px;
+        height: 2px;
+        margin-bottom: 20px;
+        background: #b9976b;
+      }
+
+      .feature p {
+        margin: 0;
+        color: rgba(23, 19, 15, 0.54);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        line-height: 1.5;
+        text-transform: uppercase;
+      }
+
+      @media (max-width: 760px) {
+        .hero {
+          grid-template-columns: 1fr;
+        }
+
+        .product-stage {
+          min-height: 280px;
+        }
+
+        .feature-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="nav" aria-label="Preview navigation">
+        <div class="brand">MichaelPro</div>
+        <div class="nav-pill">Product page</div>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Product storytelling</p>
+          <h1>Built for the job.</h1>
+          <p class="copy">
+            Product storytelling, feature education, and retail-focused calls to action.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="#">Shop the product</a>
+            <a class="button secondary" href="#">Compare features</a>
+          </div>
+        </div>
+        <div class="product-stage" aria-hidden="true">
+          <div class="product"></div>
+        </div>
+      </section>
+
+      <section class="feature-row" aria-label="Product page content blocks">
+        <article class="feature">
+          <span></span>
+          <p>Feature education</p>
+        </article>
+        <article class="feature">
+          <span></span>
+          <p>Retail value</p>
+        </article>
+        <article class="feature">
+          <span></span>
+          <p>Clear action</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -146,6 +146,50 @@
   transform: translateX(36%) rotate(8deg);
 }
 
+.landing-preview-frame {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #0a0a0a;
+  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+}
+
+.landing-preview-frame::before {
+  content: "";
+  position: absolute;
+  inset: -28%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(115deg, transparent 36%, rgba(232, 216, 188, 0.14) 48%, transparent 60%);
+  transform: translateX(-34%) rotate(7deg);
+  transition: opacity 500ms ease, transform 900ms ease;
+}
+
+.landing-page-card:hover .landing-preview-frame::before {
+  opacity: 1;
+  transform: translateX(34%) rotate(7deg);
+}
+
+.landing-preview-frame::after {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  top: 2.5rem;
+  z-index: 3;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, rgba(185, 151, 107, 0.46), transparent);
+}
+
+.landing-preview-canvas {
+  aspect-ratio: 16 / 9;
+  overflow: auto;
+  background: #f5efe4;
+}
+
 .outcome-card {
   position: relative;
   overflow: hidden;
