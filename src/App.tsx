@@ -180,52 +180,55 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     id: "followers",
     metric: "55,000+",
     label: "Follower Growth",
-    graphPath: "M8 78 C 42 62, 58 68, 84 48 S 138 28, 210 14",
-    dot: { cx: 210, cy: 14 }
+    graphPath: "M8 102 C 48 92, 72 98, 104 76 S 176 50, 252 24",
+    dot: { cx: 252, cy: 24 }
   },
   {
     id: "views",
     metric: "5M+",
     label: "Views Generated",
-    graphPath: "M8 76 C 36 64, 58 74, 82 58 S 132 18, 210 20",
-    dot: { cx: 210, cy: 20 }
+    graphPath: "M8 100 C 42 88, 70 100, 104 82 S 170 28, 252 34",
+    dot: { cx: 252, cy: 34 }
   },
   {
     id: "roas",
     metric: "4.2x",
     label: "ROAS on Social Campaigns",
-    graphPath: "M8 80 C 38 72, 52 46, 82 52 S 138 42, 210 12",
-    dot: { cx: 210, cy: 12 }
+    graphPath: "M8 104 C 44 96, 62 58, 104 66 S 176 58, 252 22",
+    dot: { cx: 252, cy: 22 }
   },
   {
     id: "engagement",
     metric: "140%",
     label: "Engagement Growth",
-    graphPath: "M8 78 C 42 74, 60 54, 86 50 S 142 30, 210 18",
-    dot: { cx: 210, cy: 18 }
+    graphPath: "M8 102 C 48 98, 70 72, 106 68 S 180 42, 252 28",
+    dot: { cx: 252, cy: 28 }
   }
 ];
 
 const CORE_COMPETENCY_ROWS = {
   top: [
     "Social Media Marketing",
+    "Content Production",
     "Email Campaigns",
+    "Email / SMS Marketing",
     "Meta Ads",
     "Google Ads",
-    "AI Automations",
-    "Content Production",
     "Landing Page Creation",
-    "Landing Page Optimization"
+    "Landing Page Optimization",
+    "AI Automations"
   ],
   bottom: [
-    "Product Marketing",
-    "Creative Direction",
-    "Event Marketing",
-    "Executive Reporting",
-    "Shopify CRO",
-    "Brand Systems",
-    "Marketing Automation",
-    "Email / SMS"
+    "Klaviyo",
+    "Mailchimp",
+    "Shopify",
+    "Google Analytics",
+    "Meta Business Suite",
+    "Adobe Photoshop",
+    "Adobe Premiere Pro",
+    "Canva",
+    "Google Sheets",
+    "ChatGPT"
   ]
 };
 
@@ -673,31 +676,45 @@ const EmailCampaigns = () => (
 
 const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard["dot"]; index: number }) => (
   <svg
-    className="h-24 w-full overflow-visible md:h-28"
-    viewBox="0 0 220 92"
+    className="outcome-graph h-28 w-full overflow-visible md:h-32"
+    viewBox="0 0 260 116"
     fill="none"
     role="img"
     aria-label="Minimal upward trend line"
   >
     <motion.path
       d={path}
-      initial={{ pathLength: 0, opacity: 0.25 }}
+      initial={{ pathLength: 0, opacity: 0 }}
+      whileInView={{ pathLength: 1, opacity: [0, 0.34, 0.06] }}
+      viewport={{ once: true, amount: 0.65 }}
+      transition={{
+        pathLength: { delay: 0.12 + index * 0.08, duration: 2.15, ease: [0.42, 0, 0.16, 1] },
+        opacity: { delay: 0.12 + index * 0.08, duration: 2.15, times: [0, 0.58, 1], ease: "easeInOut" }
+      }}
+      className="outcome-graph-glow stroke-[#E8D8BC]"
+      strokeWidth="8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <motion.path
+      d={path}
+      initial={{ pathLength: 0, opacity: 0 }}
       whileInView={{ pathLength: 1, opacity: 1 }}
-      viewport={{ once: true, amount: 0.6 }}
-      transition={{ delay: 0.12 + index * 0.08, duration: 1.15, ease: [0.16, 1, 0.3, 1] }}
+      viewport={{ once: true, amount: 0.65 }}
+      transition={{ delay: 0.18 + index * 0.08, duration: 2.05, ease: [0.42, 0, 0.16, 1] }}
       className="outcome-graph-line stroke-[#B9976B]"
-      strokeWidth="2"
+      strokeWidth="2.25"
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <motion.circle
       cx={dot.cx}
       cy={dot.cy}
-      r="4"
+      r="4.5"
       initial={{ opacity: 0, scale: 0.35 }}
       whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.6 }}
-      transition={{ delay: 0.82 + index * 0.08, duration: 0.4, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.65 }}
+      transition={{ delay: 2.28 + index * 0.08, duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
       className="outcome-graph-dot fill-[#E8D8BC]"
     />
   </svg>
@@ -721,25 +738,25 @@ const SelectedOutcomes = () => (
         </div>
       </SectionReveal>
 
-      <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+      <div className="mx-auto grid max-w-5xl gap-4 md:grid-cols-2 md:gap-5">
         {SELECTED_OUTCOMES.map((outcome, index) => (
           <motion.article
             key={outcome.id}
-            initial={{ opacity: 0, y: 24 }}
+            initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ delay: index * 0.08, duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            className="outcome-card flex min-h-[260px] flex-col justify-between rounded-[1.75rem] border border-white/8 bg-white/[0.025] p-7 transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/24 md:min-h-[300px] md:p-9"
+            viewport={{ once: true, amount: 0.32 }}
+            transition={{ delay: index * 0.06, duration: 0.62, ease: [0.16, 1, 0.3, 1] }}
+            className="outcome-card flex min-h-[230px] flex-col justify-between rounded-[1.5rem] border border-white/8 bg-white/[0.025] p-6 transition-colors duration-500 hover:border-brand-earth/28 md:min-h-[250px] md:p-7"
           >
             <div>
-              <p className="font-editorial text-6xl font-semibold leading-none text-white md:text-7xl">
+              <p className="font-editorial text-6xl font-semibold leading-none text-white md:text-[4.4rem]">
                 {outcome.metric}
               </p>
-              <p className="mt-4 text-[11px] font-bold uppercase tracking-[0.22em] text-white/48">
+              <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/48 md:text-[11px]">
                 {outcome.label}
               </p>
             </div>
-            <div className="mt-10 w-full overflow-visible opacity-90 md:ml-auto md:max-w-[22rem]">
+            <div className="mt-7 w-full overflow-visible opacity-95 md:mt-8">
               <MiniOutcomeGraph path={outcome.graphPath} dot={outcome.dot} index={index} />
             </div>
           </motion.article>
@@ -778,7 +795,7 @@ const CoreCompetenciesMarquee = () => (
             CORE COMPETENCIES
           </p>
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
-            Operator experience, not agency theater.
+            Core capabilities across content, paid media, email, and digital growth.
           </h2>
         </div>
       </SectionReveal>
