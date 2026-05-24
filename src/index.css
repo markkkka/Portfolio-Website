@@ -86,11 +86,11 @@
   left: 0;
   top: 0;
   z-index: 3;
-  width: 168px;
-  height: 4px;
+  width: clamp(260px, 34vw, 420px);
+  height: 5px;
   border-radius: 999px;
-  background: linear-gradient(90deg, transparent 0%, rgba(154, 106, 58, 0.08) 14%, rgba(185, 151, 107, 0.42) 34%, rgba(232, 216, 188, 0.88) 50%, rgba(185, 151, 107, 0.42) 66%, rgba(154, 106, 58, 0.08) 86%, transparent 100%);
-  filter: blur(0.2px) drop-shadow(0 0 11px rgba(185, 151, 107, 0.34));
+  background: linear-gradient(90deg, transparent 0%, rgba(154, 106, 58, 0.04) 8%, rgba(185, 151, 107, 0.18) 25%, rgba(232, 216, 188, 0.5) 48%, rgba(185, 151, 107, 0.28) 70%, rgba(154, 106, 58, 0.08) 88%, transparent 100%);
+  filter: blur(1.2px) drop-shadow(0 0 14px rgba(185, 151, 107, 0.24));
   offset-path: inset(2px round 1.75rem);
   offset-anchor: 50% 50%;
   offset-distance: 0%;

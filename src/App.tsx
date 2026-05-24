@@ -674,51 +674,55 @@ const EmailCampaigns = () => (
   </section>
 );
 
-const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard["dot"]; index: number }) => (
-  <svg
-    className="outcome-graph h-28 w-full overflow-visible md:h-32"
-    viewBox="0 0 260 116"
-    fill="none"
-    role="img"
-    aria-label="Minimal upward trend line"
-  >
-    <motion.path
-      d={path}
-      initial={{ pathLength: 0, opacity: 0 }}
-      whileInView={{ pathLength: 1, opacity: [0, 0.34, 0.06] }}
-      viewport={{ once: true, amount: 0.65 }}
-      transition={{
-        pathLength: { delay: 0.12 + index * 0.08, duration: 2.15, ease: [0.42, 0, 0.16, 1] },
-        opacity: { delay: 0.12 + index * 0.08, duration: 2.15, times: [0, 0.58, 1], ease: "easeInOut" }
-      }}
-      className="outcome-graph-glow stroke-[#E8D8BC]"
-      strokeWidth="8"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <motion.path
-      d={path}
-      initial={{ pathLength: 0, opacity: 0 }}
-      whileInView={{ pathLength: 1, opacity: 1 }}
-      viewport={{ once: true, amount: 0.65 }}
-      transition={{ delay: 0.18 + index * 0.08, duration: 2.05, ease: [0.42, 0, 0.16, 1] }}
-      className="outcome-graph-line stroke-[#B9976B]"
-      strokeWidth="2.25"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-    <motion.circle
-      cx={dot.cx}
-      cy={dot.cy}
-      r="4.5"
-      initial={{ opacity: 0, scale: 0.35 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.65 }}
-      transition={{ delay: 2.28 + index * 0.08, duration: 0.42, ease: [0.16, 1, 0.3, 1] }}
-      className="outcome-graph-dot fill-[#E8D8BC]"
-    />
-  </svg>
-);
+const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard["dot"]; index: number }) => {
+  const ref = useRef<SVGSVGElement | null>(null);
+  const isInView = useInView(ref, { amount: 0.65, once: false });
+  const graphDelay = index * 0.08;
+
+  return (
+    <svg
+      ref={ref}
+      className="outcome-graph h-28 w-full overflow-visible md:h-32"
+      viewBox="0 0 260 116"
+      fill="none"
+      role="img"
+      aria-label="Minimal upward trend line"
+    >
+      <motion.path
+        d={path}
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={isInView ? { pathLength: 1, opacity: [0, 0.34, 0.06] } : { pathLength: 0, opacity: 0 }}
+        transition={{
+          pathLength: { delay: isInView ? 0.12 + graphDelay : 0, duration: isInView ? 2.15 : 0.01, ease: [0.42, 0, 0.16, 1] },
+          opacity: { delay: isInView ? 0.12 + graphDelay : 0, duration: isInView ? 2.15 : 0.01, times: [0, 0.58, 1], ease: "easeInOut" }
+        }}
+        className="outcome-graph-glow stroke-[#E8D8BC]"
+        strokeWidth="8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <motion.path
+        d={path}
+        initial={{ pathLength: 0, opacity: 0 }}
+        animate={isInView ? { pathLength: 1, opacity: 1 } : { pathLength: 0, opacity: 0 }}
+        transition={{ delay: isInView ? 0.18 + graphDelay : 0, duration: isInView ? 2.05 : 0.01, ease: [0.42, 0, 0.16, 1] }}
+        className="outcome-graph-line stroke-[#B9976B]"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <motion.circle
+        cx={dot.cx}
+        cy={dot.cy}
+        r="4.5"
+        initial={{ opacity: 0, scale: 0.35 }}
+        animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.35 }}
+        transition={{ delay: isInView ? 2.28 + graphDelay : 0, duration: isInView ? 0.42 : 0.01, ease: [0.16, 1, 0.3, 1] }}
+        className="outcome-graph-dot fill-[#E8D8BC]"
+      />
+    </svg>
+  );
+};
 
 const SelectedOutcomes = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
@@ -730,7 +734,7 @@ const SelectedOutcomes = () => (
         </p>
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
           <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
-            Measured growth across content, campaigns, and brand engagement.
+            Measured marketing growth.
           </h2>
           <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
             A snapshot of performance outcomes tied to content creation, paid media, and social growth.
@@ -795,7 +799,7 @@ const CoreCompetenciesMarquee = () => (
             CORE COMPETENCIES
           </p>
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
-            Core capabilities across content, paid media, email, and digital growth.
+            Built across the growth stack.
           </h2>
         </div>
       </SectionReveal>
