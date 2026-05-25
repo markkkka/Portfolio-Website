@@ -31,7 +31,7 @@ const NAV_LINKS = [
 ];
 
 const STANDALONE_VIDEO = {
-  videoMp4: "",
+  videoMp4: "/videos/flower-bloom.mp4",
   videoWebm: "",
   poster: ""
 };
