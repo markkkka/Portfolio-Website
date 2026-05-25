@@ -272,6 +272,54 @@
   opacity: 0.42;
 }
 
+.standalone-video-frame {
+  position: relative;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.6rem;
+  background: #020202;
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.42), 0 0 44px rgba(185, 151, 107, 0.08);
+}
+
+.standalone-video-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  box-shadow: inset 0 0 0 1px rgba(232, 216, 188, 0.08), inset 0 0 44px rgba(185, 151, 107, 0.06);
+}
+
+.standalone-video-placeholder {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(185, 151, 107, 0.08), transparent 34%),
+    radial-gradient(circle at 78% 30%, rgba(232, 216, 188, 0.035), transparent 30%),
+    linear-gradient(135deg, #050505 0%, #0b0a08 48%, #020202 100%);
+}
+
+.standalone-video-placeholder::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(185, 151, 107, 0.08), transparent 64%);
+  filter: blur(24px);
+  animation: standalone-video-breathe 8s ease-in-out infinite;
+}
+
+.standalone-video-hover-zone {
+  position: absolute;
+  left: 20%;
+  top: 20%;
+  z-index: 2;
+  width: 60%;
+  height: 60%;
+}
+
 .outcome-graph-dot {
   transform-origin: center;
   filter: drop-shadow(0 0 8px rgba(232, 216, 188, 0.28));
@@ -378,7 +426,23 @@
   }
 }
 
+@keyframes standalone-video-breathe {
+  0%, 100% {
+    opacity: 0.58;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.84;
+    transform: scale(1.04);
+  }
+}
+
 @media (max-width: 640px) {
+  .standalone-video-frame {
+    aspect-ratio: 16 / 9;
+    border-radius: 1.1rem;
+  }
+
   .outcome-graph {
     height: 6.5rem;
   }
@@ -411,6 +475,10 @@
 }
 
 @media (hover: none) {
+  .standalone-video-hover-zone {
+    pointer-events: none;
+  }
+
   .outcome-card-reveal {
     position: relative;
     inset: auto;
@@ -429,5 +497,9 @@
   .competency-marquee-track,
   .work-experience-card::before {
     animation-play-state: paused;
+  }
+
+  .standalone-video-placeholder::after {
+    animation: none;
   }
 }

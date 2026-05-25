@@ -30,6 +30,12 @@ const NAV_LINKS = [
   { label: "Contact", href: "#contact" }
 ];
 
+const STANDALONE_VIDEO = {
+  videoMp4: "",
+  videoWebm: "",
+  poster: ""
+};
+
 type SelectedContentVisual = {
   id: string;
   imageSrc?: string | null;
@@ -951,6 +957,69 @@ const SelectedOutcomes = () => (
   </section>
 );
 
+const StandaloneVideoSection = () => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const hasVideoSource = Boolean(STANDALONE_VIDEO.videoMp4 || STANDALONE_VIDEO.videoWebm);
+
+  const handlePlay = () => {
+    if (!hasVideoSource || !videoRef.current) {
+      return;
+    }
+
+    const playPromise = videoRef.current.play();
+    if (playPromise) {
+      playPromise.catch(() => undefined);
+    }
+  };
+
+  const handlePause = () => {
+    if (!hasVideoSource || !videoRef.current) {
+      return;
+    }
+
+    videoRef.current.pause();
+
+    try {
+      videoRef.current.currentTime = 0;
+    } catch {
+      // Some browsers can reject seeking before enough metadata is loaded.
+    }
+  };
+
+  return (
+    <section className="relative overflow-hidden bg-brand-black px-6 py-[4.5rem] md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <SectionReveal>
+          <div className="standalone-video-frame">
+            {hasVideoSource ? (
+              <video
+                ref={videoRef}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={STANDALONE_VIDEO.poster || undefined}
+                className="h-full w-full object-cover"
+              >
+                {STANDALONE_VIDEO.videoWebm && <source src={STANDALONE_VIDEO.videoWebm} type="video/webm" />}
+                {STANDALONE_VIDEO.videoMp4 && <source src={STANDALONE_VIDEO.videoMp4} type="video/mp4" />}
+              </video>
+            ) : (
+              <div className="standalone-video-placeholder" aria-hidden="true" />
+            )}
+            <div
+              className="standalone-video-hover-zone"
+              onMouseEnter={handlePlay}
+              onMouseLeave={handlePause}
+              aria-hidden="true"
+            />
+          </div>
+        </SectionReveal>
+      </div>
+    </section>
+  );
+};
+
 const CompetencyMarqueeRow = ({ items, direction = "left" }: { items: string[]; direction?: "left" | "right" }) => {
   const repeatedItems = [...items, ...items];
 
@@ -1109,6 +1178,7 @@ export default function App() {
         <BrandExperienceStrip />
         <SelectedContent />
         <SelectedOutcomes />
+        <StandaloneVideoSection />
         <EmailCampaigns />
         <LandingPages />
         <CoreCompetenciesMarquee />
