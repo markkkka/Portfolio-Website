@@ -477,11 +477,11 @@ const BrandExperienceStrip = () => {
   ];
 
   return (
-    <section className="relative border-t border-white/5 bg-brand-black px-6 py-10 md:py-12 overflow-hidden">
+    <section className="relative border-t border-white/5 bg-brand-black px-6 py-14 md:py-16 overflow-hidden">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-earth/30 to-transparent" />
       <div className="max-w-6xl mx-auto">
         <SectionReveal>
-          <p className="mb-8 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85">
+          <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
             Work Experience
           </p>
 
@@ -548,7 +548,7 @@ const SelectedContent = () => {
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
 
   return (
-    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-24 md:pb-32 md:pt-32">
+    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-16 md:pb-32 md:pt-20">
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionReveal>
           <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -640,13 +640,10 @@ const EmailCampaigns = () => (
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
           EMAIL CAMPAIGNS
         </p>
-        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
-          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
-            Campaigns built for product storytelling and conversion.
+        <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
+          <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
+            Built for opens, clicks, and conversions.
           </h2>
-          <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
-            A focused look at email work across product brands and customer-facing campaigns, from new releases and seasonal promotions to offer education and follow-up messaging.
-          </p>
         </div>
       </SectionReveal>
 
@@ -805,13 +802,10 @@ const LandingPages = () => (
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
           LANDING PAGES
         </p>
-        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-16">
-          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
-            Pages built to turn interest into action.
+        <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
+          <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
+            Pages that move people to act.
           </h2>
-          <p className="mx-auto max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
-            A look at landing page work across product storytelling, offer positioning, and conversion-focused digital experiences.
-          </p>
         </div>
       </SectionReveal>
 
@@ -919,13 +913,10 @@ const SelectedOutcomes = () => (
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
           SELECTED OUTCOMES
         </p>
-        <div className="mx-auto mb-14 max-w-5xl text-center md:mb-16">
-          <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
+        <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
+          <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
             Measured marketing growth.
           </h2>
-          <p className="mx-auto max-w-3xl text-base font-light leading-relaxed text-white/62 md:text-lg">
-            Performance outcomes across content, paid media, and social growth.
-          </p>
         </div>
       </SectionReveal>
 
@@ -989,7 +980,7 @@ const CoreCompetenciesMarquee = () => (
             CORE COMPETENCIES
           </p>
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
-            Built across the growth stack.
+            Skills across content, ads, email, and automation.
           </h2>
         </div>
       </SectionReveal>
