@@ -514,8 +514,8 @@ const BrandExperienceStrip = () => {
   };
 
   const items = [
-    { company: "SFA", role: "Brand Manager", dates: "2022–2024" },
-    { company: "Trend Capital", role: "Marketing & Analytics Manager", dates: "2025" }
+    { company: "SFA", role: "Brand Manager", dates: "2021-2025" },
+    { company: "Trend Capital", role: "Marketing & Analytics Manager", dates: "2025-Present" }
   ];
 
   return (
