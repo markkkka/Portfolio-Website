@@ -1135,11 +1135,16 @@ const ContactSection = () => (
               </a>
             </div>
           </div>
-          <div
-            role="img"
-            aria-label="Portrait placeholder"
-            className="mx-auto aspect-[4/5] w-full max-w-[360px] rounded-[1.75rem] border border-brand-earth/25 bg-[linear-gradient(145deg,#14120f_0%,#0b0b0a_48%,#050505_100%)] shadow-[inset_0_0_38px_rgba(185,151,107,0.05)] lg:ml-auto"
-          />
+          <div className="mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-[1.75rem] border border-brand-earth/25 bg-[#11100e] shadow-[0_24px_70px_rgba(0,0,0,0.35)] lg:ml-auto">
+            <img
+              src="/images/mark-portrait.jpg"
+              alt="Portrait of Mark Anastasiadi"
+              width={945}
+              height={1315}
+              loading="lazy"
+              className="h-full w-full object-cover object-[center_40%]"
+            />
+          </div>
         </div>
       </SectionReveal>
     </div>
