@@ -177,7 +177,7 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "business-podcast",
-        videoSrc: "/videos/business-podcast.mp4",
+        videoSrc: "/selected-content/Business Content/Podcast.mp4",
         posterSrc: "/selected-content/Business Content/podcast-poster.jpg",
         videoAspect: "16 / 9",
         alt: "RevPie partnerships podcast video",
@@ -626,10 +626,10 @@ const SelectedContentVisualCard = ({ visual, isBusiness, isActive, eager }: { vi
 
   return (
     <article className="group overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#0c0c0c] shadow-2xl">
-      <div className={`selected-content-media aspect-[4/5] overflow-hidden md:aspect-[3/4] ${isBusiness ? "selected-content-media--business" : ""}`}>
-        {isBusiness && (
+      <div className={`selected-content-media aspect-[4/5] overflow-hidden md:aspect-[3/4] ${isBusiness ? visual.videoSrc ? "selected-content-media--business-video" : "selected-content-media--business-image" : ""}`}>
+        {isBusiness && visual.videoSrc && (
           <img
-            src={visual.videoSrc ? visual.posterSrc : visual.imageSrc}
+            src={visual.posterSrc}
             alt=""
             aria-hidden="true"
             loading={eager ? "eager" : "lazy"}

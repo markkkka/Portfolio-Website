@@ -140,7 +140,11 @@
   background: linear-gradient(145deg, #17151c, #08090d 72%);
 }
 
-.selected-content-media--business::after {
+.selected-content-media--business-image {
+  background: #fdfdfc;
+}
+
+.selected-content-media--business-video::after {
   content: "";
   position: absolute;
   inset: 0;
@@ -159,7 +163,8 @@
   filter: blur(24px) brightness(0.54) saturate(0.9);
 }
 
-.selected-content-media--business .selected-content-media-foreground {
+.selected-content-media--business-image .selected-content-media-foreground,
+.selected-content-media--business-video .selected-content-media-foreground {
   object-fit: contain;
 }
 
