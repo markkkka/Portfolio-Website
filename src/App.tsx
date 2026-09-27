@@ -1066,6 +1066,8 @@ const StandaloneVideoSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const drawingFrameRef = useRef<number | null>(null);
+  const movementRef = useRef<"opening" | "closing">("opening");
+  const atEndpointRef = useRef(false);
   const hasVideoSource = Boolean(STANDALONE_VIDEO.videoMp4 || STANDALONE_VIDEO.videoWebm);
 
   const renderFrame = () => {
@@ -1097,6 +1099,17 @@ const StandaloneVideoSection = () => {
   const startDrawing = () => {
     if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
     const draw = () => {
+      const video = videoRef.current;
+      if (video && Number.isFinite(video.duration)) {
+        const endpoint = movementRef.current === "opening" ? video.duration / 2 : video.duration - 0.08;
+        if (video.currentTime >= endpoint) {
+          video.pause();
+          video.currentTime = endpoint;
+          atEndpointRef.current = true;
+          stopDrawing();
+          return;
+        }
+      }
       renderFrame();
       drawingFrameRef.current = requestAnimationFrame(draw);
     };
@@ -1110,7 +1123,14 @@ const StandaloneVideoSection = () => {
   };
 
   const handlePlay = () => {
-    const playPromise = videoRef.current?.play();
+    const video = videoRef.current;
+    if (!video) return;
+    if (atEndpointRef.current) {
+      movementRef.current = movementRef.current === "opening" ? "closing" : "opening";
+      atEndpointRef.current = false;
+      if (movementRef.current === "opening") video.currentTime = 0;
+    }
+    const playPromise = video.play();
     playPromise?.catch(() => undefined);
   };
 
@@ -1134,9 +1154,13 @@ const StandaloneVideoSection = () => {
                   preload="auto"
                   poster={STANDALONE_VIDEO.poster || undefined}
                   onLoadedData={renderFrame}
+                  onSeeked={renderFrame}
                   onPlay={startDrawing}
                   onPause={stopDrawing}
-                  onEnded={stopDrawing}
+                  onEnded={() => {
+                    atEndpointRef.current = true;
+                    stopDrawing();
+                  }}
                   className="pointer-events-none absolute inset-0 h-full w-full opacity-0"
                   aria-hidden="true"
                 >
