@@ -193,6 +193,14 @@ const EMAIL_CAMPAIGNS: EmailCampaign[] = [
 
 const LANDING_PAGES: LandingPagePanel[] = [
   {
+    id: "grandties",
+    brand: "GrandTies",
+    pageType: "Ecommerce landing page",
+    description: "Ecommerce page design focused on lifestyle product storytelling, seasonal collections, and retail-driven discovery.",
+    imageSrc: "/landing-pages/GrandTies Website.png",
+    alt: "GrandTies full-page website preview"
+  },
+  {
     id: "michaelpro",
     brand: "MichaelPro",
     pageType: "Product landing page",
@@ -207,14 +215,6 @@ const LANDING_PAGES: LandingPagePanel[] = [
     description: "B2B landing page work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
     imageSrc: "/landing-pages/RevPie Website.png",
     alt: "RevPie full-page website preview"
-  },
-  {
-    id: "grandties",
-    brand: "GrandTies",
-    pageType: "Ecommerce landing page",
-    description: "Ecommerce page design focused on lifestyle product storytelling, seasonal collections, and retail-driven discovery.",
-    imageSrc: "/landing-pages/GrandTies Website.png",
-    alt: "GrandTies full-page website preview"
   }
 ];
 
@@ -718,16 +718,24 @@ const EmailCampaigns = () => (
   </section>
 );
 
-const BrowserTopBar = ({ label }: { label: string }) => (
+const BrowserTopBar = ({ label, imageSrc }: { label: string; imageSrc: string }) => (
   <div className="flex h-10 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
     <div className="flex gap-2">
       <span className="h-2 w-2 rounded-full bg-white/18" />
       <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
       <span className="h-2 w-2 rounded-full bg-white/12" />
     </div>
-    <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">
-      {label}
-    </span>
+    <div className="flex items-center gap-3">
+      <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">{label}</span>
+      <a
+        href={imageSrc}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[9px] font-bold uppercase tracking-[0.12em] text-white/65 transition-colors hover:text-brand-earth"
+      >
+        Open full size ↗
+      </a>
+    </div>
   </div>
 );
 
@@ -745,9 +753,21 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
 
   return (
     <div ref={frameRef} className="landing-preview-frame">
-      <BrowserTopBar label="Website Preview" />
+      <BrowserTopBar label="Website Preview" imageSrc={page.imageSrc} />
       <div className="landing-preview-canvas" tabIndex={0} aria-label={`Scroll ${page.brand} website screenshot`}>
-        <img src={page.imageSrc} alt={page.alt} loading="lazy" />
+        <div className="landing-preview-document">
+          <img src={page.imageSrc} alt={page.alt} loading="lazy" />
+          {page.id === "revpie" && (
+            <div className="revpie-marquee-section" aria-hidden="true">
+              <div className="revpie-marquee-track">
+                <span>Generate industry leading revenue for publishers</span>
+                <span>Generate industry leading revenue for publishers</span>
+              </div>
+              <p>Our diverse reach spans multiple verticals. We drive results in fintech, rewards, home services, insurance, and more.</p>
+              <span className="revpie-marquee-button">Get Started</span>
+            </div>
+          )}
+        </div>
       </div>
       {showPopup && (
         <div className="grandties-popup" role="dialog" aria-label="GrandTies promotional preview">
@@ -798,13 +818,13 @@ const LandingPages = () => (
             className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
-            <div className="relative z-10 grid gap-6 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
+            <div className="relative z-10 grid gap-6">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
-                className="lg:pr-4"
+                className="max-w-2xl"
               >
                 <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
                   {page.pageType}
