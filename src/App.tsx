@@ -1150,7 +1150,7 @@ const StandaloneVideoSection = () => {
       const distance = lastFrameTop - frameTop;
       const scrollRange = viewportHeight * 0.82;
       const openingThreshold = viewportHeight * 0.78;
-      const closingThreshold = viewportHeight * 0.04;
+      const closingThreshold = viewportHeight * -0.04;
 
       if (distance > 0) {
         const activeDistance = progress > 0 ? distance : Math.min(distance, Math.max(0, openingThreshold - frameTop));
