@@ -1106,6 +1106,8 @@ const StandaloneVideoSection = () => {
     let scrollFrame: number | null = null;
     let targetTime = 0;
     let lastRenderedTime = -1;
+    let lastFrameTop = frame.getBoundingClientRect().top;
+    let progress = Math.min(1, Math.max(0, (window.innerHeight * 0.78 - lastFrameTop) / (window.innerHeight * 0.82)));
 
     const renderFrame = () => {
       if (video.readyState < 2 || !video.videoWidth) return;
@@ -1144,7 +1146,23 @@ const StandaloneVideoSection = () => {
     const updateFromScroll = () => {
       scrollFrame = null;
       const viewportHeight = window.innerHeight;
-      const progress = Math.min(1, Math.max(0, (viewportHeight - frame.getBoundingClientRect().top) / (viewportHeight * 0.82)));
+      const frameTop = frame.getBoundingClientRect().top;
+      const distance = lastFrameTop - frameTop;
+      const scrollRange = viewportHeight * 0.82;
+      const openingThreshold = viewportHeight * 0.78;
+      const closingThreshold = viewportHeight * 0.04;
+
+      if (distance > 0) {
+        const activeDistance = progress > 0 ? distance : Math.min(distance, Math.max(0, openingThreshold - frameTop));
+        progress = Math.min(1, progress + activeDistance / scrollRange);
+      } else if (distance < 0) {
+        const activeDistance = progress < 1 ? -distance : Math.min(-distance, Math.max(0, frameTop - closingThreshold));
+        progress = Math.max(0, progress - activeDistance / scrollRange);
+      }
+
+      if (frameTop >= viewportHeight) progress = 0;
+      if (frameTop + frame.clientHeight <= 0) progress = 1;
+      lastFrameTop = frameTop;
       // The source opens in its first half, then closes in its second half.
       targetTime = reducedMotion.matches ? 0 : progress * video.duration / 2;
       seekToTarget();
