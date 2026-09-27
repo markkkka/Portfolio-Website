@@ -1245,6 +1245,12 @@ const ContactSection = () => (
   </section>
 );
 
+const CompactFooter = () => (
+  <footer className="bg-[#050505] px-6 pb-8 pt-3 text-center text-[10px] font-medium uppercase tracking-[0.18em] text-white/35 md:pb-10">
+    © {new Date().getFullYear()} Mark Anastasiadi. All rights reserved.
+  </footer>
+);
+
 export default function App() {
   const [loading, setLoading] = useState(true);
 
@@ -1284,7 +1290,7 @@ export default function App() {
         <CoreCompetenciesMarquee />
         <ContactSection />
       </main>
-
+      <CompactFooter />
     </div>
   );
 }
