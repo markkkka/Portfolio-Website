@@ -868,8 +868,23 @@ const BrowserTopBar = ({ label }: { label: string }) => (
 const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
   const frameRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(frameRef, { once: true, amount: 0.35 });
+  const [canScrollPreview, setCanScrollPreview] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupDismissed, setPopupDismissed] = useState(false);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      const viewportHeight = entry.rootBounds?.height ?? window.innerHeight;
+      const visibleHeight = Math.min(entry.boundingClientRect.height, viewportHeight);
+      setCanScrollPreview(visibleHeight > 0 && entry.intersectionRect.height / visibleHeight >= 0.85);
+    }, { threshold: Array.from({ length: 21 }, (_, index) => index / 20) });
+
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (page.id !== "grandties" || !isInView || popupDismissed) return;
@@ -882,7 +897,7 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
   return (
     <div ref={frameRef} className="landing-preview-frame">
       <BrowserTopBar label="Website Preview" />
-      <div className="landing-preview-canvas" tabIndex={0} aria-label={`Scroll ${page.brand} website screenshot`}>
+      <div className={`landing-preview-canvas${canScrollPreview ? " landing-preview-canvas--interactive" : ""}`} tabIndex={canScrollPreview ? 0 : -1} aria-label={`Scroll ${page.brand} website screenshot`}>
         <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
           <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading="lazy" decoding="async" onError={hideBrokenImage} />
           {page.id === "revpie" && (
@@ -1078,86 +1093,99 @@ const SelectedOutcomes = () => (
 const StandaloneVideoSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const drawingFrameRef = useRef<number | null>(null);
-  const movementRef = useRef<"opening" | "closing">("opening");
-  const atEndpointRef = useRef(false);
+  const frameRef = useRef<HTMLDivElement | null>(null);
   const hasVideoSource = Boolean(STANDALONE_VIDEO.videoMp4 || STANDALONE_VIDEO.videoWebm);
 
-  const renderFrame = () => {
+  useEffect(() => {
     const video = videoRef.current;
     const canvas = canvasRef.current;
-    if (!video || !canvas || video.readyState < 2 || !video.videoWidth) return;
-    const width = Math.min(video.videoWidth, 960);
-    const height = Math.round(width * video.videoHeight / video.videoWidth);
-    if (canvas.width !== width || canvas.height !== height) {
-      canvas.width = width;
-      canvas.height = height;
-    }
-    const context = canvas.getContext("2d", { willReadFrequently: true });
-    if (!context) return;
-    context.drawImage(video, 0, 0, width, height);
-    const frame = context.getImageData(0, 0, width, height);
-    for (let i = 0; i < frame.data.length; i += 4) {
-      const red = frame.data[i];
-      const green = frame.data[i + 1];
-      const blue = frame.data[i + 2];
-      const blueCast = blue - red;
-      if (blueCast > 5 && green >= red - 2) {
-        frame.data[i + 3] = Math.max(0, 255 - (blueCast - 5) * 28);
-      }
-    }
-    context.putImageData(frame, 0, 0);
-  };
+    const frame = frameRef.current;
+    if (!video || !canvas || !frame) return;
 
-  const startDrawing = () => {
-    if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
-    const draw = () => {
-      const video = videoRef.current;
-      if (video && Number.isFinite(video.duration)) {
-        const endpoint = movementRef.current === "opening" ? video.duration / 2 : video.duration - 0.08;
-        if (video.currentTime >= endpoint) {
-          video.pause();
-          video.currentTime = endpoint;
-          atEndpointRef.current = true;
-          stopDrawing();
-          return;
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let scrollFrame: number | null = null;
+    let targetTime = 0;
+    let lastRenderedTime = -1;
+
+    const renderFrame = () => {
+      if (video.readyState < 2 || !video.videoWidth) return;
+      const width = Math.min(video.videoWidth, Math.max(1, Math.ceil(frame.clientWidth * window.devicePixelRatio)));
+      const height = Math.round(width * video.videoHeight / video.videoWidth);
+      if (canvas.width === width && Math.abs(video.currentTime - lastRenderedTime) < 0.01) return;
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+      const context = canvas.getContext("2d", { willReadFrequently: true });
+      if (!context) return;
+      context.drawImage(video, 0, 0, width, height);
+      const pixels = context.getImageData(0, 0, width, height);
+      for (let i = 0; i < pixels.data.length; i += 4) {
+        const red = pixels.data[i];
+        const green = pixels.data[i + 1];
+        const blueCast = pixels.data[i + 2] - red;
+        if (blueCast > 5 && green >= red - 2) {
+          pixels.data[i + 3] = Math.max(0, 255 - (blueCast - 5) * 28);
         }
       }
-      renderFrame();
-      drawingFrameRef.current = requestAnimationFrame(draw);
+      context.putImageData(pixels, 0, 0);
+      lastRenderedTime = video.currentTime;
     };
-    drawingFrameRef.current = requestAnimationFrame(draw);
-  };
 
-  const stopDrawing = () => {
-    if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
-    drawingFrameRef.current = null;
-    renderFrame();
-  };
+    const seekToTarget = () => {
+      if (video.readyState < 2 || !Number.isFinite(video.duration) || video.seeking) return;
+      if (Math.abs(video.currentTime - targetTime) < 0.04) {
+        renderFrame();
+      } else {
+        video.currentTime = targetTime;
+      }
+    };
 
-  const handlePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    if (atEndpointRef.current) {
-      movementRef.current = movementRef.current === "opening" ? "closing" : "opening";
-      atEndpointRef.current = false;
-      if (movementRef.current === "opening") video.currentTime = 0;
-    }
-    const playPromise = video.play();
-    playPromise?.catch(() => undefined);
-  };
+    const updateFromScroll = () => {
+      scrollFrame = null;
+      const viewportHeight = window.innerHeight;
+      const progress = Math.min(1, Math.max(0, (viewportHeight - frame.getBoundingClientRect().top) / (viewportHeight * 0.82)));
+      // The source opens in its first half, then closes in its second half.
+      targetTime = reducedMotion.matches ? 0 : progress * video.duration / 2;
+      seekToTarget();
+    };
 
-  const handlePause = () => videoRef.current?.pause();
+    const scheduleScrollUpdate = () => {
+      if (scrollFrame === null) scrollFrame = requestAnimationFrame(updateFromScroll);
+    };
 
-  useEffect(() => () => {
-    if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
+    const handleSeeked = () => {
+      renderFrame();
+      if (Math.abs(video.currentTime - targetTime) >= 0.04) seekToTarget();
+    };
+
+    const handleLoadedData = () => {
+      renderFrame();
+      scheduleScrollUpdate();
+    };
+
+    video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("seeked", handleSeeked);
+    window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+    window.addEventListener("resize", scheduleScrollUpdate);
+    reducedMotion.addEventListener("change", scheduleScrollUpdate);
+    if (video.readyState >= 2) handleLoadedData();
+
+    return () => {
+      if (scrollFrame !== null) cancelAnimationFrame(scrollFrame);
+      video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("seeked", handleSeeked);
+      window.removeEventListener("scroll", scheduleScrollUpdate);
+      window.removeEventListener("resize", scheduleScrollUpdate);
+      reducedMotion.removeEventListener("change", scheduleScrollUpdate);
+    };
   }, []);
 
   return (
     <section className="relative overflow-hidden bg-brand-black px-6 py-12 md:py-16">
       <div className="mx-auto max-w-6xl">
         <SectionReveal>
-          <div className="standalone-video-frame" onPointerEnter={handlePlay} onPointerLeave={handlePause}>
+          <div ref={frameRef} className="standalone-video-frame">
             {hasVideoSource ? (
               <>
                 <video
@@ -1166,14 +1194,6 @@ const StandaloneVideoSection = () => {
                   playsInline
                   preload="auto"
                   poster={STANDALONE_VIDEO.poster || undefined}
-                  onLoadedData={renderFrame}
-                  onSeeked={renderFrame}
-                  onPlay={startDrawing}
-                  onPause={stopDrawing}
-                  onEnded={() => {
-                    atEndpointRef.current = true;
-                    stopDrawing();
-                  }}
                   className="pointer-events-none absolute inset-0 h-full w-full opacity-0"
                   aria-hidden="true"
                 >
