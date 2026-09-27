@@ -379,7 +379,7 @@ const Navbar = () => {
       }`}
     >
       <div className="site-header-inner w-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <a href="#" className="col-start-1 justify-self-start font-display text-lg md:text-[1.35rem] font-semibold tracking-tight hover:opacity-85 transition-opacity tap-target !justify-start">
+        <a href="#" className="col-start-1 justify-self-start font-editorial text-[1.5rem] md:text-[1.9rem] font-semibold tracking-normal hover:opacity-85 transition-opacity tap-target !justify-start">
           Mark Anastasiadi
         </a>
 
