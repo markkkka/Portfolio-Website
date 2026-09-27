@@ -168,9 +168,12 @@
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: auto;
-  background: #f3f3f1;
-  scrollbar-color: rgba(20, 20, 20, 0.24) transparent;
-  scrollbar-width: thin;
+  background: #101010;
+  scrollbar-width: none;
+}
+
+.landing-preview-canvas::-webkit-scrollbar {
+  display: none;
 }
 
 .landing-preview-document {
@@ -179,8 +182,9 @@
 
 .landing-preview-document img {
   display: block;
-  width: 100%;
+  width: calc(100% + 3px);
   height: auto;
+  margin-top: -2px;
 }
 
 .landing-preview-document--michaelpro img {

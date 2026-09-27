@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   motion,
   AnimatePresence,
@@ -8,8 +9,7 @@ import {
 } from 'motion/react';
 import {
   ArrowRight,
-  Instagram,
-  Mail,
+  Download,
   Menu,
   X
 } from 'lucide-react';
@@ -27,6 +27,7 @@ const VIDEOS = {
 const NAV_LINKS = [
   { label: "Contact", href: "#contact" }
 ];
+const SHOW_HEADER_CONTACT = false;
 
 const STANDALONE_VIDEO = {
   videoMp4: "/videos/flower-bloom.mp4",
@@ -310,9 +311,53 @@ const VideoBackground = ({ src, overlay = true }: { src: string, overlay?: boole
   );
 };
 
+const ResumeModal = ({ onClose }: { onClose: () => void }) => {
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-3 backdrop-blur-xl sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <div role="dialog" aria-modal="true" aria-labelledby="resume-dialog-title" className="flex h-[min(90vh,900px)] w-full max-w-4xl flex-col overflow-hidden rounded-[1.5rem] border border-brand-earth/25 bg-[#11100e] shadow-[0_30px_100px_rgba(0,0,0,0.65)]">
+        <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
+          <h2 id="resume-dialog-title" className="font-editorial text-2xl font-semibold text-white sm:text-3xl">Resume</h2>
+          <div className="flex items-center gap-2">
+            <a href="/resume.pdf" download="Mark-Anastasiadi-Resume.pdf" className="flex min-h-10 items-center gap-2 rounded-full border border-brand-earth/35 px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/80 transition-colors hover:border-brand-earth hover:text-white">
+              <Download size={15} /> Download
+            </a>
+            <button ref={closeButtonRef} type="button" aria-label="Close resume" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white">
+              <X size={19} />
+            </button>
+          </div>
+        </div>
+        <iframe title="Mark Anastasiadi resume" src="/resume.pdf#toolbar=0" className="min-h-0 w-full flex-1 bg-white" />
+      </div>
+    </div>,
+    document.body
+  );
+};
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const resumeButtonRef = useRef<HTMLButtonElement>(null);
+  const closeResume = () => {
+    setResumeOpen(false);
+    resumeButtonRef.current?.focus();
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -321,9 +366,10 @@ const Navbar = () => {
   }, []);
 
   return (
+    <>
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 safe-pt flex items-center ${
-        scrolled ? 'py-4 bg-[#000000]/58 backdrop-blur-xl border-b border-white/5 shadow-[0_8px_30px_rgba(0,0,0,0.12)]' : 'py-4 md:py-6 bg-transparent'
+        scrolled ? 'py-4 bg-[#000000]/58 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)]' : 'py-4 md:py-6 bg-transparent'
       }`}
     >
       <div className="site-header-inner w-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-4">
@@ -331,7 +377,7 @@ const Navbar = () => {
           Mark Anastasiadi
         </a>
 
-        <div className="hidden md:flex col-start-2 justify-self-center items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.065] p-1.5 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.16)]">
+        {SHOW_HEADER_CONTACT && <div className="hidden md:flex col-start-2 justify-self-center items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.065] p-1.5 backdrop-blur-xl shadow-[0_10px_40px_rgba(0,0,0,0.16)]">
           {NAV_LINKS.map((link) => (
             <a
               key={link.href}
@@ -341,26 +387,28 @@ const Navbar = () => {
               {link.label}
             </a>
           ))}
-        </div>
-
-        <a
-          href="/resume.pdf"
-          className="hidden md:flex col-start-3 justify-self-end items-center min-h-[44px] text-[13px] font-semibold tracking-[0.12em] uppercase text-white/78 transition-colors duration-300 hover:text-white"
-        >
-          View Resume
-        </a>
+        </div>}
 
         <button
+          ref={resumeButtonRef}
+          type="button"
+          onClick={() => setResumeOpen(true)}
+          className="flex col-start-2 justify-self-end items-center min-h-[44px] text-[10px] font-semibold tracking-[0.12em] uppercase text-white/78 transition-colors duration-300 hover:text-white md:col-start-3 md:text-[13px]"
+        >
+          View Resume
+        </button>
+
+        {SHOW_HEADER_CONTACT && <button
           className="mobile-menu-button col-start-2 justify-self-end min-h-[44px] min-w-[44px] items-center justify-center p-2 text-brand-white"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle Menu"
         >
           {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-        </button>
+        </button>}
       </div>
 
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {SHOW_HEADER_CONTACT && mobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -381,6 +429,8 @@ const Navbar = () => {
         )}
       </AnimatePresence>
     </nav>
+    {resumeOpen && <ResumeModal onClose={closeResume} />}
+    </>
   );
 };
 
@@ -431,7 +481,7 @@ const Hero = () => {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex w-full flex-col items-stretch justify-center gap-4 px-4 sm:w-auto sm:flex-row"
           >
-            <a href="#work" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] tap-target">
+            <a href="#selected-content" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] tap-target">
               View Work <ArrowRight size={18} />
             </a>
             <a href="#contact" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
@@ -440,9 +490,9 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        <div className="full-bleed-strip flex min-h-[72px] items-center justify-center border-t border-white/5 bg-brand-black/30 px-6 py-0 text-center backdrop-blur-sm md:min-h-[80px]">
+        <div className="full-bleed-strip flex min-h-[72px] items-center justify-center bg-brand-black/30 px-6 py-0 text-center backdrop-blur-sm md:min-h-[80px]">
           <p className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase leading-none tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
-            <span>CONTENT CREATION</span> <span>·</span> <span>PAID MEDIA</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>WEBSITES</span> <span>·</span> <span>BRAND SYSTEMS</span>
+            <span>CONTENT CREATION</span> <span>·</span> <span>SELECTED OUTCOMES</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>WEBSITES</span> <span>·</span> <span>CORE COMPETENCIES</span> <span>·</span> <span>AI AUTOMATION</span>
           </p>
         </div>
       </div>
@@ -463,8 +513,7 @@ const BrandExperienceStrip = () => {
   ];
 
   return (
-    <section id="work" className="relative border-t border-white/5 bg-brand-black px-6 py-14 md:py-16 overflow-hidden scroll-mt-24">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-earth/30 to-transparent" />
+    <section id="work" className="relative bg-brand-black px-6 py-14 md:py-16 overflow-hidden scroll-mt-24">
       <div className="max-w-6xl mx-auto">
         <SectionReveal>
           <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -526,14 +575,14 @@ const SelectedContent = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-brand-black px-6 pb-16 pt-16 md:pb-20 md:pt-20">
+    <section id="selected-content" className="relative overflow-hidden bg-brand-black px-6 pb-16 pt-16 scroll-mt-24 md:pb-20 md:pt-20">
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionReveal>
           <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
             Content Creation
           </p>
 
-          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
+          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
             <div className="max-w-xl">
               <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
                 Selected Content
@@ -564,19 +613,9 @@ const SelectedContent = () => {
                 })}
               </div>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeCategory.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3, ease: "easeOut" }}
-                >
-                  <p className="mb-5 text-sm font-light leading-relaxed text-white/58 md:text-base">
-                    {activeCategory.description}
-                  </p>
-                </motion.div>
-              </AnimatePresence>
+              <p className="mb-5 min-h-[4.5rem] text-sm font-light leading-relaxed text-white/58 md:text-base">
+                {activeCategory.description}
+              </p>
             </div>
 
             <div className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-md sm:p-5 md:p-6">
@@ -630,7 +669,6 @@ const SelectedContent = () => {
 
 const EmailCampaigns = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
-    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -773,7 +811,6 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
 
 const LandingPages = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
-    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -884,7 +921,6 @@ const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard
 
 const SelectedOutcomes = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
-    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -930,32 +966,43 @@ const SelectedOutcomes = () => (
 
 const StandaloneVideoSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const reverseFrameRef = useRef<number | null>(null);
   const hasVideoSource = Boolean(STANDALONE_VIDEO.videoMp4 || STANDALONE_VIDEO.videoWebm);
 
   const handlePlay = () => {
-    if (!hasVideoSource || !videoRef.current) {
-      return;
-    }
-
-    const playPromise = videoRef.current.play();
+    const video = videoRef.current;
+    if (!hasVideoSource || !video) return;
+    if (reverseFrameRef.current !== null) cancelAnimationFrame(reverseFrameRef.current);
+    reverseFrameRef.current = null;
+    if (video.duration && video.currentTime >= video.duration - 0.05) return;
+    const playPromise = video.play();
     if (playPromise) {
       playPromise.catch(() => undefined);
     }
   };
 
   const handlePause = () => {
-    if (!hasVideoSource || !videoRef.current) {
-      return;
-    }
-
-    videoRef.current.pause();
-
-    try {
-      videoRef.current.currentTime = 0;
-    } catch {
-      // Some browsers can reject seeking before enough metadata is loaded.
-    }
+    const video = videoRef.current;
+    if (!hasVideoSource || !video) return;
+    video.pause();
+    if (reverseFrameRef.current !== null) cancelAnimationFrame(reverseFrameRef.current);
+    let previousTime = performance.now();
+    const closeFlower = (now: number) => {
+      const elapsed = Math.min((now - previousTime) / 1000, 0.05);
+      previousTime = now;
+      video.currentTime = Math.max(0, video.currentTime - elapsed * 1.5);
+      if (video.currentTime > 0) {
+        reverseFrameRef.current = requestAnimationFrame(closeFlower);
+      } else {
+        reverseFrameRef.current = null;
+      }
+    };
+    reverseFrameRef.current = requestAnimationFrame(closeFlower);
   };
+
+  useEffect(() => () => {
+    if (reverseFrameRef.current !== null) cancelAnimationFrame(reverseFrameRef.current);
+  }, []);
 
   return (
     <section className="relative overflow-hidden bg-brand-black px-6 py-12 md:py-16">
@@ -966,7 +1013,6 @@ const StandaloneVideoSection = () => {
               <video
                 ref={videoRef}
                 muted
-                loop
                 playsInline
                 preload="metadata"
                 poster={STANDALONE_VIDEO.poster || undefined}
@@ -980,8 +1026,8 @@ const StandaloneVideoSection = () => {
             )}
             <div
               className="standalone-video-hover-zone"
-              onMouseEnter={handlePlay}
-              onMouseLeave={handlePause}
+              onPointerEnter={handlePlay}
+              onPointerLeave={handlePause}
               aria-hidden="true"
             />
           </div>
@@ -1012,7 +1058,6 @@ const CompetencyMarqueeRow = ({ items, direction = "left" }: { items: string[]; 
 
 const CoreCompetenciesMarquee = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
-    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <div className="mx-auto mb-14 max-w-4xl text-center md:mb-16">
@@ -1040,7 +1085,7 @@ const CoreCompetenciesMarquee = () => (
 );
 
 const ContactSection = () => (
-  <section id="contact" className="py-16 md:py-20 px-6 bg-[#050505] border-t border-white/5 scroll-mt-24">
+  <section id="contact" className="py-16 md:py-20 px-6 bg-[#050505] scroll-mt-24">
     <div className="max-w-7xl mx-auto">
       <SectionReveal>
         <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.75fr)] lg:gap-20">
@@ -1075,36 +1120,6 @@ const ContactSection = () => (
       </SectionReveal>
     </div>
   </section>
-);
-
-const Footer = () => (
-  <footer className="py-14 px-6 bg-brand-black border-t border-white/10 text-white/40 safe-px safe-pb">
-    <div className="max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row justify-between gap-8 md:items-end">
-        <div>
-          <h2 className="font-display text-2xl font-bold tracking-tighter text-white/90 mb-4">
-            Mark Anastasiadi
-          </h2>
-          <p className="max-w-sm text-sm font-light leading-relaxed">
-            B2C marketing, content, campaigns, and digital experiences.
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <a href="#" className="p-4 rounded-full bg-white/5 border border-white/10 hover:border-brand-earth/50 transition-colors tap-target" aria-label="Instagram">
-            <Instagram size={20} />
-          </a>
-          <a href="mailto:hello@example.com" className="p-4 rounded-full bg-white/5 border border-white/10 hover:border-brand-earth/50 transition-colors tap-target" aria-label="Email">
-            <Mail size={20} />
-          </a>
-        </div>
-      </div>
-
-      <div className="flex flex-col md:flex-row justify-between items-center mt-12 pt-8 border-t border-white/5 text-[10px] font-medium tracking-widest uppercase">
-        <p>© 2026 Mark Anastasiadi. All rights reserved.</p>
-        <p className="mt-6 md:mt-0">Portfolio</p>
-      </div>
-    </div>
-  </footer>
 );
 
 export default function App() {
@@ -1147,7 +1162,6 @@ export default function App() {
         <ContactSection />
       </main>
 
-      <Footer />
     </div>
   );
 }
