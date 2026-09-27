@@ -478,8 +478,8 @@ const BrandExperienceStrip = () => {
   };
 
   const items = [
-    { company: "SFA", role: "Marketing Consultant", dates: "2022–2024" },
-    { company: "Trend Capital", role: "Marketing & Analytics Specialist", dates: "2025" }
+    { company: "SFA", role: "Brand Manager", dates: "2022–2024" },
+    { company: "Trend Capital", role: "Marketing & Analytics Manager", dates: "2025" }
   ];
 
   return (
@@ -562,7 +562,7 @@ const SelectedContent = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-16 md:pb-32 md:pt-20">
+    <section className="relative overflow-hidden bg-brand-black px-6 pb-16 pt-16 md:pb-20 md:pt-20">
       <div className="relative z-10 mx-auto max-w-7xl">
         <SectionReveal>
           <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -671,7 +671,7 @@ const SelectedContent = () => {
 };
 
 const EmailCampaigns = () => (
-  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+  <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
@@ -814,7 +814,7 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
 };
 
 const LandingPages = () => (
-  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+  <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
@@ -925,7 +925,7 @@ const MiniOutcomeGraph = ({ path, dot, index }: { path: string; dot: OutcomeCard
 };
 
 const SelectedOutcomes = () => (
-  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+  <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
@@ -1000,7 +1000,7 @@ const StandaloneVideoSection = () => {
   };
 
   return (
-    <section className="relative overflow-hidden bg-brand-black px-6 py-[4.5rem] md:py-24">
+    <section className="relative overflow-hidden bg-brand-black px-6 py-12 md:py-16">
       <div className="mx-auto max-w-6xl">
         <SectionReveal>
           <div className="standalone-video-frame">
@@ -1053,7 +1053,7 @@ const CompetencyMarqueeRow = ({ items, direction = "left" }: { items: string[]; 
 };
 
 const CoreCompetenciesMarquee = () => (
-  <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
+  <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
     <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/8 to-transparent" />
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
@@ -1082,7 +1082,7 @@ const CoreCompetenciesMarquee = () => (
 );
 
 const PlaceholderSection = ({ id, title, copy }: { id: string, title: string, copy: string }) => (
-  <section id={id} className="py-24 md:py-32 px-6 bg-brand-black border-t border-white/5 scroll-mt-24">
+  <section id={id} className="py-16 md:py-20 px-6 bg-brand-black border-t border-white/5 scroll-mt-24">
     <div className="max-w-7xl mx-auto">
       <SectionReveal className="max-w-3xl">
         <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
@@ -1100,7 +1100,7 @@ const PlaceholderSection = ({ id, title, copy }: { id: string, title: string, co
 );
 
 const ContactSection = () => (
-  <section id="contact" className="py-24 md:py-32 px-6 bg-[#050505] border-t border-white/5 scroll-mt-24">
+  <section id="contact" className="py-16 md:py-20 px-6 bg-[#050505] border-t border-white/5 scroll-mt-24">
     <div className="max-w-7xl mx-auto">
       <SectionReveal className="max-w-3xl">
         <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
