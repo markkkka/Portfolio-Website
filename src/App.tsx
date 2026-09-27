@@ -1235,7 +1235,7 @@ const ContactSection = () => (
             <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
               Contact
             </span>
-            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tighter mb-6 text-white">
+            <h2 className="mb-6 font-editorial text-3xl font-semibold leading-none text-white md:text-5xl">
               Get in touch
             </h2>
             <p className="text-base md:text-lg text-white/55 font-light leading-relaxed mb-10">
