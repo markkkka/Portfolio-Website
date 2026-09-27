@@ -86,7 +86,7 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
   {
     id: "consumer",
     label: "Consumer Content",
-    description: "Consumer-facing visuals for products, destinations, and lifestyle moments built around clarity, atmosphere, and retail appeal.",
+    description: "Consumer-facing visuals for products, destinations, and lifestyle moments shaped by atmosphere and retail appeal.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_22%,rgba(166,138,86,0.2),transparent_28%),radial-gradient(circle_at_80%_64%,rgba(80,105,92,0.26),transparent_34%),linear-gradient(135deg,#090909_0%,#11100c_48%,#050505_100%)]",
     visuals: [
       {
