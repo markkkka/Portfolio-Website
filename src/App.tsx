@@ -65,6 +65,7 @@ type LandingPagePanel = {
   pageType: string;
   description: string;
   imageSrc: string;
+  imageHeight: number;
   alt: string;
 };
 
@@ -178,6 +179,7 @@ const LANDING_PAGES: LandingPagePanel[] = [
     pageType: "Ecommerce website",
     description: "Ecommerce page design focused on lifestyle product storytelling, seasonal collections, and retail-driven discovery.",
     imageSrc: "/landing-pages/GrandTies Website.png",
+    imageHeight: 9234,
     alt: "GrandTies full-page website preview"
   },
   {
@@ -186,6 +188,7 @@ const LANDING_PAGES: LandingPagePanel[] = [
     pageType: "Product website",
     description: "Product-focused websites built to highlight features, communicate value, and support retail-driven customer action.",
     imageSrc: "/landing-pages/MichaelPro Website.png",
+    imageHeight: 8838,
     alt: "MichaelPro full-page website preview"
   },
   {
@@ -194,6 +197,7 @@ const LANDING_PAGES: LandingPagePanel[] = [
     pageType: "B2B platform website",
     description: "B2B website work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
     imageSrc: "/landing-pages/RevPie Website.png",
+    imageHeight: 10672,
     alt: "RevPie full-page website preview"
   }
 ];
@@ -773,7 +777,7 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
       <BrowserTopBar label="Website Preview" />
       <div className="landing-preview-canvas" tabIndex={0} aria-label={`Scroll ${page.brand} website screenshot`}>
         <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
-          <img src={page.imageSrc} alt={page.alt} loading="lazy" />
+          <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading="lazy" decoding="async" />
           {page.id === "revpie" && (
             <div className="revpie-marquee-section" aria-hidden="true">
               <div className="revpie-marquee-track">
@@ -966,70 +970,90 @@ const SelectedOutcomes = () => (
 
 const StandaloneVideoSection = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const reverseFrameRef = useRef<number | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const drawingFrameRef = useRef<number | null>(null);
   const hasVideoSource = Boolean(STANDALONE_VIDEO.videoMp4 || STANDALONE_VIDEO.videoWebm);
 
-  const handlePlay = () => {
+  const renderFrame = () => {
     const video = videoRef.current;
-    if (!hasVideoSource || !video) return;
-    if (reverseFrameRef.current !== null) cancelAnimationFrame(reverseFrameRef.current);
-    reverseFrameRef.current = null;
-    if (video.duration && video.currentTime >= video.duration - 0.05) return;
-    const playPromise = video.play();
-    if (playPromise) {
-      playPromise.catch(() => undefined);
+    const canvas = canvasRef.current;
+    if (!video || !canvas || video.readyState < 2 || !video.videoWidth) return;
+    const width = Math.min(video.videoWidth, 960);
+    const height = Math.round(width * video.videoHeight / video.videoWidth);
+    if (canvas.width !== width || canvas.height !== height) {
+      canvas.width = width;
+      canvas.height = height;
     }
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) return;
+    context.drawImage(video, 0, 0, width, height);
+    const frame = context.getImageData(0, 0, width, height);
+    for (let i = 0; i < frame.data.length; i += 4) {
+      const red = frame.data[i];
+      const green = frame.data[i + 1];
+      const blue = frame.data[i + 2];
+      const blueCast = blue - red;
+      if (blueCast > 5 && green >= red - 2) {
+        frame.data[i + 3] = Math.max(0, 255 - (blueCast - 5) * 28);
+      }
+    }
+    context.putImageData(frame, 0, 0);
   };
 
-  const handlePause = () => {
-    const video = videoRef.current;
-    if (!hasVideoSource || !video) return;
-    video.pause();
-    if (reverseFrameRef.current !== null) cancelAnimationFrame(reverseFrameRef.current);
-    let previousTime = performance.now();
-    const closeFlower = (now: number) => {
-      const elapsed = Math.min((now - previousTime) / 1000, 0.05);
-      previousTime = now;
-      video.currentTime = Math.max(0, video.currentTime - elapsed * 1.5);
-      if (video.currentTime > 0) {
-        reverseFrameRef.current = requestAnimationFrame(closeFlower);
-      } else {
-        reverseFrameRef.current = null;
-      }
+  const startDrawing = () => {
+    if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
+    const draw = () => {
+      renderFrame();
+      drawingFrameRef.current = requestAnimationFrame(draw);
     };
-    reverseFrameRef.current = requestAnimationFrame(closeFlower);
+    drawingFrameRef.current = requestAnimationFrame(draw);
   };
+
+  const stopDrawing = () => {
+    if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
+    drawingFrameRef.current = null;
+    renderFrame();
+  };
+
+  const handlePlay = () => {
+    const playPromise = videoRef.current?.play();
+    playPromise?.catch(() => undefined);
+  };
+
+  const handlePause = () => videoRef.current?.pause();
 
   useEffect(() => () => {
-    if (reverseFrameRef.current !== null) cancelAnimationFrame(reverseFrameRef.current);
+    if (drawingFrameRef.current !== null) cancelAnimationFrame(drawingFrameRef.current);
   }, []);
 
   return (
     <section className="relative overflow-hidden bg-brand-black px-6 py-12 md:py-16">
       <div className="mx-auto max-w-6xl">
         <SectionReveal>
-          <div className="standalone-video-frame">
+          <div className="standalone-video-frame" onPointerEnter={handlePlay} onPointerLeave={handlePause}>
             {hasVideoSource ? (
-              <video
-                ref={videoRef}
-                muted
-                playsInline
-                preload="metadata"
-                poster={STANDALONE_VIDEO.poster || undefined}
-                className="h-full w-full object-cover"
-              >
-                {STANDALONE_VIDEO.videoWebm && <source src={STANDALONE_VIDEO.videoWebm} type="video/webm" />}
-                {STANDALONE_VIDEO.videoMp4 && <source src={STANDALONE_VIDEO.videoMp4} type="video/mp4" />}
-              </video>
+              <>
+                <video
+                  ref={videoRef}
+                  muted
+                  playsInline
+                  preload="auto"
+                  poster={STANDALONE_VIDEO.poster || undefined}
+                  onLoadedData={renderFrame}
+                  onPlay={startDrawing}
+                  onPause={stopDrawing}
+                  onEnded={stopDrawing}
+                  className="pointer-events-none absolute inset-0 h-full w-full opacity-0"
+                  aria-hidden="true"
+                >
+                  {STANDALONE_VIDEO.videoWebm && <source src={STANDALONE_VIDEO.videoWebm} type="video/webm" />}
+                  {STANDALONE_VIDEO.videoMp4 && <source src={STANDALONE_VIDEO.videoMp4} type="video/mp4" />}
+                </video>
+                <canvas ref={canvasRef} className="h-full w-full object-cover" aria-label="Flower blooming" role="img" />
+              </>
             ) : (
               <div className="standalone-video-placeholder" aria-hidden="true" />
             )}
-            <div
-              className="standalone-video-hover-zone"
-              onPointerEnter={handlePlay}
-              onPointerLeave={handlePause}
-              aria-hidden="true"
-            />
           </div>
         </SectionReveal>
       </div>
