@@ -25,8 +25,6 @@ const VIDEOS = {
 };
 
 const NAV_LINKS = [
-  { label: "Experience", href: "#experience" },
-  { label: "About", href: "#about" },
   { label: "Contact", href: "#contact" }
 ];
 
@@ -38,10 +36,9 @@ const STANDALONE_VIDEO = {
 
 type SelectedContentVisual = {
   id: string;
-  imageSrc?: string | null;
+  imageSrc: string;
   alt: string;
-  caption?: string;
-  surfaceClassName: string;
+  caption: "Destination" | "Product" | "Business";
 };
 
 type SelectedContentCategory = {
@@ -84,88 +81,71 @@ type OutcomeCard = {
 
 const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
   {
-    id: "destination",
-    label: "Destination",
-    description: "Editorial visuals for travel, recreation, and lifestyle moments built around place and atmosphere.",
+    id: "consumer",
+    label: "Consumer Content",
+    description: "Consumer-facing visuals for products, destinations, and lifestyle moments built around clarity, atmosphere, and retail appeal.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_22%,rgba(166,138,86,0.2),transparent_28%),radial-gradient(circle_at_80%_64%,rgba(80,105,92,0.26),transparent_34%),linear-gradient(135deg,#090909_0%,#11100c_48%,#050505_100%)]",
     visuals: [
       {
         id: "destination-landscape",
         imageSrc: "/selected-content/Destination/DSCF2173.jpg",
         alt: "Mountain landscape and retreat buildings",
-        caption: "Destination",
-        surfaceClassName: "bg-[radial-gradient(circle_at_34%_18%,rgba(255,255,255,0.16),transparent_18%),radial-gradient(circle_at_28%_64%,rgba(185,151,107,0.26),transparent_34%),linear-gradient(165deg,#1a221d_0%,#101711_54%,#050505_100%)]"
+        caption: "Destination"
       },
       {
         id: "destination-vertical",
         imageSrc: "/selected-content/Destination/DSCF0149.JPG",
         alt: "Tipis at a mountain retreat",
-        caption: "Lifestyle",
-        surfaceClassName: "bg-[radial-gradient(circle_at_58%_22%,rgba(255,255,255,0.12),transparent_16%),linear-gradient(180deg,#2b2a22_0%,#111610_58%,#070707_100%)]"
-      },
-      {
-        id: "destination-detail",
-        imageSrc: "/selected-content/Destination/DSCF0824.JPG",
-        alt: "Outdoor gear beside a mountain lake",
-        caption: "Place",
-        surfaceClassName: "bg-[radial-gradient(circle_at_48%_70%,rgba(185,151,107,0.2),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.015))]"
+        caption: "Destination"
       },
       {
         id: "destination-architecture",
         imageSrc: "/selected-content/Destination/IMG_2658.JPG",
         alt: "Illuminated pagoda at night",
-        caption: "Nightscape",
-        surfaceClassName: ""
+        caption: "Destination"
       },
       {
         id: "destination-landmark",
         imageSrc: "/selected-content/Destination/DSCF2704.JPG",
         alt: "Tower seen from below",
-        caption: "Landmark",
-        surfaceClassName: ""
+        caption: "Destination"
       },
       {
         id: "destination-retreat",
         imageSrc: "/selected-content/Destination/DSCF0308.JPG",
         alt: "Traveler relaxing in an outdoor pool",
-        caption: "Retreat",
-        surfaceClassName: ""
-      }
-    ]
-  },
-  {
-    id: "product",
-    label: "Product",
-    description: "Product-focused content that makes features, use cases, and retail value feel clear and desirable.",
-    boardClassName: "bg-[radial-gradient(circle_at_72%_22%,rgba(185,151,107,0.18),transparent_30%),radial-gradient(circle_at_20%_72%,rgba(255,255,255,0.08),transparent_28%),linear-gradient(135deg,#050505_0%,#111111_48%,#0b0805_100%)]",
-    visuals: [
-      {
-        id: "product-hero",
-        imageSrc: "/selected-content/Product/Product Photo.webp",
-        alt: "GrandTies chef knife in its presentation box",
-        caption: "Retail",
-        surfaceClassName: "bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.22),transparent_14%),radial-gradient(circle_at_58%_42%,rgba(185,151,107,0.24),transparent_34%),linear-gradient(135deg,#171717_0%,#0c0c0c_100%)]"
+        caption: "Destination"
       },
       {
         id: "product-caption",
         imageSrc: "/selected-content/Product/Bike 1 copy-2.JPG",
         alt: "Rider with an orange dirt bike outdoors",
-        caption: "Use Case",
-        surfaceClassName: "bg-[radial-gradient(circle_at_46%_24%,rgba(185,151,107,0.2),transparent_28%),linear-gradient(135deg,rgba(185,151,107,0.11),rgba(255,255,255,0.025))]"
+        caption: "Destination"
+      },
+      {
+        id: "destination-detail",
+        imageSrc: "/selected-content/Destination/DSCF0824.JPG",
+        alt: "Outdoor gear beside a mountain lake",
+        caption: "Product"
+      },
+      {
+        id: "product-hero",
+        imageSrc: "/selected-content/Product/Product Photo.webp",
+        alt: "GrandTies chef knife in its presentation box",
+        caption: "Product"
       },
       {
         id: "product-crop",
         imageSrc: "/selected-content/Product/GrandTies Main Image.png",
         alt: "GrandTies water bottles in lifestyle campaign imagery",
-        caption: "Launch",
-        surfaceClassName: "bg-[radial-gradient(circle_at_50%_72%,rgba(255,255,255,0.1),transparent_20%),linear-gradient(160deg,#2a2117_0%,#121212_56%,#070707_100%)]"
+        caption: "Product"
       }
     ]
   },
   {
-    id: "professional",
-    label: "Professional Content",
-    description: "Polished content systems for professional ideas, thought leadership, and B2B brand-building.",
+    id: "business",
+    label: "Business Content",
+    description: "B2B visuals for platform education, partner-facing campaigns, and professional ideas.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_24%,rgba(185,151,107,0.15),transparent_26%),radial-gradient(circle_at_74%_74%,rgba(100,118,132,0.16),transparent_32%),linear-gradient(135deg,#060606_0%,#101010_48%,#050505_100%)]",
     visuals: []
   }
@@ -223,7 +203,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     metric: "55,000+",
     label: "Follower Growth",
     explanation: "Audience growth supported through consistent content, social strategy, and brand-focused storytelling.",
-    graphPath: "M8 102 C 48 92, 72 98, 104 76 S 176 50, 252 24",
+    graphPath: "M-35 102 C 5 92, 72 98, 104 76 S 176 50, 252 24",
     dot: { cx: 252, cy: 24 }
   },
   {
@@ -231,7 +211,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     metric: "5M+",
     label: "Views Generated",
     explanation: "Short-form and campaign-driven content created to expand reach and increase brand visibility.",
-    graphPath: "M8 100 C 42 88, 70 100, 104 82 S 170 28, 252 34",
+    graphPath: "M-35 100 C 1 88, 70 100, 104 82 S 170 28, 252 34",
     dot: { cx: 252, cy: 34 }
   },
   {
@@ -239,7 +219,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     metric: "4.2x",
     label: "ROAS on Social Campaigns",
     explanation: "Paid social performance supported through stronger creative, clearer messaging, and campaign optimization.",
-    graphPath: "M8 104 C 44 96, 62 58, 104 66 S 176 58, 252 22",
+    graphPath: "M-35 104 C 2 96, 62 58, 104 66 S 176 58, 252 22",
     dot: { cx: 252, cy: 22 }
   },
   {
@@ -247,7 +227,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
     metric: "140%",
     label: "Engagement Growth",
     explanation: "Improved interaction driven by content direction, message clarity, and more relevant creative.",
-    graphPath: "M8 102 C 48 98, 70 72, 106 68 S 180 42, 252 28",
+    graphPath: "M-35 102 C 5 98, 70 72, 106 68 S 180 42, 252 28",
     dot: { cx: 252, cy: 28 }
   }
 ];
@@ -451,8 +431,8 @@ const Hero = () => {
             transition={{ delay: 0.8, duration: 0.8 }}
             className="flex w-full flex-col items-stretch justify-center gap-4 px-4 sm:w-auto sm:flex-row"
           >
-            <a href="#experience" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] tap-target">
-              View Experience <ArrowRight size={18} />
+            <a href="#work" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.15)] tap-target">
+              View Work <ArrowRight size={18} />
             </a>
             <a href="#contact" className="w-full sm:w-auto px-8 py-4 sm:py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
               Get in Touch
@@ -483,7 +463,7 @@ const BrandExperienceStrip = () => {
   ];
 
   return (
-    <section className="relative border-t border-white/5 bg-brand-black px-6 py-14 md:py-16 overflow-hidden">
+    <section id="work" className="relative border-t border-white/5 bg-brand-black px-6 py-14 md:py-16 overflow-hidden scroll-mt-24">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-earth/30 to-transparent" />
       <div className="max-w-6xl mx-auto">
         <SectionReveal>
@@ -518,44 +498,28 @@ const BrandExperienceStrip = () => {
   );
 };
 
-const SelectedContentVisualCard = ({ visual, index, staggered = true }: { visual: SelectedContentVisual; index: number; staggered?: boolean; key?: React.Key }) => (
-  <article
-    className={`group relative aspect-[4/5] min-h-0 overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.025] shadow-2xl backdrop-blur-md transition-transform duration-500 md:aspect-[3/4] ${
-      staggered && index === 1 ? "md:translate-y-8" : ""
-    }`}
-  >
-    {visual.imageSrc ? (
+const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual }) => (
+  <article className="group overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#0c0c0c] shadow-2xl">
+    <div className="aspect-[4/5] overflow-hidden md:aspect-[3/4]">
       <img
         src={visual.imageSrc}
         alt={visual.alt}
         loading="lazy"
         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
       />
-    ) : (
-      <div className={`absolute inset-0 ${visual.surfaceClassName}`} />
-    )}
-    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.08] via-transparent to-black/38" />
-    <div className="absolute inset-x-5 top-5 h-px bg-gradient-to-r from-brand-earth/45 via-white/18 to-transparent" />
-    <div className="absolute bottom-5 left-5 right-5">
-      <div className="mb-3 grid gap-2">
-        <div className="h-px w-3/4 bg-white/22" />
-        <div className="h-px w-1/2 bg-white/12" />
-      </div>
-      {visual.caption && (
-        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/46">
-          {visual.caption}
-        </p>
-      )}
     </div>
+    <p className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
+      {visual.caption}
+    </p>
   </article>
 );
 
 const SelectedContent = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(SELECTED_CONTENT_CATEGORIES[0].id);
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
-  const destinationScrollRef = useRef<HTMLDivElement>(null);
-  const scrollDestination = (direction: number) => {
-    const container = destinationScrollRef.current;
+  const consumerScrollRef = useRef<HTMLDivElement>(null);
+  const scrollConsumer = (direction: number) => {
+    const container = consumerScrollRef.current;
     if (!container) return;
     const card = container.firstElementChild as HTMLElement | null;
     container.scrollBy({ left: direction * ((card?.offsetWidth ?? container.clientWidth) + 16), behavior: "smooth" });
@@ -575,7 +539,7 @@ const SelectedContent = () => {
                 Selected Content
               </h2>
               <p className="mb-9 text-base font-light leading-relaxed text-white/62 md:text-lg">
-                A visual archive of content styles created for lifestyle, product, and professional brand storytelling.
+                A visual archive of consumer and business content created for clear, compelling brand storytelling.
               </p>
 
               <div className="mb-8 flex gap-2 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
@@ -631,30 +595,24 @@ const SelectedContent = () => {
                   transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
                   className="relative z-10 pt-14 md:pt-16"
                 >
-                  {activeCategory.id === "destination" ? (
+                  {activeCategory.visuals.length > 0 ? (
                     <>
-                      <div ref={destinationScrollRef} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-                        {activeCategory.visuals.map((visual, index) => (
+                      <div ref={consumerScrollRef} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+                        {activeCategory.visuals.map((visual) => (
                           <div key={visual.id} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]">
-                            <SelectedContentVisualCard visual={visual} index={index} staggered={false} />
+                            <SelectedContentVisualCard visual={visual} />
                           </div>
                         ))}
                       </div>
                       <div className="mt-5 flex justify-end gap-2">
-                        <button type="button" aria-label="Scroll destination images left" onClick={() => scrollDestination(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                        <button type="button" aria-label="Scroll consumer images left" onClick={() => scrollConsumer(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
                           <ArrowRight size={17} className="rotate-180" />
                         </button>
-                        <button type="button" aria-label="Scroll destination images right" onClick={() => scrollDestination(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                        <button type="button" aria-label="Scroll consumer images right" onClick={() => scrollConsumer(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
                           <ArrowRight size={17} />
                         </button>
                       </div>
                     </>
-                  ) : activeCategory.visuals.length > 0 ? (
-                    <div className="grid gap-4 sm:grid-cols-3 sm:gap-3 md:gap-5 md:pb-8">
-                      {activeCategory.visuals.map((visual, index) => (
-                        <SelectedContentVisualCard key={visual.id} visual={visual} index={index} />
-                      ))}
-                    </div>
                   ) : (
                     <div className="h-[280px] md:h-[360px]" />
                   )}
@@ -1081,47 +1039,38 @@ const CoreCompetenciesMarquee = () => (
   </section>
 );
 
-const PlaceholderSection = ({ id, title, copy }: { id: string, title: string, copy: string }) => (
-  <section id={id} className="py-16 md:py-20 px-6 bg-brand-black border-t border-white/5 scroll-mt-24">
-    <div className="max-w-7xl mx-auto">
-      <SectionReveal className="max-w-3xl">
-        <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
-          {title}
-        </span>
-        <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tighter mb-6 text-white">
-          {title}
-        </h2>
-        <p className="text-base md:text-lg text-white/55 font-light leading-relaxed">
-          {copy}
-        </p>
-      </SectionReveal>
-    </div>
-  </section>
-);
-
 const ContactSection = () => (
   <section id="contact" className="py-16 md:py-20 px-6 bg-[#050505] border-t border-white/5 scroll-mt-24">
     <div className="max-w-7xl mx-auto">
-      <SectionReveal className="max-w-3xl">
-        <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
-          Contact
-        </span>
-        <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tighter mb-6 text-white">
-          Get in touch
-        </h2>
-        <p className="text-base md:text-lg text-white/55 font-light leading-relaxed mb-10">
-          Interested in working together or viewing more examples of my work?
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <a href="#" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
-            LinkedIn
-          </a>
-          <a href="#" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
-            Instagram
-          </a>
-          <a href="mailto:hello@example.com" className="w-full sm:w-auto px-7 py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 transition-all flex items-center justify-center gap-2 tap-target">
-            Email
-          </a>
+      <SectionReveal>
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.75fr)] lg:gap-20">
+          <div className="max-w-3xl">
+            <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
+              Contact
+            </span>
+            <h2 className="text-3xl md:text-5xl font-display font-medium tracking-tighter mb-6 text-white">
+              Get in touch
+            </h2>
+            <p className="text-base md:text-lg text-white/55 font-light leading-relaxed mb-10">
+              Interested in working together or viewing more examples of my work?
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <a href="#" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
+                LinkedIn
+              </a>
+              <a href="#" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
+                Instagram
+              </a>
+              <a href="mailto:hello@example.com" className="w-full sm:w-auto px-7 py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 transition-all flex items-center justify-center gap-2 tap-target">
+                Email
+              </a>
+            </div>
+          </div>
+          <div
+            role="img"
+            aria-label="Portrait placeholder"
+            className="mx-auto aspect-[4/5] w-full max-w-[360px] rounded-[1.75rem] border border-brand-earth/25 bg-[linear-gradient(145deg,#14120f_0%,#0b0b0a_48%,#050505_100%)] shadow-[inset_0_0_38px_rgba(185,151,107,0.05)] lg:ml-auto"
+          />
         </div>
       </SectionReveal>
     </div>
@@ -1195,16 +1144,6 @@ export default function App() {
         <EmailCampaigns />
         <LandingPages />
         <CoreCompetenciesMarquee />
-        <PlaceholderSection
-          id="experience"
-          title="Experience"
-          copy="A mix of B2C brand work, paid media, email campaigns, websites, content creation, and modern marketing systems."
-        />
-        <PlaceholderSection
-          id="about"
-          title="About"
-          copy="I work across creative and digital marketing to help brands communicate clearly, launch better campaigns, and build systems that support growth."
-        />
         <ContactSection />
       </main>
 
