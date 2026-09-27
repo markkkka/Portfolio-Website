@@ -91,24 +91,45 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "destination-landscape",
-        imageSrc: null,
-        alt: "Destination content placeholder for landscape and lifestyle storytelling.",
+        imageSrc: "/selected-content/Destination/DSCF2173.jpg",
+        alt: "Mountain landscape and retreat buildings",
         caption: "Destination",
         surfaceClassName: "bg-[radial-gradient(circle_at_34%_18%,rgba(255,255,255,0.16),transparent_18%),radial-gradient(circle_at_28%_64%,rgba(185,151,107,0.26),transparent_34%),linear-gradient(165deg,#1a221d_0%,#101711_54%,#050505_100%)]"
       },
       {
         id: "destination-vertical",
-        imageSrc: null,
-        alt: "Destination content placeholder for recreation and travel visuals.",
+        imageSrc: "/selected-content/Destination/DSCF0149.JPG",
+        alt: "Tipis at a mountain retreat",
         caption: "Lifestyle",
         surfaceClassName: "bg-[radial-gradient(circle_at_58%_22%,rgba(255,255,255,0.12),transparent_16%),linear-gradient(180deg,#2b2a22_0%,#111610_58%,#070707_100%)]"
       },
       {
         id: "destination-detail",
-        imageSrc: null,
-        alt: "Destination content placeholder for atmospheric content detail.",
+        imageSrc: "/selected-content/Destination/DSCF0824.JPG",
+        alt: "Outdoor gear beside a mountain lake",
         caption: "Place",
         surfaceClassName: "bg-[radial-gradient(circle_at_48%_70%,rgba(185,151,107,0.2),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.08),rgba(255,255,255,0.015))]"
+      },
+      {
+        id: "destination-architecture",
+        imageSrc: "/selected-content/Destination/IMG_2658.JPG",
+        alt: "Illuminated pagoda at night",
+        caption: "Nightscape",
+        surfaceClassName: ""
+      },
+      {
+        id: "destination-landmark",
+        imageSrc: "/selected-content/Destination/DSCF2704.JPG",
+        alt: "Tower seen from below",
+        caption: "Landmark",
+        surfaceClassName: ""
+      },
+      {
+        id: "destination-retreat",
+        imageSrc: "/selected-content/Destination/DSCF0308.JPG",
+        alt: "Traveler relaxing in an outdoor pool",
+        caption: "Retreat",
+        surfaceClassName: ""
       }
     ]
   },
@@ -120,22 +141,22 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "product-hero",
-        imageSrc: null,
-        alt: "Product content placeholder for a focused retail visual.",
+        imageSrc: "/selected-content/Product/Product Photo.webp",
+        alt: "GrandTies chef knife in its presentation box",
         caption: "Retail",
         surfaceClassName: "bg-[radial-gradient(circle_at_58%_42%,rgba(255,255,255,0.22),transparent_14%),radial-gradient(circle_at_58%_42%,rgba(185,151,107,0.24),transparent_34%),linear-gradient(135deg,#171717_0%,#0c0c0c_100%)]"
       },
       {
         id: "product-caption",
-        imageSrc: null,
-        alt: "Product content placeholder for use case communication.",
+        imageSrc: "/selected-content/Product/Bike 1 copy-2.JPG",
+        alt: "Rider with an orange dirt bike outdoors",
         caption: "Use Case",
         surfaceClassName: "bg-[radial-gradient(circle_at_46%_24%,rgba(185,151,107,0.2),transparent_28%),linear-gradient(135deg,rgba(185,151,107,0.11),rgba(255,255,255,0.025))]"
       },
       {
         id: "product-crop",
-        imageSrc: null,
-        alt: "Product content placeholder for launch and value messaging.",
+        imageSrc: "/selected-content/Product/GrandTies Main Image.png",
+        alt: "GrandTies water bottles in lifestyle campaign imagery",
         caption: "Launch",
         surfaceClassName: "bg-[radial-gradient(circle_at_50%_72%,rgba(255,255,255,0.1),transparent_20%),linear-gradient(160deg,#2a2117_0%,#121212_56%,#070707_100%)]"
       }
@@ -146,29 +167,7 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     label: "Professional Content",
     description: "Polished content systems for professional ideas, thought leadership, and B2B brand-building.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_24%,rgba(185,151,107,0.15),transparent_26%),radial-gradient(circle_at_74%_74%,rgba(100,118,132,0.16),transparent_32%),linear-gradient(135deg,#060606_0%,#101010_48%,#050505_100%)]",
-    visuals: [
-      {
-        id: "professional-feature",
-        imageSrc: null,
-        alt: "Professional content placeholder for thought leadership.",
-        caption: "Editorial",
-        surfaceClassName: "bg-[radial-gradient(circle_at_38%_20%,rgba(185,151,107,0.15),transparent_24%),linear-gradient(135deg,rgba(255,255,255,0.09),rgba(255,255,255,0.018))]"
-      },
-      {
-        id: "professional-stack",
-        imageSrc: null,
-        alt: "Professional content placeholder for B2B brand systems.",
-        caption: "Systems",
-        surfaceClassName: "bg-[radial-gradient(circle_at_66%_30%,rgba(100,118,132,0.18),transparent_28%),linear-gradient(135deg,rgba(100,118,132,0.13),rgba(255,255,255,0.018))]"
-      },
-      {
-        id: "professional-vertical",
-        imageSrc: null,
-        alt: "Professional content placeholder for clear content ideas.",
-        caption: "Clarity",
-        surfaceClassName: "bg-[radial-gradient(circle_at_50%_78%,rgba(185,151,107,0.14),transparent_24%),linear-gradient(180deg,#171717_0%,#0f1112_54%,#070707_100%)]"
-      }
-    ]
+    visuals: []
   }
 ];
 
@@ -519,17 +518,18 @@ const BrandExperienceStrip = () => {
   );
 };
 
-const SelectedContentVisualCard = ({ visual, index }: { visual: SelectedContentVisual; index: number; key?: React.Key }) => (
+const SelectedContentVisualCard = ({ visual, index, staggered = true }: { visual: SelectedContentVisual; index: number; staggered?: boolean; key?: React.Key }) => (
   <article
     className={`group relative aspect-[4/5] min-h-0 overflow-hidden rounded-[1.35rem] border border-white/10 bg-white/[0.025] shadow-2xl backdrop-blur-md transition-transform duration-500 md:aspect-[3/4] ${
-      index === 1 ? "md:translate-y-8" : ""
+      staggered && index === 1 ? "md:translate-y-8" : ""
     }`}
   >
     {visual.imageSrc ? (
       <img
         src={visual.imageSrc}
         alt={visual.alt}
-        className="h-full w-full object-cover"
+        loading="lazy"
+        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
       />
     ) : (
       <div className={`absolute inset-0 ${visual.surfaceClassName}`} />
@@ -553,6 +553,13 @@ const SelectedContentVisualCard = ({ visual, index }: { visual: SelectedContentV
 const SelectedContent = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(SELECTED_CONTENT_CATEGORIES[0].id);
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
+  const destinationScrollRef = useRef<HTMLDivElement>(null);
+  const scrollDestination = (direction: number) => {
+    const container = destinationScrollRef.current;
+    if (!container) return;
+    const card = container.firstElementChild as HTMLElement | null;
+    container.scrollBy({ left: direction * ((card?.offsetWidth ?? container.clientWidth) + 16), behavior: "smooth" });
+  };
 
   return (
     <section className="relative overflow-hidden bg-brand-black px-6 pb-24 pt-16 md:pb-32 md:pt-20">
@@ -622,11 +629,35 @@ const SelectedContent = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: -12, scale: 0.99 }}
                   transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 grid gap-4 pt-14 sm:grid-cols-3 sm:gap-3 md:gap-5 md:pb-8 md:pt-16"
+                  className="relative z-10 pt-14 md:pt-16"
                 >
-                  {activeCategory.visuals.map((visual, index) => (
-                    <SelectedContentVisualCard key={visual.id} visual={visual} index={index} />
-                  ))}
+                  {activeCategory.id === "destination" ? (
+                    <>
+                      <div ref={destinationScrollRef} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+                        {activeCategory.visuals.map((visual, index) => (
+                          <div key={visual.id} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]">
+                            <SelectedContentVisualCard visual={visual} index={index} staggered={false} />
+                          </div>
+                        ))}
+                      </div>
+                      <div className="mt-5 flex justify-end gap-2">
+                        <button type="button" aria-label="Scroll destination images left" onClick={() => scrollDestination(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                          <ArrowRight size={17} className="rotate-180" />
+                        </button>
+                        <button type="button" aria-label="Scroll destination images right" onClick={() => scrollDestination(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                          <ArrowRight size={17} />
+                        </button>
+                      </div>
+                    </>
+                  ) : activeCategory.visuals.length > 0 ? (
+                    <div className="grid gap-4 sm:grid-cols-3 sm:gap-3 md:gap-5 md:pb-8">
+                      {activeCategory.visuals.map((visual, index) => (
+                        <SelectedContentVisualCard key={visual.id} visual={visual} index={index} />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="h-[280px] md:h-[360px]" />
+                  )}
                 </motion.div>
               </AnimatePresence>
 
@@ -718,24 +749,14 @@ const EmailCampaigns = () => (
   </section>
 );
 
-const BrowserTopBar = ({ label, imageSrc }: { label: string; imageSrc: string }) => (
+const BrowserTopBar = ({ label }: { label: string }) => (
   <div className="flex h-10 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
     <div className="flex gap-2">
       <span className="h-2 w-2 rounded-full bg-white/18" />
       <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
       <span className="h-2 w-2 rounded-full bg-white/12" />
     </div>
-    <div className="flex items-center gap-3">
-      <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">{label}</span>
-      <a
-        href={imageSrc}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-[9px] font-bold uppercase tracking-[0.12em] text-white/65 transition-colors hover:text-brand-earth"
-      >
-        Open full size ↗
-      </a>
-    </div>
+    <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">{label}</span>
   </div>
 );
 
@@ -753,15 +774,15 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
 
   return (
     <div ref={frameRef} className="landing-preview-frame">
-      <BrowserTopBar label="Website Preview" imageSrc={page.imageSrc} />
+      <BrowserTopBar label="Website Preview" />
       <div className="landing-preview-canvas" tabIndex={0} aria-label={`Scroll ${page.brand} website screenshot`}>
-        <div className="landing-preview-document">
+        <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
           <img src={page.imageSrc} alt={page.alt} loading="lazy" />
           {page.id === "revpie" && (
             <div className="revpie-marquee-section" aria-hidden="true">
               <div className="revpie-marquee-track">
-                <span>Generate industry leading revenue for publishers</span>
-                <span>Generate industry leading revenue for publishers</span>
+                <span>We generate industry leading revenue for publishers and advertisers.</span>
+                <span>We generate industry leading revenue for publishers and advertisers.</span>
               </div>
               <p>Our diverse reach spans multiple verticals. We drive results in fintech, rewards, home services, insurance, and more.</p>
               <span className="revpie-marquee-button">Get Started</span>
@@ -818,13 +839,13 @@ const LandingPages = () => (
             className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
-            <div className="relative z-10 grid gap-6">
+            <div className="relative z-10 grid gap-6 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
-                className="max-w-2xl"
+                className="lg:pr-4"
               >
                 <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
                   {page.pageType}

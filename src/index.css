@@ -164,10 +164,10 @@
 }
 
 .landing-preview-canvas {
-  height: 560px;
+  height: 420px;
   overflow-x: hidden;
   overflow-y: auto;
-  overscroll-behavior: contain;
+  overscroll-behavior: auto;
   background: #f3f3f1;
   scrollbar-color: rgba(20, 20, 20, 0.24) transparent;
   scrollbar-width: thin;
@@ -181,6 +181,11 @@
   display: block;
   width: 100%;
   height: auto;
+}
+
+.landing-preview-document--michaelpro img {
+  filter: contrast(1.06);
+  image-rendering: -webkit-optimize-contrast;
 }
 
 .revpie-marquee-section {
@@ -201,12 +206,12 @@
   left: 0;
   display: flex;
   width: max-content;
-  animation: revpie-marquee 18s linear infinite;
+  animation: revpie-marquee 12s linear infinite;
 }
 
 .revpie-marquee-track span {
   flex: none;
-  padding-right: 2em;
+  padding-right: 0.16em;
   font-size: clamp(24px, 4vw, 54px);
   font-weight: 750;
   letter-spacing: -0.045em;
@@ -261,7 +266,7 @@
 
 .grandties-popup-image {
   position: relative;
-  width: min(78%, 480px);
+  width: min(78%, 370px);
   max-height: 100%;
   border-radius: 0.75rem;
   overflow: hidden;
@@ -293,7 +298,7 @@
 
 @media (max-width: 640px) {
   .landing-preview-canvas {
-    height: 360px;
+    height: 320px;
   }
 
   .grandties-popup {
