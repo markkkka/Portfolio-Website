@@ -496,7 +496,7 @@ const Hero = () => {
 
         <div className="full-bleed-strip flex min-h-[72px] items-center justify-center bg-brand-black/30 px-6 py-0 text-center backdrop-blur-sm md:min-h-[80px]">
           <p className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase leading-none tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
-            <span>CONTENT CREATION</span> <span>·</span> <span>SELECTED OUTCOMES</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>WEBSITES</span> <span>·</span> <span>CORE COMPETENCIES</span> <span>·</span> <span>AI AUTOMATION</span>
+            <span>CONTENT CREATION</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>WEBSITES</span> <span>·</span> <span>AI AUTOMATION</span>
           </p>
         </div>
       </div>
