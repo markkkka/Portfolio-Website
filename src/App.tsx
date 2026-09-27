@@ -1242,13 +1242,13 @@ const ContactSection = () => (
               Interested in working together or viewing more examples of my work?
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <a href="#" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
+              <a href="https://www.linkedin.com/in/mark-anastasiadi-1388481bb/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
                 LinkedIn
               </a>
-              <a href="#" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
+              <a href="https://www.instagram.com/markkiadi/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
                 Instagram
               </a>
-              <a href="mailto:hello@example.com" className="w-full sm:w-auto px-7 py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 transition-all flex items-center justify-center gap-2 tap-target">
+              <a href="mailto:mark.anastasiadi@gmail.com" className="w-full sm:w-auto px-7 py-3.5 bg-brand-white text-brand-black rounded-full font-semibold hover:bg-white/90 transition-all flex items-center justify-center gap-2 tap-target">
                 Email
               </a>
             </div>
