@@ -1236,7 +1236,7 @@ const ContactSection = () => (
               width={945}
               height={1315}
               loading="lazy"
-              className="h-full w-full object-cover object-[center_40%]"
+              className="h-full w-full object-cover object-top"
             />
           </div>
         </div>
