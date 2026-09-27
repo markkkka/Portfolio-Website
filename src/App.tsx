@@ -11,6 +11,7 @@ import {
   ArrowRight,
   Download,
   Menu,
+  Play,
   X
 } from 'lucide-react';
 
@@ -37,10 +38,9 @@ const STANDALONE_VIDEO = {
 
 type SelectedContentVisual = {
   id: string;
-  imageSrc: string;
   alt: string;
-  caption: "Destination" | "Product" | "Business";
-};
+  caption: "Destination" | "Product" | "Business" | "Podcast" | "Animations";
+} & ({ imageSrc: string; videoSrc?: never } | { videoSrc: string; imageSrc?: never });
 
 type SelectedContentCategory = {
   id: string;
@@ -89,27 +89,9 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     boardClassName: "bg-[radial-gradient(circle_at_28%_22%,rgba(166,138,86,0.2),transparent_28%),radial-gradient(circle_at_80%_64%,rgba(80,105,92,0.26),transparent_34%),linear-gradient(135deg,#090909_0%,#11100c_48%,#050505_100%)]",
     visuals: [
       {
-        id: "destination-landscape",
-        imageSrc: "/selected-content/Destination/DSCF2173.jpg",
-        alt: "Mountain landscape and retreat buildings",
-        caption: "Destination"
-      },
-      {
         id: "destination-vertical",
         imageSrc: "/selected-content/Destination/DSCF0149.JPG",
         alt: "Tipis at a mountain retreat",
-        caption: "Destination"
-      },
-      {
-        id: "destination-architecture",
-        imageSrc: "/selected-content/Destination/IMG_2658.JPG",
-        alt: "Illuminated pagoda at night",
-        caption: "Destination"
-      },
-      {
-        id: "destination-landmark",
-        imageSrc: "/selected-content/Destination/DSCF2704.JPG",
-        alt: "Tower seen from below",
         caption: "Destination"
       },
       {
@@ -119,27 +101,69 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
         caption: "Destination"
       },
       {
-        id: "product-caption",
-        imageSrc: "/selected-content/Product/Bike 1 copy-2.JPG",
-        alt: "Rider with an orange dirt bike outdoors",
-        caption: "Destination"
-      },
-      {
         id: "destination-detail",
         imageSrc: "/selected-content/Destination/DSCF0824.JPG",
         alt: "Outdoor gear beside a mountain lake",
         caption: "Product"
       },
       {
-        id: "product-hero",
-        imageSrc: "/selected-content/Product/Product Photo.webp",
-        alt: "GrandTies chef knife in its presentation box",
+        id: "destination-pagoda",
+        imageSrc: "/selected-content/Destination/DSCF2015.JPG",
+        alt: "Red pagoda in warm evening light",
+        caption: "Destination"
+      },
+      {
+        id: "destination-landscape",
+        imageSrc: "/selected-content/Destination/DSCF2173.jpg",
+        alt: "Mountain landscape and retreat buildings",
+        caption: "Destination"
+      },
+      {
+        id: "destination-landmark",
+        imageSrc: "/selected-content/Destination/DSCF2704.JPG",
+        alt: "Tower seen from below",
+        caption: "Destination"
+      },
+      {
+        id: "destination-architecture",
+        imageSrc: "/selected-content/Destination/IMG_2658.JPG",
+        alt: "Illuminated pagoda at night",
+        caption: "Destination"
+      },
+      {
+        id: "destination-kayak",
+        imageSrc: "/selected-content/Destination/IMG_9710.PNG",
+        alt: "Guest kayaking beside a hillside retreat",
+        caption: "Destination"
+      },
+      {
+        id: "destination-hot-tub",
+        imageSrc: "/selected-content/Destination/IMG_9711.PNG",
+        alt: "Guest relaxing in an outdoor hot tub by the river",
+        caption: "Destination"
+      },
+      {
+        id: "destination-tennis",
+        imageSrc: "/selected-content/Destination/IMG_9712.PNG",
+        alt: "Two people playing tennis with mountain views",
+        caption: "Destination"
+      },
+      {
+        id: "product-motorbike",
+        imageSrc: "/selected-content/Product/DE1A5602-2.jpg",
+        alt: "Rider on a red electric dirt bike",
         caption: "Product"
       },
       {
         id: "product-crop",
         imageSrc: "/selected-content/Product/GrandTies Main Image.png",
         alt: "GrandTies water bottles in lifestyle campaign imagery",
+        caption: "Product"
+      },
+      {
+        id: "product-hero",
+        imageSrc: "/selected-content/Product/Product Photo.webp",
+        alt: "GrandTies chef knife in its presentation box",
         caption: "Product"
       }
     ]
@@ -149,7 +173,38 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     label: "Business Content",
     description: "B2B visuals for platform education, partner-facing campaigns, and professional ideas.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_24%,rgba(185,151,107,0.15),transparent_26%),radial-gradient(circle_at_74%_74%,rgba(100,118,132,0.16),transparent_32%),linear-gradient(135deg,#060606_0%,#101010_48%,#050505_100%)]",
-    visuals: []
+    visuals: [
+      {
+        id: "business-podcast",
+        videoSrc: "/videos/business-podcast.mp4",
+        alt: "RevPie partnerships podcast video",
+        caption: "Podcast"
+      },
+      {
+        id: "business-animation",
+        videoSrc: "/selected-content/Business Content/P32 CM copy 2.mp4",
+        alt: "RevPie campaign animation video",
+        caption: "Animations"
+      },
+      {
+        id: "business-partner",
+        imageSrc: "/selected-content/Business Content/P33 RevPie + True copy.png",
+        alt: "RevPie and True partner campaign graphic",
+        caption: "Business"
+      },
+      {
+        id: "business-account-types",
+        imageSrc: "/selected-content/Business Content/P39 Account Types copy.png",
+        alt: "RevPie managed and self-serve campaign options",
+        caption: "Business"
+      },
+      {
+        id: "business-source-bid",
+        imageSrc: "/selected-content/Business Content/Source Bid copy.png",
+        alt: "RevPie source bidding explainer",
+        caption: "Business"
+      }
+    ]
   }
 ];
 
@@ -553,28 +608,65 @@ const BrandExperienceStrip = () => {
   );
 };
 
-const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual }) => (
-  <article className="group overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#0c0c0c] shadow-2xl">
-    <div className="aspect-[4/5] overflow-hidden md:aspect-[3/4]">
-      <img
-        src={visual.imageSrc}
-        alt={visual.alt}
-        loading="lazy"
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-      />
-    </div>
-    <p className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
-      {visual.caption}
-    </p>
-  </article>
-);
+const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const playVideo = () => videoRef.current?.play().catch(() => undefined);
+
+  return (
+    <article className="group overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#0c0c0c] shadow-2xl">
+      <div className="aspect-[4/5] overflow-hidden md:aspect-[3/4]">
+        {visual.videoSrc ? (
+          <div className="relative h-full w-full bg-black">
+            <video
+              ref={videoRef}
+              src={visual.videoSrc}
+              aria-label={visual.alt}
+              preload="metadata"
+              playsInline
+              controls={isPlaying}
+              onLoadedMetadata={(event) => { event.currentTarget.currentTime = 0.05; }}
+              onPlay={() => setIsPlaying(true)}
+              onPause={() => setIsPlaying(false)}
+              onEnded={() => setIsPlaying(false)}
+              className="h-full w-full object-contain"
+            />
+            {!isPlaying && (
+              <button
+                type="button"
+                aria-label={`Play ${visual.caption.toLowerCase()} video`}
+                onClick={playVideo}
+                className="absolute inset-0 flex items-center justify-center bg-black/15 transition-colors hover:bg-black/30"
+              >
+                <span className="grid h-16 w-16 place-items-center rounded-full border border-white/40 bg-black/55 text-white shadow-[0_8px_30px_rgba(0,0,0,0.4)] backdrop-blur-sm">
+                  <Play size={24} fill="currentColor" />
+                </span>
+              </button>
+            )}
+          </div>
+        ) : (
+          <img
+            src={visual.imageSrc}
+            alt={visual.alt}
+            loading="lazy"
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+          />
+        )}
+      </div>
+      <p className="px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
+        {visual.caption}
+      </p>
+    </article>
+  );
+};
 
 const SelectedContent = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(SELECTED_CONTENT_CATEGORIES[0].id);
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
-  const consumerScrollRef = useRef<HTMLDivElement>(null);
-  const scrollConsumer = (direction: number) => {
-    const container = consumerScrollRef.current;
+  const contentScrollRef = useRef<HTMLDivElement>(null);
+  const scrollContent = (direction: number) => {
+    const container = contentScrollRef.current;
     if (!container) return;
     const card = container.firstElementChild as HTMLElement | null;
     container.scrollBy({ left: direction * ((card?.offsetWidth ?? container.clientWidth) + 16), behavior: "smooth" });
@@ -642,7 +734,7 @@ const SelectedContent = () => {
                 >
                   {activeCategory.visuals.length > 0 ? (
                     <>
-                      <div ref={consumerScrollRef} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+                      <div ref={contentScrollRef} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
                         {activeCategory.visuals.map((visual) => (
                           <div key={visual.id} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]">
                             <SelectedContentVisualCard visual={visual} />
@@ -650,10 +742,10 @@ const SelectedContent = () => {
                         ))}
                       </div>
                       <div className="mt-5 flex justify-end gap-2">
-                        <button type="button" aria-label="Scroll consumer images left" onClick={() => scrollConsumer(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                        <button type="button" aria-label={`Scroll ${activeCategory.label.toLowerCase()} left`} onClick={() => scrollContent(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
                           <ArrowRight size={17} className="rotate-180" />
                         </button>
-                        <button type="button" aria-label="Scroll consumer images right" onClick={() => scrollConsumer(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                        <button type="button" aria-label={`Scroll ${activeCategory.label.toLowerCase()} right`} onClick={() => scrollContent(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
                           <ArrowRight size={17} />
                         </button>
                       </div>

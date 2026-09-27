@@ -6,3 +6,5 @@ coverage/
 *.log
 .env*
 !.env.example
+# The portfolio serves a compact copy; the local source exceeds GitHub's file limit.
+public/selected-content/Business Content/P26 Partnerships copy 2.mp4
