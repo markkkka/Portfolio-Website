@@ -66,11 +66,8 @@ type LandingPagePanel = {
   brand: string;
   pageType: string;
   description: string;
-  previewType: "iframe" | "image";
-  previewSrc?: string;
-  imageSrc?: string | null;
+  imageSrc: string;
   alt: string;
-  previewTitle: string;
 };
 
 type OutcomeCard = {
@@ -200,20 +197,24 @@ const LANDING_PAGES: LandingPagePanel[] = [
     brand: "MichaelPro",
     pageType: "Product landing page",
     description: "Product-focused landing pages built to highlight features, communicate value, and support retail-driven customer action.",
-    previewType: "iframe",
-    previewSrc: "/landing-pages/michaelpro.html",
-    alt: "MichaelPro product landing page preview.",
-    previewTitle: "MichaelPro product landing page preview"
+    imageSrc: "/landing-pages/MichaelPro Website.png",
+    alt: "MichaelPro full-page website preview"
   },
   {
     id: "revpie",
     brand: "RevPie",
     pageType: "B2B platform landing page",
     description: "B2B landing page work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
-    previewType: "image",
-    imageSrc: null,
-    alt: "RevPie platform landing page preview placeholder.",
-    previewTitle: "RevPie platform landing page preview"
+    imageSrc: "/landing-pages/RevPie Website.png",
+    alt: "RevPie full-page website preview"
+  },
+  {
+    id: "grandties",
+    brand: "GrandTies",
+    pageType: "Ecommerce landing page",
+    description: "Ecommerce page design focused on lifestyle product storytelling, seasonal collections, and retail-driven discovery.",
+    imageSrc: "/landing-pages/GrandTies Website.png",
+    alt: "GrandTies full-page website preview"
   }
 ];
 
@@ -730,75 +731,46 @@ const BrowserTopBar = ({ label }: { label: string }) => (
   </div>
 );
 
-const RevPieLandingPlaceholder = ({ alt }: { alt: string }) => (
-  <div
-    role="img"
-    aria-label={alt}
-    className="relative min-h-full overflow-hidden bg-[#f3efe8] text-[#16130f]"
-  >
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(185,151,107,0.22),transparent_30%),radial-gradient(circle_at_82%_72%,rgba(35,48,58,0.14),transparent_34%)]" />
-    <div className="relative grid min-h-full grid-cols-[0.92fr_1.08fr] gap-5 p-5 sm:p-7">
-      <div className="flex flex-col justify-between">
-        <div>
-          <div className="mb-5 h-2 w-20 rounded-full bg-[#b9976b]/50" />
-          <h4 className="max-w-[13rem] font-editorial text-2xl font-semibold leading-none text-[#15120f] sm:text-3xl">
-            Monetization built into the user journey.
-          </h4>
-          <p className="mt-4 max-w-[14rem] text-[10px] font-semibold uppercase leading-relaxed tracking-[0.16em] text-[#16130f]/48">
-            A platform-focused landing page designed to explain value clearly.
-          </p>
-        </div>
-        <div className="mt-5 flex gap-2">
-          <span className="h-8 w-24 rounded-full bg-[#15120f]" />
-          <span className="h-8 w-10 rounded-full border border-[#15120f]/12" />
-        </div>
-      </div>
-      <div className="grid content-center gap-3">
-        <div className="rounded-2xl border border-[#15120f]/8 bg-white/72 p-3 shadow-[0_18px_50px_rgba(22,19,15,0.1)]">
-          <div className="mb-3 flex items-center justify-between">
-            <span className="h-2 w-16 rounded-full bg-[#15120f]/18" />
-            <span className="h-6 w-6 rounded-full bg-[#b9976b]/28" />
-          </div>
-          <div className="grid gap-2">
-            <span className="h-10 rounded-xl bg-[#15120f]/8" />
-            <span className="h-10 rounded-xl bg-[#b9976b]/18" />
-            <span className="h-10 rounded-xl bg-[#15120f]/8" />
-          </div>
-        </div>
-        <div className="grid grid-cols-3 gap-2">
-          <span className="h-14 rounded-2xl bg-[#15120f]/8" />
-          <span className="h-14 rounded-2xl bg-[#b9976b]/22" />
-          <span className="h-14 rounded-2xl bg-[#15120f]/8" />
-        </div>
-      </div>
-    </div>
-  </div>
-);
+const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(frameRef, { once: true, amount: 0.35 });
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupDismissed, setPopupDismissed] = useState(false);
 
-const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => (
-  <div className="landing-preview-frame">
-    <BrowserTopBar label={page.previewType === "iframe" ? "HTML Preview" : "Image Preview"} />
-    <div className="landing-preview-canvas">
-      {page.previewType === "iframe" && page.previewSrc ? (
-        <iframe
-          src={page.previewSrc}
-          title={page.previewTitle}
-          loading="lazy"
-          className="h-full w-full border-0 bg-[#f5efe4]"
-        />
-      ) : page.imageSrc ? (
-        <img
-          src={page.imageSrc}
-          alt={page.alt}
-          className="h-full w-full object-cover"
-          loading="lazy"
-        />
-      ) : (
-        <RevPieLandingPlaceholder alt={page.alt} />
+  useEffect(() => {
+    if (page.id !== "grandties" || !isInView || popupDismissed) return;
+    const timer = window.setTimeout(() => setShowPopup(true), 3500);
+    return () => window.clearTimeout(timer);
+  }, [page.id, isInView, popupDismissed]);
+
+  return (
+    <div ref={frameRef} className="landing-preview-frame">
+      <BrowserTopBar label="Website Preview" />
+      <div className="landing-preview-canvas" tabIndex={0} aria-label={`Scroll ${page.brand} website screenshot`}>
+        <img src={page.imageSrc} alt={page.alt} loading="lazy" />
+      </div>
+      {showPopup && (
+        <div className="grandties-popup" role="dialog" aria-label="GrandTies promotional preview">
+          <div className="grandties-popup-image">
+            <img
+              src="/landing-pages/GrandTies Popup.png"
+              alt="GrandTies first purchase discount promotion"
+            />
+            <button
+              type="button"
+              className="grandties-popup-close"
+              aria-label="Close GrandTies promotion"
+              onClick={() => {
+                setShowPopup(false);
+                setPopupDismissed(true);
+              }}
+            />
+          </div>
+        </div>
       )}
     </div>
-  </div>
-);
+  );
+};
 
 const LandingPages = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-24 md:py-32">
