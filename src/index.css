@@ -80,7 +80,13 @@
   --work-glow-y: 50%;
 }
 
-.work-experience-card::before {
+.portrait-orbit {
+  position: relative;
+  isolation: isolate;
+}
+
+.work-experience-card::before,
+.portrait-orbit::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -128,6 +134,35 @@
   opacity: 1;
 }
 
+.selected-content-media {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(145deg, #17151c, #08090d 72%);
+}
+
+.selected-content-media--business::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(5, 5, 9, 0.12), transparent 30%, rgba(5, 5, 9, 0.16));
+}
+
+.selected-content-media-backdrop {
+  position: absolute;
+  inset: -10%;
+  display: block;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  filter: blur(24px) brightness(0.54) saturate(0.9);
+}
+
+.selected-content-media--business .selected-content-media-foreground {
+  object-fit: contain;
+}
+
 .email-preview-frame {
   position: relative;
   overflow: hidden;
@@ -168,7 +203,7 @@
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: auto;
-  background: #f3f3f1;
+  background: #11100e;
   scrollbar-width: none;
 }
 
@@ -586,7 +621,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .competency-marquee-track,
-  .work-experience-card::before {
+  .work-experience-card::before,
+  .portrait-orbit::before {
     animation-play-state: paused;
   }
 

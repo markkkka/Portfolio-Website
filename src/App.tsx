@@ -40,6 +40,8 @@ type SelectedContentVisual = {
   id: string;
   alt: string;
   caption: "Destination" | "Product" | "Business" | "Podcast" | "Animations";
+  posterSrc?: string;
+  videoAspect?: string;
 } & ({ imageSrc: string; videoSrc?: never } | { videoSrc: string; imageSrc?: never });
 
 type SelectedContentCategory = {
@@ -176,12 +178,16 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
       {
         id: "business-podcast",
         videoSrc: "/videos/business-podcast.mp4",
+        posterSrc: "/selected-content/Business Content/podcast-poster.jpg",
+        videoAspect: "16 / 9",
         alt: "RevPie partnerships podcast video",
         caption: "Podcast"
       },
       {
         id: "business-animation",
         videoSrc: "/selected-content/Business Content/P32 CM copy 2.mp4",
+        posterSrc: "/selected-content/Business Content/animation-poster.jpg",
+        videoAspect: "4 / 5",
         alt: "RevPie campaign animation video",
         caption: "Animations"
       },
@@ -338,15 +344,14 @@ const SectionReveal = ({ children, className = "" }: SectionRevealProps) => {
 };
 
 const VideoBackground = ({ src, overlay = true }: { src: string, overlay?: boolean }) => {
-  const [videoFailed, setVideoFailed] = useState(false);
+  const [videoReady, setVideoReady] = useState(false);
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden bg-brand-black">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(166,138,86,0.22),transparent_34%),radial-gradient(circle_at_70%_65%,rgba(255,255,255,0.08),transparent_32%),linear-gradient(135deg,#000000_0%,#0b0b0b_45%,#15110a_100%)]" />
-      {!videoFailed && (
         <motion.video
           initial={{ scale: 1.15, opacity: 0 }}
-          animate={{ scale: 1.02, opacity: 1 }}
+          animate={{ scale: 1.02, opacity: videoReady ? 1 : 0 }}
           transition={{ duration: 2, ease: "easeOut" }}
           autoPlay
           loop
@@ -355,16 +360,20 @@ const VideoBackground = ({ src, overlay = true }: { src: string, overlay?: boole
           className="absolute min-w-full min-h-full object-cover"
           style={{ filter: 'grayscale(0.2)' }}
           preload="metadata"
-          onError={() => setVideoFailed(true)}
+          onLoadedData={() => setVideoReady(true)}
+          onError={() => setVideoReady(false)}
         >
-          <source src={src} type="video/mp4" onError={() => setVideoFailed(true)} />
+          <source src={src} type="video/mp4" />
         </motion.video>
-      )}
       {overlay && (
         <div className="absolute inset-0 bg-gradient-to-b from-brand-black/60 via-brand-black/20 to-brand-black/90 pointer-events-none" />
       )}
     </div>
   );
+};
+
+const hideBrokenImage = (event: React.SyntheticEvent<HTMLImageElement>) => {
+  event.currentTarget.style.visibility = "hidden";
 };
 
 const ResumeModal = ({ onClose }: { onClose: () => void }) => {
@@ -399,7 +408,7 @@ const ResumeModal = ({ onClose }: { onClose: () => void }) => {
           </div>
         </div>
         <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto bg-white">
-          <img src="/images/resume-preview.png" alt="Mark Anastasiadi resume" width={1530} height={1980} className="block h-auto w-full" />
+          <img src="/images/resume-preview.png" alt="Mark Anastasiadi resume" width={1530} height={1980} loading="eager" decoding="async" onError={hideBrokenImage} className="block h-auto w-full" />
         </div>
       </div>
     </div>,
@@ -605,29 +614,45 @@ const BrandExperienceStrip = () => {
   );
 };
 
-const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual }) => {
+const SelectedContentVisualCard = ({ visual, isBusiness, isActive, eager }: { visual: SelectedContentVisual; isBusiness: boolean; isActive: boolean; eager: boolean }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playVideo = () => videoRef.current?.play().catch(() => undefined);
 
+  useEffect(() => {
+    if (!isActive) videoRef.current?.pause();
+  }, [isActive]);
+
   return (
     <article className="group overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#0c0c0c] shadow-2xl">
-      <div className="aspect-[4/5] overflow-hidden md:aspect-[3/4]">
+      <div className={`selected-content-media aspect-[4/5] overflow-hidden md:aspect-[3/4] ${isBusiness ? "selected-content-media--business" : ""}`}>
+        {isBusiness && (
+          <img
+            src={visual.videoSrc ? visual.posterSrc : visual.imageSrc}
+            alt=""
+            aria-hidden="true"
+            loading={eager ? "eager" : "lazy"}
+            decoding="async"
+            onError={hideBrokenImage}
+            className="selected-content-media-backdrop"
+          />
+        )}
         {visual.videoSrc ? (
-          <div className="relative h-full w-full bg-black">
+          <div className="relative z-10 flex h-full w-full items-center justify-center">
             <video
               ref={videoRef}
               src={visual.videoSrc}
+              poster={visual.posterSrc}
               aria-label={visual.alt}
               preload="metadata"
               playsInline
               controls={isPlaying}
-              onLoadedMetadata={(event) => { event.currentTarget.currentTime = 0.05; }}
               onPlay={() => setIsPlaying(true)}
               onPause={() => setIsPlaying(false)}
               onEnded={() => setIsPlaying(false)}
-              className="h-full w-full object-contain"
+              style={{ aspectRatio: visual.videoAspect }}
+              className="selected-content-media-foreground block max-h-full w-full bg-transparent object-contain"
             />
             {!isPlaying && (
               <button
@@ -646,8 +671,10 @@ const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual }
           <img
             src={visual.imageSrc}
             alt={visual.alt}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            loading={eager ? "eager" : "lazy"}
+            decoding="async"
+            onError={hideBrokenImage}
+            className={`selected-content-media-foreground relative z-10 block h-full w-full object-cover transition-transform duration-500 ${isBusiness ? "" : "group-hover:scale-[1.04]"}`}
           />
         )}
       </div>
@@ -661,9 +688,9 @@ const SelectedContentVisualCard = ({ visual }: { visual: SelectedContentVisual }
 const SelectedContent = () => {
   const [activeCategoryId, setActiveCategoryId] = useState(SELECTED_CONTENT_CATEGORIES[0].id);
   const activeCategory = SELECTED_CONTENT_CATEGORIES.find((category) => category.id === activeCategoryId) || SELECTED_CONTENT_CATEGORIES[0];
-  const contentScrollRef = useRef<HTMLDivElement>(null);
+  const contentScrollRefs = useRef<Record<string, HTMLDivElement | null>>({});
   const scrollContent = (direction: number) => {
-    const container = contentScrollRef.current;
+    const container = contentScrollRefs.current[activeCategory.id];
     if (!container) return;
     const card = container.firstElementChild as HTMLElement | null;
     container.scrollBy({ left: direction * ((card?.offsetWidth ?? container.clientWidth) + 16), behavior: "smooth" });
@@ -720,38 +747,34 @@ const SelectedContent = () => {
                 {activeCategory.label}
               </div>
 
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeCategory.id}
-                  initial={{ opacity: 0, y: 16, scale: 0.99 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -12, scale: 0.99 }}
-                  transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
-                  className="relative z-10 pt-14 md:pt-16"
-                >
-                  {activeCategory.visuals.length > 0 ? (
-                    <>
-                      <div ref={contentScrollRef} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-                        {activeCategory.visuals.map((visual) => (
-                          <div key={visual.id} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]">
-                            <SelectedContentVisualCard visual={visual} />
-                          </div>
-                        ))}
-                      </div>
-                      <div className="mt-5 flex justify-end gap-2">
-                        <button type="button" aria-label={`Scroll ${activeCategory.label.toLowerCase()} left`} onClick={() => scrollContent(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
-                          <ArrowRight size={17} className="rotate-180" />
-                        </button>
-                        <button type="button" aria-label={`Scroll ${activeCategory.label.toLowerCase()} right`} onClick={() => scrollContent(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
-                          <ArrowRight size={17} />
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="h-[280px] md:h-[360px]" />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              {SELECTED_CONTENT_CATEGORIES.map((category) => {
+                const isActive = category.id === activeCategory.id;
+                return (
+                  <div key={category.id} hidden={!isActive} className="relative z-10 pt-14 md:pt-16">
+                    {category.visuals.length > 0 ? (
+                      <>
+                        <div ref={(element) => { contentScrollRefs.current[category.id] = element; }} className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+                          {category.visuals.map((visual, index) => (
+                            <div key={visual.id} className="w-[78%] shrink-0 snap-start sm:w-[46%] lg:w-[31%]">
+                              <SelectedContentVisualCard visual={visual} isBusiness={category.id === "business"} isActive={isActive} eager={index < 3} />
+                            </div>
+                          ))}
+                        </div>
+                        <div className="mt-5 flex justify-end gap-2">
+                          <button type="button" aria-label={`Scroll ${category.label.toLowerCase()} left`} onClick={() => scrollContent(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                            <ArrowRight size={17} className="rotate-180" />
+                          </button>
+                          <button type="button" aria-label={`Scroll ${category.label.toLowerCase()} right`} onClick={() => scrollContent(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                            <ArrowRight size={17} />
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="h-[280px] md:h-[360px]" />
+                    )}
+                  </div>
+                );
+              })}
 
               <div className="absolute inset-x-8 bottom-8 h-px bg-gradient-to-r from-transparent via-brand-earth/35 to-transparent" />
             </div>
@@ -804,13 +827,7 @@ const EmailCampaigns = () => (
                 </p>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 18, scale: 0.99 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                className="email-preview-frame"
-              >
+              <div className="email-preview-frame">
                 <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
                   <div className="flex gap-2">
                     <span className="h-2 w-2 rounded-full bg-white/20" />
@@ -825,9 +842,9 @@ const EmailCampaigns = () => (
                   src={campaign.previewSrc}
                   title={campaign.previewTitle}
                   loading="lazy"
-                  className="h-[460px] w-full border-0 bg-[#f5efe4] md:h-[580px]"
+                  className="block h-[460px] w-full border-0 bg-[#f5efe4] md:h-[580px]"
                 />
-              </motion.div>
+              </div>
 
             </div>
           </motion.article>
@@ -856,6 +873,8 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
 
   useEffect(() => {
     if (page.id !== "grandties" || !isInView || popupDismissed) return;
+    const popupImage = new Image();
+    popupImage.src = "/landing-pages/GrandTies Popup.png";
     const timer = window.setTimeout(() => setShowPopup(true), 3500);
     return () => window.clearTimeout(timer);
   }, [page.id, isInView, popupDismissed]);
@@ -865,7 +884,7 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
       <BrowserTopBar label="Website Preview" />
       <div className="landing-preview-canvas" tabIndex={0} aria-label={`Scroll ${page.brand} website screenshot`}>
         <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
-          <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading="lazy" decoding="async" />
+          <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading="lazy" decoding="async" onError={hideBrokenImage} />
           {page.id === "revpie" && (
             <div className="revpie-marquee-section" aria-hidden="true">
               <div className="revpie-marquee-track">
@@ -884,6 +903,11 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
             <img
               src="/landing-pages/GrandTies Popup.png"
               alt="GrandTies first purchase discount promotion"
+              width={1370}
+              height={1286}
+              loading="eager"
+              decoding="async"
+              onError={hideBrokenImage}
             />
             <button
               type="button"
@@ -945,14 +969,9 @@ const LandingPages = () => (
                 </p>
               </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 18, scale: 0.99 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.25 }}
-                transition={{ delay: 0.2 + index * 0.1, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-              >
+              <div>
                 <LandingPagePreview page={page} />
-              </motion.div>
+              </div>
             </div>
           </motion.article>
         ))}
@@ -1247,14 +1266,16 @@ const ContactSection = () => (
               </a>
             </div>
           </div>
-          <div className="mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-[1.75rem] border border-brand-earth/25 bg-[#11100e] shadow-[0_24px_70px_rgba(0,0,0,0.35)] lg:ml-auto">
+          <div className="portrait-orbit mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-[1.75rem] border border-white/8 bg-[#11100e] shadow-[0_24px_70px_rgba(0,0,0,0.35)] lg:ml-auto">
             <img
               src="/images/mark-portrait.jpg"
               alt="Portrait of Mark Anastasiadi"
               width={945}
               height={1315}
               loading="lazy"
-              className="h-full w-full object-cover object-top"
+              decoding="async"
+              onError={hideBrokenImage}
+              className="block h-full w-full object-cover object-top"
             />
           </div>
         </div>
@@ -1297,7 +1318,7 @@ export default function App() {
 
       <Navbar />
 
-      <main className={loading ? 'hidden' : 'block'}>
+      <main>
         <Hero />
         <BrandExperienceStrip />
         <SelectedContent />
