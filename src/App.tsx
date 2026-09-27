@@ -195,7 +195,7 @@ const LANDING_PAGES: LandingPagePanel[] = [
   {
     id: "grandties",
     brand: "GrandTies",
-    pageType: "Ecommerce landing page",
+    pageType: "Ecommerce website",
     description: "Ecommerce page design focused on lifestyle product storytelling, seasonal collections, and retail-driven discovery.",
     imageSrc: "/landing-pages/GrandTies Website.png",
     alt: "GrandTies full-page website preview"
@@ -203,16 +203,16 @@ const LANDING_PAGES: LandingPagePanel[] = [
   {
     id: "michaelpro",
     brand: "MichaelPro",
-    pageType: "Product landing page",
-    description: "Product-focused landing pages built to highlight features, communicate value, and support retail-driven customer action.",
+    pageType: "Product website",
+    description: "Product-focused websites built to highlight features, communicate value, and support retail-driven customer action.",
     imageSrc: "/landing-pages/MichaelPro Website.png",
     alt: "MichaelPro full-page website preview"
   },
   {
     id: "revpie",
     brand: "RevPie",
-    pageType: "B2B platform landing page",
-    description: "B2B landing page work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
+    pageType: "B2B platform website",
+    description: "B2B website work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
     imageSrc: "/landing-pages/RevPie Website.png",
     alt: "RevPie full-page website preview"
   }
@@ -261,8 +261,8 @@ const CORE_COMPETENCY_ROWS = {
     "Email / SMS Marketing",
     "Meta Ads",
     "Google Ads",
-    "Landing Page Creation",
-    "Landing Page Optimization",
+    "Website Creation",
+    "Website Optimization",
     "AI Automations"
   ],
   bottom: [
@@ -443,7 +443,7 @@ const Hero = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mx-auto mb-11 max-w-2xl px-2 text-base font-light leading-relaxed text-brand-white/78 md:text-lg"
           >
-            I create content, campaigns, landing pages, and marketing systems that help consumer brands look sharper, communicate clearly, and grow with intention.
+            I create content, campaigns, websites, and marketing systems that help consumer brands look sharper, communicate clearly, and grow with intention.
           </motion.p>
 
           <motion.div
@@ -463,7 +463,7 @@ const Hero = () => {
 
         <div className="full-bleed-strip flex min-h-[72px] items-center justify-center border-t border-white/5 bg-brand-black/30 px-6 py-0 text-center backdrop-blur-sm md:min-h-[80px]">
           <p className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase leading-none tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
-            <span>CONTENT CREATION</span> <span>·</span> <span>PAID MEDIA</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>LANDING PAGES</span> <span>·</span> <span>BRAND SYSTEMS</span>
+            <span>CONTENT CREATION</span> <span>·</span> <span>PAID MEDIA</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>WEBSITES</span> <span>·</span> <span>BRAND SYSTEMS</span>
           </p>
         </div>
       </div>
@@ -798,7 +798,7 @@ const LandingPages = () => (
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
-          LANDING PAGES
+          WEBSITES
         </p>
         <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
@@ -1177,7 +1177,7 @@ export default function App() {
         <PlaceholderSection
           id="experience"
           title="Experience"
-          copy="A mix of B2C brand work, paid media, email campaigns, landing pages, content creation, and modern marketing systems."
+          copy="A mix of B2C brand work, paid media, email campaigns, websites, content creation, and modern marketing systems."
         />
         <PlaceholderSection
           id="about"
