@@ -206,14 +206,15 @@
 .landing-preview-canvas {
   height: 420px;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
   overscroll-behavior: auto;
   background: #11100e;
   scrollbar-width: none;
+  pointer-events: none;
 }
 
 .landing-preview-canvas--interactive {
-  overflow-y: auto;
+  pointer-events: auto;
 }
 
 .landing-preview-canvas::-webkit-scrollbar {

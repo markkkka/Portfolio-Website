@@ -865,7 +865,7 @@ const BrowserTopBar = ({ label }: { label: string }) => (
   </div>
 );
 
-const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
+const LandingPagePreview = ({ page, eager }: { page: LandingPagePanel; eager: boolean }) => {
   const frameRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(frameRef, { once: true, amount: 0.35 });
   const [canScrollPreview, setCanScrollPreview] = useState(false);
@@ -899,7 +899,7 @@ const LandingPagePreview = ({ page }: { page: LandingPagePanel }) => {
       <BrowserTopBar label="Website Preview" />
       <div className={`landing-preview-canvas${canScrollPreview ? " landing-preview-canvas--interactive" : ""}`} tabIndex={canScrollPreview ? 0 : -1} aria-label={`Scroll ${page.brand} website screenshot`}>
         <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
-          <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading="lazy" decoding="async" onError={hideBrokenImage} />
+          <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading={eager ? "eager" : "lazy"} decoding="async" onError={hideBrokenImage} />
           {page.id === "revpie" && (
             <div className="revpie-marquee-section" aria-hidden="true">
               <div className="revpie-marquee-track">
@@ -962,7 +962,7 @@ const LandingPages = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
+            className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
             <div className="relative z-10 grid gap-6 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
@@ -985,7 +985,7 @@ const LandingPages = () => (
               </motion.div>
 
               <div>
-                <LandingPagePreview page={page} />
+                <LandingPagePreview page={page} eager={index === 0} />
               </div>
             </div>
           </motion.article>
