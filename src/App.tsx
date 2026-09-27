@@ -53,7 +53,6 @@ type SelectedContentCategory = {
 type EmailCampaign = {
   id: string;
   brand: string;
-  campaignType: string;
   description: string;
   previewSrc: string;
   previewTitle: string;
@@ -211,17 +210,15 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
 const EMAIL_CAMPAIGNS: EmailCampaign[] = [
   {
     id: "michaelpro",
-    brand: "MichaelPro",
-    campaignType: "Product storytelling and retail promotion",
-    description: "Product-focused email campaigns for new releases, holiday promotions, seasonal sales, and feature-driven product storytelling.",
+    brand: "Product Launches",
+    description: "New release and product-focused emails designed to introduce features, communicate value, and drive interest.",
     previewSrc: "/emails/michaelpro.html",
     previewTitle: "MichaelPro product email campaign preview"
   },
   {
     id: "grantties",
-    brand: "GrantTies",
-    campaignType: "Offer awareness and customer conversion",
-    description: "Conversion-focused email campaigns built around offer awareness, promotional messaging, and customer follow-up.",
+    brand: "Sale Campaigns",
+    description: "Promotional email campaigns built around timely offers, seasonal messaging, and customer conversion.",
     previewSrc: "/emails/grantties.html",
     previewTitle: "GrantTies offer awareness email campaign preview"
   }
@@ -799,9 +796,6 @@ const EmailCampaigns = () => (
                 transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
                 className="mb-5"
               >
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
-                  {campaign.campaignType}
-                </p>
                 <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
                   {campaign.brand}
                 </h3>
@@ -916,7 +910,7 @@ const LandingPages = () => (
         </p>
         <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
-            Pages that move people to act.
+            Pages built to convert.
           </h2>
         </div>
       </SectionReveal>
