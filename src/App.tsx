@@ -334,7 +334,7 @@ const ResumeModal = ({ onClose }: { onClose: () => void }) => {
 
   return createPortal(
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/75 p-3 backdrop-blur-xl sm:p-6" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <div role="dialog" aria-modal="true" aria-labelledby="resume-dialog-title" className="flex h-[min(90vh,900px)] w-full max-w-4xl flex-col overflow-hidden rounded-[1.5rem] border border-brand-earth/25 bg-[#11100e] shadow-[0_30px_100px_rgba(0,0,0,0.65)]">
+      <div role="dialog" aria-modal="true" aria-labelledby="resume-dialog-title" className="flex h-[min(90vh,900px)] w-full max-w-[780px] flex-col overflow-hidden rounded-[1.5rem] border border-brand-earth/25 bg-[#11100e] shadow-[0_30px_100px_rgba(0,0,0,0.65)]">
         <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
           <h2 id="resume-dialog-title" className="font-editorial text-2xl font-semibold text-white sm:text-3xl">Resume</h2>
           <div className="flex items-center gap-2">
@@ -346,7 +346,9 @@ const ResumeModal = ({ onClose }: { onClose: () => void }) => {
             </button>
           </div>
         </div>
-        <iframe title="Mark Anastasiadi resume" src="/resume.pdf#toolbar=0" className="min-h-0 w-full flex-1 bg-white" />
+        <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto bg-white">
+          <img src="/images/resume-preview.png" alt="Mark Anastasiadi resume" width={1530} height={1980} className="block h-auto w-full" />
+        </div>
       </div>
     </div>,
     document.body
