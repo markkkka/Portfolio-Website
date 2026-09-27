@@ -774,7 +774,7 @@ const EmailCampaigns = () => (
         </p>
         <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
-            Built for opens, clicks, and conversions.
+            Built for clicks, conversions and sales.
           </h2>
         </div>
       </SectionReveal>
