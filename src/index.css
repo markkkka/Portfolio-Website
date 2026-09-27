@@ -177,23 +177,6 @@
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
 }
 
-.email-preview-frame::before {
-  content: "";
-  position: absolute;
-  inset: -30%;
-  z-index: 2;
-  pointer-events: none;
-  opacity: 0;
-  background: linear-gradient(115deg, transparent 35%, rgba(232, 216, 188, 0.16) 48%, transparent 60%);
-  transform: translateX(-36%) rotate(8deg);
-  transition: opacity 500ms ease, transform 900ms ease;
-}
-
-.email-campaign-card:hover .email-preview-frame::before {
-  opacity: 1;
-  transform: translateX(36%) rotate(8deg);
-}
-
 .landing-preview-frame {
   position: relative;
   overflow: hidden;

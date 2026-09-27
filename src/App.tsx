@@ -807,7 +807,7 @@ const EmailCampaigns = () => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="email-campaign-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-all duration-500 hover:-translate-y-1 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
+            className="email-campaign-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
           >
             <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(185,151,107,0.12),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%)] opacity-70" />
 
@@ -841,7 +841,7 @@ const EmailCampaigns = () => (
                 <iframe
                   src={campaign.previewSrc}
                   title={campaign.previewTitle}
-                  loading="lazy"
+                  loading="eager"
                   className="block h-[460px] w-full border-0 bg-[#f5efe4] md:h-[580px]"
                 />
               </div>
