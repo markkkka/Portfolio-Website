@@ -1,0 +1,33 @@
+SUBJECT: The knife you reach for, every day
+PREHEADER: Meet the BOSCO 8-inch chef knife, made for the meals that bring people together.
+
+GRANDTIES | THE BOSCO COLLECTION
+
+THE KNIFE YOU REACH FOR.
+
+Meet the BOSCO 8-inch chef knife. From the first slice to the last plate, good meals start with a tool that feels right in your hand.
+
+Explore the BOSCO knife:
+https://grandties.com/products/the-bosco-collection-8-inch-pro-chef-knife-1-4116-german-stainless-steel
+
+A LITTLE MORE JOY IN EVERY PREPARATION.
+
+The right knife makes room to enjoy the process: chopping, slicing, and getting dinner on the table together.
+
+01  Built for the work: precision-forged 1.4116 German stainless steel and a full-tang design.
+02  Made to feel good: a triple-riveted ash wood handle with an ergonomic grip.
+03  Ready to give: presented in a gift box for cooks who bring people together.
+
+Make the next meal yours. Explore the BOSCO knife:
+https://grandties.com/products/the-bosco-collection-8-inch-pro-chef-knife-1-4116-german-stainless-steel
+
+GrandTies
+Tools for the moments that bring us together.
+
+{{sender_postal_address}}
+Unsubscribe: {{unsubscribe_url}}
+
+SEND SETUP
+This is a portfolio concept. Before a live send, replace the HTML image path
+/emails/assets/grandties-bosco-knife.jpg with an absolute HTTPS URL hosted by
+the email platform, and configure the sender address and unsubscribe merge tags.
