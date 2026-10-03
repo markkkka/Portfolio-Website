@@ -18,7 +18,8 @@ Cooking starts with the small, satisfying steps. Slice fresh ingredients, settle
 02  Made to feel good: a triple-riveted ash wood handle with an ergonomic grip.
 03  Beautiful to give. Useful every day. BOSCO comes in a gift box, ready for someone who loves to cook.
 
-Make the next meal yours. Shop the BOSCO knife:
+Bring more to the table. Start with BOSCO.
+Shop the BOSCO knife:
 https://grandties.com/products/the-bosco-collection-8-inch-pro-chef-knife-1-4116-german-stainless-steel
 
 GrandTies
@@ -28,6 +29,7 @@ Tools for the moments that bring us together.
 Unsubscribe: {{unsubscribe_url}}
 
 SEND SETUP
-This is a portfolio concept. Before a live send, replace the HTML image path
-/emails/assets/grandties-bosco-knife.jpg with an absolute HTTPS URL hosted by
-the email platform, and configure the sender address and unsubscribe merge tags.
+This is a portfolio concept. Before a live send, replace the HTML image paths
+/emails/assets/grandties-logo.png and /emails/assets/grandties-bosco-prep.jpg
+with absolute HTTPS URLs hosted by the email platform, and configure the sender
+address and unsubscribe merge tags.
