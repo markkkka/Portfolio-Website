@@ -225,8 +225,8 @@ const EMAIL_CAMPAIGNS: EmailCampaign[] = [
     id: "grantties",
     brand: "Sale Campaigns",
     description: "Promotional email campaigns built around timely offers, seasonal messaging, and customer conversion.",
-    previewSrc: "/emails/grantties.html",
-    previewTitle: "GrantTies offer awareness email campaign preview"
+    previewSrc: "/emails/grandties-bosco-campaign.html",
+    previewTitle: "GrandTies BOSCO chef knife email campaign preview"
   }
 ];
 
