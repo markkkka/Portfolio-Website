@@ -5,7 +5,7 @@ GRANDTIES | THE BOSCO COLLECTION
 
 MAKE EVERY CUT COUNT.
 
-Everyday cooking can feel like an occasion. The BOSCO chef knife pairs a German stainless steel blade with an ergonomic ash wood handle for comfortable, precise prep.
+Now everyday cooking can feel like an occasion. The BOSCO chef knife pairs a German stainless steel blade with an ergonomic ash wood handle for comfortable, precise prep.
 
 Shop the BOSCO knife:
 https://grandties.com/products/the-bosco-collection-8-inch-pro-chef-knife-1-4116-german-stainless-steel
@@ -35,16 +35,13 @@ https://grandties.com/products/the-bosco-collection-7-inch-japanese-santoku-knif
 Shop the Cleaver:
 https://grandties.com/products/copy-of-the-bosco-collection-6-5-inch-chinese-cleaver-knife
 
-GrandTies
-Tools for the moments that bring us together.
-
-{{sender_postal_address}}
 Unsubscribe: {{unsubscribe_url}}
+Copyright 2026 GrandTies. All rights reserved.
 
 SEND SETUP
 This is a portfolio concept. Before a live send, replace the HTML image paths
 /emails/assets/grandties-logo.png, /emails/assets/grandties-bosco-prep.jpg,
 /emails/assets/grandties-bosco-santoku.jpg, and
 /emails/assets/grandties-bosco-cleaver.jpg
-with absolute HTTPS URLs hosted by the email platform, and configure the sender
-address and unsubscribe merge tags.
+with absolute HTTPS URLs hosted by the email platform. Add the sender postal
+address before a live send and configure the unsubscribe merge tag.
