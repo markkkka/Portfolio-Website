@@ -8,7 +8,7 @@ Portfolio concept for an announcement to existing RevPie publisher partners.
 
 **Preheader:** Add a new revenue layer with this month's featured advertisers.
 
-**Primary action:** Explore advertiser offers. The preview uses the verified RevPie sign-in page at https://revpie.com/login. Replace this with an authenticated offer-directory deep link if available.
+**Primary action:** Explore Offers. The preview uses the verified RevPie sign-in page at https://revpie.com/login. Replace this with an authenticated offer-directory deep link if available.
 
 **Audience:** Existing publisher partners choosing advertiser offers for their traffic and placements.
 
