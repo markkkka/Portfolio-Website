@@ -38,7 +38,7 @@ Updated October 12, 2026. The user requested complete example terms for each car
 | Chime | CPA | $75.00 | First qualifying direct deposit | Illustrative amount and event definition. |
 | SoFi | CPA | $150.00 | First qualifying direct deposit | Illustrative amount and event definition. |
 | Rocket Money | CPA | $20.00 | Premium account sign-up | User requested CPA and Premium account sign-up; amount is an example. |
-| Acorns | CPA | $35.00 | First funded investment account | Illustrative amount and event definition. |
+| Acorns | CPA | $35.00 | Funded account | Illustrative amount and event definition. |
 | LendingTree | CPC | $1.10 | Valid advertiser click | User supplied $1.10 CPC; event wording is an example. |
 | Lowe's | CPQL | $45.00 | Qualified home services lead | User requested CPQL; amount and event definition are examples. |
 
@@ -58,4 +58,4 @@ Define qualifying direct-deposit thresholds and timing, a qualified home-service
 
 640px table layout, inline presentation styles, system typography, responsive stacking, image alt text, fixed image dimensions, and solid background-color fallbacks beneath gradients. Core copy remains live HTML when remote images are blocked. No JavaScript, external fonts, new packages, or portfolio layout changes.
 
-The HTML uses the same primary action near the top and at the bottom. Brand cards show audience fit, illustrative payout models, and conversion events. Terms use a compact two-row layout with small labels, muted conversion text, and purple dollar amounts. The values retain the alignment of the original placeholder treatment, with no underlines beneath them. The three-step block emphasizes intent matching, integration, and white glove service from selection to launch. The RevPie positioning line is promoted from the small footer to the main benefits heading. No fabricated performance results, urgency, discounts, or guaranteed earnings are included.
+The HTML uses the same primary action near the top and at the bottom. Brand cards show audience fit, illustrative payout models, and conversion events. Terms use a compact two-row layout with small labels, muted conversion text, and purple dollar amounts. The values retain the alignment of the original placeholder treatment, with no underlines beneath them. The three-step block emphasizes intent matching, integration, and white glove service from selection to launch. The benefits section uses the compact heading "YOUR TRAFFIC. OUR MONETIZATION ENGINE." The footer presents the recipient message, postal address, preference links, and copyright as a centered full-width block with consistent spacing. No fabricated performance results, urgency, discounts, or guaranteed earnings are included.

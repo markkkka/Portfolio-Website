@@ -3,13 +3,11 @@ Preheader: Add a new revenue layer with this month's featured advertisers.
 
 BIG NAMES. NEW REVENUE.
 
-Add a revenue layer to your flow. Turn existing traffic into incremental earnings with brands people know.
+Add a revenue layer. Earn more from your existing traffic.
 
 Explore advertiser offers: https://revpie.com/login
 
 FIND THE RIGHT FIT FOR YOUR AUDIENCE
-
-Match intent. Monetize more traffic.
 
 Chime | Banking & Deposits
 Everyday banking. For audiences exploring everyday spending and saving.
@@ -29,7 +27,7 @@ Conversion event: Premium account sign-up
 Acorns | Investing
 Investing made approachable. A fit for audiences exploring automated saving and investing.
 Publisher payout: $35.00 CPA
-Conversion event: First funded investment account
+Conversion event: Funded account
 
 LendingTree | Personal Loans
 Loan comparison. For people researching personal loans and comparing their options.
@@ -41,9 +39,9 @@ Home project planning. Reach homeowners preparing for improvements and their nex
 Publisher payout: $45.00 CPQL
 Conversion event: Qualified home services lead
 
-Final campaign terms and traffic requirements are subject to advertiser approval.
+*Final campaign terms and traffic requirements are subject to advertiser approval.
 
-REVPIE: CONNECTING AUDIENCES WITH OPPORTUNITY.
+YOUR TRAFFIC. OUR MONETIZATION ENGINE.
 
 1. Intent driven offers. Match offers to your audience's intent.
 2. Seamless monetization. Add revenue to your flow with seamless integration.
@@ -54,11 +52,9 @@ More choice for your audience. More potential for your business.
 Sign in to explore the full lineup.
 https://revpie.com/login
 
-Contact the partner team: https://revpie.com/contact-us
-
 You are receiving this update as a RevPie publisher partner.
 {{sender_postal_address}}
 Unsubscribe: {{unsubscribe_url}}
 Manage preferences: {{preferences_url}}
 
-Copyright 2026 RevPie. All rights reserved. Brand marks belong to their respective owners.
+Copyright 2026 RevPie. All rights reserved.
