@@ -177,6 +177,38 @@
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
 }
 
+.email-preview-iframe {
+  display: block;
+  width: 100%;
+  height: 460px;
+  height: min(460px, calc(100svh - max(env(safe-area-inset-top), 1rem) - 8rem));
+  border: 0;
+  background: #f5efe4;
+  pointer-events: none;
+}
+
+.email-preview-frame--interactive .email-preview-iframe {
+  pointer-events: auto;
+}
+
+.email-preview-scroll-guard {
+  position: absolute;
+  inset: 44px 0 0;
+  z-index: 1;
+  touch-action: pan-y;
+}
+
+.email-preview-frame--interactive .email-preview-scroll-guard {
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .email-preview-iframe {
+    height: 580px;
+    height: min(580px, calc(100svh - max(env(safe-area-inset-top), 1rem) - 8rem));
+  }
+}
+
 .landing-preview-frame {
   position: relative;
   overflow: hidden;

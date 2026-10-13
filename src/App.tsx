@@ -215,11 +215,11 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
 
 const EMAIL_CAMPAIGNS: EmailCampaign[] = [
   {
-    id: "michaelpro",
-    brand: "Product Launches",
-    description: "New release and product-focused emails designed to introduce features, communicate value, and drive interest.",
-    previewSrc: "/emails/michaelpro.html",
-    previewTitle: "MichaelPro product email campaign preview"
+    id: "revpie",
+    brand: "RevPie",
+    description: "Publisher partner campaigns built to introduce advertiser offers, communicate payout terms, and help publishers monetize their traffic.",
+    previewSrc: "/emails/revpie-advertiser-opportunities.html",
+    previewTitle: "RevPie advertiser opportunities email campaign preview"
   },
   {
     id: "grantties",
@@ -785,6 +785,79 @@ const SelectedContent = () => {
   );
 };
 
+const EmailCampaignPreview = ({ campaign }: { campaign: EmailCampaign }) => {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const [canScrollPreview, setCanScrollPreview] = useState(false);
+
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame) return;
+
+    const header = document.querySelector<HTMLElement>("nav");
+    const visualViewport = window.visualViewport;
+    let observer: IntersectionObserver | undefined;
+
+    const observeVisibility = () => {
+      const visibleTop = Math.max(visualViewport?.offsetTop ?? 0, header?.getBoundingClientRect().bottom ?? 0);
+      const visibleBottom = (visualViewport?.offsetTop ?? 0) + (visualViewport?.height ?? window.innerHeight);
+      const bottomInset = Math.max(0, document.documentElement.clientHeight - visibleBottom);
+
+      observer?.disconnect();
+      observer = new IntersectionObserver(([entry]) => {
+        const fullyVisible = entry.isIntersecting && entry.intersectionRatio >= 1;
+        setCanScrollPreview(fullyVisible);
+
+        const iframe = frame.querySelector("iframe");
+        if (!fullyVisible && document.activeElement === iframe) iframe?.blur();
+      }, {
+        rootMargin: `-${visibleTop.toFixed(2)}px 0px -${bottomInset.toFixed(2)}px 0px`,
+        threshold: [0, 1]
+      });
+      observer.observe(frame);
+    };
+
+    // Account for the fixed header and phone browser bars without rebuilding the iframe.
+    const resizeObserver = new ResizeObserver(observeVisibility);
+    resizeObserver.observe(frame);
+    if (header) resizeObserver.observe(header);
+    window.addEventListener("resize", observeVisibility);
+    visualViewport?.addEventListener("resize", observeVisibility);
+    visualViewport?.addEventListener("scroll", observeVisibility);
+    observeVisibility();
+
+    return () => {
+      observer?.disconnect();
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", observeVisibility);
+      visualViewport?.removeEventListener("resize", observeVisibility);
+      visualViewport?.removeEventListener("scroll", observeVisibility);
+    };
+  }, []);
+
+  return (
+    <div ref={frameRef} className={`email-preview-frame${canScrollPreview ? " email-preview-frame--interactive" : ""}`} data-scroll-enabled={canScrollPreview}>
+      <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
+        <div className="flex gap-2">
+          <span className="h-2 w-2 rounded-full bg-white/20" />
+          <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
+          <span className="h-2 w-2 rounded-full bg-white/12" />
+        </div>
+        <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">
+          Email Preview
+        </span>
+      </div>
+      <iframe
+        src={campaign.previewSrc}
+        title={campaign.previewTitle}
+        loading="eager"
+        tabIndex={canScrollPreview ? 0 : -1}
+        className="email-preview-iframe"
+      />
+      <div className="email-preview-scroll-guard" aria-hidden="true" />
+    </div>
+  );
+};
+
 const EmailCampaigns = () => (
   <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
     <div className="relative z-10 mx-auto max-w-7xl">
@@ -827,24 +900,7 @@ const EmailCampaigns = () => (
                 </p>
               </motion.div>
 
-              <div className="email-preview-frame">
-                <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
-                  <div className="flex gap-2">
-                    <span className="h-2 w-2 rounded-full bg-white/20" />
-                    <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
-                    <span className="h-2 w-2 rounded-full bg-white/12" />
-                  </div>
-                  <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">
-                    Email Preview
-                  </span>
-                </div>
-                <iframe
-                  src={campaign.previewSrc}
-                  title={campaign.previewTitle}
-                  loading="eager"
-                  className="block h-[460px] w-full border-0 bg-[#f5efe4] md:h-[580px]"
-                />
-              </div>
+              <EmailCampaignPreview campaign={campaign} />
 
             </div>
           </motion.article>
