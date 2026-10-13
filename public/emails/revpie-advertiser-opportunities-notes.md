@@ -6,7 +6,7 @@ Portfolio concept for an announcement to existing RevPie publisher partners.
 
 **Subject:** New in RevPie: Chime, SoFi, Rocket Money + more
 
-**Preheader:** Explore new advertiser opportunities across banking, investing, personal finance, and home services.
+**Preheader:** Add a new revenue layer with this month's featured advertisers.
 
 **Primary action:** Explore advertiser offers. The preview uses the verified RevPie sign-in page at https://revpie.com/login. Replace this with an authenticated offer-directory deep link if available.
 
@@ -29,10 +29,25 @@ Selections reflect documented adoption, longevity, or retail footprint and a use
 
 Research accessed October 8, 2026. Scale figures stay in these notes rather than the email. Audience-fit descriptions are editorial suggestions based on the listed categories and brand services, not approved targeting rules.
 
+## Portfolio payout examples
+
+Updated October 12, 2026. The user requested complete example terms for each card. These amounts and event definitions are illustrative, not researched market rates or confirmed advertiser payouts. CPA means cost per acquisition, CPC means cost per click, and CPQL means cost per qualified lead.
+
+| Brand | Model | Publisher payout | Conversion event | Basis |
+| --- | --- | --- | --- | --- |
+| Chime | CPA | $75.00 | First qualifying direct deposit | Illustrative amount and event definition. |
+| SoFi | CPA | $150.00 | First qualifying direct deposit | Illustrative amount and event definition. |
+| Rocket Money | CPA | $20.00 | Premium account sign-up | User requested CPA and Premium account sign-up; amount is an example. |
+| Acorns | CPA | $35.00 | First funded investment account | Illustrative amount and event definition. |
+| LendingTree | CPC | $1.10 | Valid advertiser click | User supplied $1.10 CPC; event wording is an example. |
+| Lowe's | CPQL | $45.00 | Qualified home services lead | User requested CPQL; amount and event definition are examples. |
+
+Define qualifying direct-deposit thresholds and timing, a qualified home-services lead, valid clicks, funding requirements, and duplicate/reversal rules using the approved campaign terms. This draft does not assert any of those conditions.
+
 ## Complete before a production send
 
 - Confirm that each featured advertiser is newly available to the intended publisher segment. The PDF establishes inclusion in a partner list, not launch dates, current campaign access, or advertiser approval.
-- Fill the two blank fields in each card with approved **deal structure** and **publisher payout**. Keep CPA, CPL, CPC, or revenue-share models blank until confirmed. Do not invent amounts, caps, conversion events, or guarantees.
+- Replace or approve the illustrative payout amounts and conversion events below before sending. These were chosen for this portfolio draft at the user's request; they are not verified RevPie or advertiser terms. LendingTree's $1.10 CPC and the requested payout models were supplied by the user.
 - Set an approved RevPie sender name, From address, and Reply-To mailbox. None was invented for this draft.
 - Replace the root-relative image URLs with absolute HTTPS URLs hosted for the email send.
 - Replace `{{sender_postal_address}}`, `{{unsubscribe_url}}`, and `{{preferences_url}}` with the sending platform's supported fields. Include any advertiser-specific disclosures required for the final offers.
@@ -43,4 +58,4 @@ Research accessed October 8, 2026. Scale figures stay in these notes rather than
 
 640px table layout, inline presentation styles, system typography, responsive stacking, image alt text, fixed image dimensions, and solid background-color fallbacks beneath gradients. Core copy remains live HTML when remote images are blocked. No JavaScript, external fonts, new packages, or portfolio layout changes.
 
-The HTML uses the same primary action near the top and at the bottom. Brand cards help partners identify audience fit; the three-step block sets an activation path. No fabricated performance statistics, urgency, discounts, or guaranteed earnings are included.
+The HTML uses the same primary action near the top and at the bottom. Brand cards show audience fit, illustrative payout models, and conversion events. The three-step block emphasizes intent matching, integration, and white glove service from selection to launch. The RevPie positioning line is promoted from the small footer to the main benefits heading. No fabricated performance results, urgency, discounts, or guaranteed earnings are included.
