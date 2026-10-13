@@ -23,12 +23,14 @@
    .step-number--2 { background-image:linear-gradient(100deg,#ad99fb 0%,#a7acf1 100%); }
    .step-number--3 { background-image:linear-gradient(100deg,#a7acf1 0%,#a5bee9 100%); }
   }
+  .header-nav a:hover { text-decoration:underline !important; }
   @media screen and (max-width:620px) {
    .outer-pad { padding:0 !important; }
    .email-shell { width:100% !important; }
    .mobile-pad { padding-left:24px !important;padding-right:24px !important; }
    .header-logo { width:116px !important;height:auto !important; }
-   .header-label { font-size:8px !important;letter-spacing:1px !important; }
+   .header-nav a { font-size:11px !important; }
+   .header-nav-gap { padding-right:14px !important; }
    .hero-title { font-size:43px !important;line-height:46px !important;letter-spacing:-1.8px !important; }
    .hero-copy { display:block !important;width:100% !important; }
    .hero-actions { padding-top:23px !important; }
@@ -40,6 +42,11 @@
    .steps-col { display:block !important;width:100% !important;padding:0 0 24px !important; }
    .steps-col-last { padding-bottom:0 !important; }
   }
+  @media screen and (max-width:360px) {
+   .header-logo { width:100px !important; }
+   .header-nav a { font-size:10px !important; }
+   .header-nav-gap { padding-right:10px !important; }
+  }
  </style>
 </head>
 <body style="margin:0;padding:0;background-color:#f0eef6;color:#191526;">
@@ -49,7 +56,11 @@
  <table role="presentation" class="email-shell" width="640" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:640px;border-collapse:collapse;background-color:#ffffff;">
   <tr><td class="mobile-pad" style="padding:26px 36px;background-color:#ffffff;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>
    <td valign="middle"><a href="https://revpie.com/" target="_blank" style="text-decoration:none;"><img class="header-logo" src="/emails/assets/revpie/revpie-logo.png" width="132" height="40" alt="RevPie" style="display:block;width:132px;height:auto;border:0;outline:none;" /></a></td>
-   <td class="header-label" align="right" valign="middle" style="font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.6px;line-height:16px;color:#837b91;">PUBLISHER<br />PARTNER UPDATE</td>
+   <td align="right" valign="middle"><table role="presentation" class="header-nav" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>
+    <td class="header-nav-gap" style="padding-right:20px;white-space:nowrap;"><a href="#featured-offers" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:20px;color:#7144ff;text-decoration:none;">Offers</a></td>
+    <td class="header-nav-gap" style="padding-right:20px;white-space:nowrap;"><a href="https://revpie.com/contact-us" target="_blank" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:20px;color:#7144ff;text-decoration:none;">Contact Us</a></td>
+    <td style="white-space:nowrap;"><a href="https://revpie.com/login" target="_blank" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:20px;color:#7144ff;text-decoration:none;">Sign in</a></td>
+   </tr></table></td>
   </tr></table></td></tr>
   <tr><td class="mobile-pad" style="padding:40px 36px 36px;background-color:#f4efff;background-image:linear-gradient(120deg,#f7f3ff 0%,#ece3ff 100%);">
    <p style="margin:0 0 22px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.8px;line-height:16px;color:#7144ff;">NOW IN THE REVPIE NETWORK</p>
@@ -66,7 +77,7 @@
     <td class="hero-art" width="34%" align="right" valign="bottom" style="width:34%;padding-left:10px;"><img src="/emails/assets/revpie/revpie-opportunities.png" width="176" height="198" alt="" style="display:block;width:176px;max-width:100%;height:auto;border:0;outline:none;" /></td>
    </tr></table>
   </td></tr>
-  <tr><td class="mobile-pad" style="padding:36px 36px 26px;background-color:#ffffff;"><p style="margin:0 0 11px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.8px;line-height:16px;color:#7144ff;">THIS MONTH'S FEATURED LINEUP</p>
+  <tr><td id="featured-offers" class="mobile-pad" style="padding:36px 36px 26px;background-color:#ffffff;"><p style="margin:0 0 11px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.8px;line-height:16px;color:#7144ff;">THIS MONTH'S FEATURED LINEUP</p>
    <h2 class="section-title" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:32px;font-weight:bold;letter-spacing:-1px;line-height:36px;color:#191526;">Find the right fit<br />for your audience.</h2>
   </td></tr>
   <tr><td class="mobile-pad" style="padding:0 36px 17px;background-color:#ffffff;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;">
@@ -145,6 +156,13 @@
    <h2 class="section-title" style="margin:0 0 13px;font-family:Arial,Helvetica,sans-serif;font-size:30px;font-weight:bold;letter-spacing:-.9px;line-height:35px;color:#ffffff;">More choices for your audience.<br />More potential for your business.</h2>
    <p style="margin:0 0 23px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:23px;color:#f0eaff;">Sign in to explore the full lineup.</p>
    <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="border-collapse:separate;"><tr><td align="center" bgcolor="#ffffff" style="border-radius:28px;background-color:#ffffff;mso-padding-alt:16px 24px;"><a class="cta" href="https://revpie.com/login" target="_blank" style="display:inline-block;padding:16px 24px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;font-weight:bold;text-decoration:none;color:#5730cf;border-radius:28px;">Explore more offers&nbsp; &rarr;</a></td></tr></table>
+  </td></tr>
+  <!-- The animated GIF keeps the partner strip moving in clients without CSS animation. -->
+  <tr><td bgcolor="#000000" style="padding:0;background-color:#000000;font-size:0;line-height:0;">
+   <picture style="display:block;">
+    <source media="(prefers-reduced-motion: reduce)" srcset="/emails/assets/revpie/partner-strip-still.png" />
+    <img src="/emails/assets/revpie/partner-strip.gif" width="640" height="88" alt="RevPie partners: Albert, Self, Chime, JG Wentworth, Besitos, Current, QuinStreet, EarnIn" style="display:block;width:100%;max-width:640px;height:auto;border:0;outline:none;background-color:#000000;color:#ffffff;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:18px;" />
+   </picture>
   </td></tr>
   <tr><td class="mobile-pad email-footer" align="center" style="padding:27px 36px 29px;background-color:#ffffff;text-align:center;">
    <p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:18px;color:#8b819b;">You are receiving this update as a RevPie publisher partner.</p>
