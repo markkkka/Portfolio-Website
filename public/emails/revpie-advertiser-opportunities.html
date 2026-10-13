@@ -16,6 +16,13 @@
   table,td { mso-table-lspace:0pt;mso-table-rspace:0pt; }
   img { -ms-interpolation-mode:bicubic; }
   a[x-apple-data-detectors] { color:inherit !important;text-decoration:none !important; }
+  /* Keep solid text colors in email clients without gradient-text support. */
+  @supports ((-webkit-background-clip:text) or (background-clip:text)) {
+   .step-number { display:inline-block;background-clip:text;-webkit-background-clip:text;color:transparent !important;-webkit-text-fill-color:transparent; }
+   .step-number--1 { background-image:linear-gradient(100deg,#ad91ff 0%,#ad99fb 100%); }
+   .step-number--2 { background-image:linear-gradient(100deg,#ad99fb 0%,#a7acf1 100%); }
+   .step-number--3 { background-image:linear-gradient(100deg,#a7acf1 0%,#a5bee9 100%); }
+  }
   @media screen and (max-width:620px) {
    .outer-pad { padding:0 !important; }
    .email-shell { width:100% !important; }
@@ -129,9 +136,9 @@
   </table><p style="margin:2px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:18px;color:#958ba3;">*Final campaign terms and traffic requirements are subject to advertiser approval.</p></td></tr>
   <tr><td class="mobile-pad" style="padding:34px 36px 38px;background-color:#191526;"><h2 style="margin:0 0 26px;font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;letter-spacing:1.4px;line-height:19px;color:#bea7ff;">YOUR TRAFFIC. OUR MONETIZATION ENGINE.</h2>
    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>
-    <td class="steps-col" width="33%" valign="top" style="width:33%;padding-right:16px;"><p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;line-height:30px;color:#ad91ff;">01</p><h3 style="margin:0 0 7px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#ffffff;">Intent driven offers</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b4a9c6;">Match offers to your<br />audience's intent.</p></td>
-    <td class="steps-col" width="34%" valign="top" style="width:34%;padding-right:16px;"><p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;line-height:30px;color:#ad91ff;">02</p><h3 style="margin:0 0 7px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#ffffff;">Seamless monetization</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b4a9c6;">Add revenue to your flow<br />with seamless integration.</p></td>
-    <td class="steps-col steps-col-last" width="33%" valign="top" style="width:33%;"><p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;line-height:30px;color:#a5e4e9;">03</p><h3 style="margin:0 0 7px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#ffffff;">Launch with confidence</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b4a9c6;">White glove service from<br />selection to launch.</p></td>
+    <td class="steps-col" width="33%" valign="top" style="width:33%;padding-right:16px;"><p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;line-height:30px;color:#ad95fd;"><span class="step-number step-number--1">01</span></p><h3 style="margin:0 0 7px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#ffffff;">Intent driven offers</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b4a9c6;">Match offers to your<br />audience's intent.</p></td>
+    <td class="steps-col" width="34%" valign="top" style="width:34%;padding-right:16px;"><p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;line-height:30px;color:#aaa3f6;"><span class="step-number step-number--2">02</span></p><h3 style="margin:0 0 7px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#ffffff;">Seamless monetization</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b4a9c6;">Add revenue to your flow<br />with seamless integration.</p></td>
+    <td class="steps-col steps-col-last" width="33%" valign="top" style="width:33%;"><p style="margin:0 0 12px;font-family:Arial,Helvetica,sans-serif;font-size:26px;font-weight:bold;line-height:30px;color:#a6b5ed;"><span class="step-number step-number--3">03</span></p><h3 style="margin:0 0 7px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:19px;color:#ffffff;">Launch with confidence</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:12px;line-height:19px;color:#b4a9c6;">White glove service from<br />selection to launch.</p></td>
    </tr></table>
   </td></tr>
   <tr><td class="mobile-pad" style="padding:36px 36px 38px;background-color:#7144ff;background-image:linear-gradient(115deg,#7144ff 0%,#9c77ff 100%);"><p style="margin:0 0 10px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:bold;letter-spacing:1.8px;line-height:16px;color:#e8ddff;">ADD YOUR NEXT REVENUE LAYER</p>
