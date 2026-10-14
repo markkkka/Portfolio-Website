@@ -62,7 +62,23 @@
    .footer-line { font-size:9px !important; }
    .header-logo { width:100px !important; }
    .header-nav a { font-size:10px !important; }
-   .header-nav-gap { padding-right:10px !important; }
+   .header-nav-gap { padding-right:8px !important; }
+   .campaign-header { padding-left:12px !important;padding-right:12px !important; }
+   .campaign-header .header-logo { width:80px !important; }
+   .mobile-pad:not(.campaign-header) { padding-left:16px !important;padding-right:16px !important; }
+   .hero-title { font-size:clamp(30px,10.8vw,43px) !important;line-height:1.06 !important; }
+   .cta { padding:14px !important;font-size:12px !important; }
+   .offer-terms td { display:block !important;width:auto !important;text-align:left !important; }
+   .offer-terms td:first-child { padding:10px 0 2px !important; }
+   .offer-terms td:last-child { padding:0 0 8px !important; }
+   .offer-terms span { min-height:0 !important; }
+   .footer-line { white-space:normal !important; }
+   .footer-line a, .footer-line > span { display:inline-block;white-space:nowrap; }
+  }
+  @media screen and (max-width:300px) {
+   .campaign-header > table > tbody > tr > td { display:block !important;width:100% !important;text-align:center !important; }
+   .campaign-header .header-logo { margin:0 auto !important;width:90px !important; }
+   .header-nav { margin:8px auto 0 !important; }
   }
  </style>
 </head>
@@ -71,7 +87,7 @@
  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;background-color:#f0eef6;"><tr><td align="center" class="outer-pad" style="padding:28px 12px 44px;">
  <!--[if mso]><table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->
  <table role="presentation" class="email-shell" width="640" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:640px;border-collapse:collapse;background-color:#ffffff;">
-  <tr><td class="mobile-pad" style="padding:26px 36px;background-color:#ffffff;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>
+  <tr><td class="mobile-pad campaign-header" style="padding:26px 36px;background-color:#ffffff;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>
    <td valign="middle"><a href="https://revpie.com/" target="_blank" style="text-decoration:none;"><img class="header-logo" src="/emails/assets/revpie/revpie-logo.png" width="132" height="40" alt="RevPie" style="display:block;width:132px;height:auto;border:0;outline:none;" /></a></td>
    <td align="right" valign="middle"><table role="presentation" class="header-nav" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;"><tr>
     <td class="header-nav-gap" style="padding-right:20px;white-space:nowrap;"><a href="#featured-offers" style="font-family:Arial,Helvetica,sans-serif;font-size:12px;font-weight:bold;line-height:20px;color:#7144ff;text-decoration:none;">Offers</a></td>
@@ -102,7 +118,7 @@
   <tr><td style="padding:23px 22px 0;"><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.4px;line-height:14px;color:#756d86;">BANKING & DEPOSITS</p></td></tr>
   <tr><td height="86" valign="middle" style="height:86px;padding:0 22px;"><img src="/emails/assets/revpie/chime.png" width="134" height="38" alt="Chime" style="display:block;width:134px;height:auto;max-width:100%;border:0;outline:none;text-decoration:none;" /></td></tr>
   <tr><td height="94" valign="top" class="card-copy" style="height:94px;padding:0 22px 19px;"><h3 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;letter-spacing:-.3px;line-height:21px;color:#191526;">Everyday banking</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#6a6378;">For audiences exploring everyday spending and saving.</p></td></tr>
-  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
+  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="offer-terms" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
    <!-- Portfolio sample: Chime. Confirm the event definition and payout before a production send. -->
    <tr><td valign="top" style="padding:13px 10px 9px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Publisher payout</td><td width="130" align="right" valign="top" style="padding:13px 0 9px;"><span style="display:block;min-height:16px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:normal;line-height:16px;color:#625573;"><span style="color:#7144ff;">$75.00</span>&nbsp;CPA</span></td></tr>
    <tr><td valign="top" style="padding:0 10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Conversion event</td><td align="right" valign="top"><span style="display:block;min-height:32px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;line-height:16px;color:#625573;">First qualifying direct deposit</span></td></tr>
@@ -112,7 +128,7 @@
   <tr><td style="padding:23px 22px 0;"><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.4px;line-height:14px;color:#756d86;">BANKING & DEPOSITS</p></td></tr>
   <tr><td height="86" valign="middle" style="height:86px;padding:0 22px;"><img src="/emails/assets/revpie/sofi.png" width="106" height="29" alt="SoFi" style="display:block;width:106px;height:auto;max-width:100%;border:0;outline:none;text-decoration:none;" /></td></tr>
   <tr><td height="94" valign="top" class="card-copy" style="height:94px;padding:0 22px 19px;"><h3 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;letter-spacing:-.3px;line-height:21px;color:#191526;">Saving and spending</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#6a6378;">Connect people comparing digital banking and deposit accounts.</p></td></tr>
-  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
+  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="offer-terms" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
    <!-- Portfolio sample: SoFi. Confirm the event definition and payout before a production send. -->
    <tr><td valign="top" style="padding:13px 10px 9px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Publisher payout</td><td width="130" align="right" valign="top" style="padding:13px 0 9px;"><span style="display:block;min-height:16px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:normal;line-height:16px;color:#625573;"><span style="color:#7144ff;">$150.00</span>&nbsp;CPA</span></td></tr>
    <tr><td valign="top" style="padding:0 10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Conversion event</td><td align="right" valign="top"><span style="display:block;min-height:32px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;line-height:16px;color:#625573;">First qualifying direct deposit</span></td></tr>
@@ -123,7 +139,7 @@
   <tr><td style="padding:23px 22px 0;"><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.4px;line-height:14px;color:#756d86;">BUDGETING</p></td></tr>
   <tr><td height="86" valign="middle" style="height:86px;padding:0 22px;"><img src="/emails/assets/revpie/rocket-money.png" width="126" height="45" alt="Rocket Money" style="display:block;width:126px;height:auto;max-width:100%;border:0;outline:none;text-decoration:none;" /></td></tr>
   <tr><td height="94" valign="top" class="card-copy" style="height:94px;padding:0 22px 19px;"><h3 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;letter-spacing:-.3px;line-height:21px;color:#191526;">Smarter money habits</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#6a6378;">Reach people looking to manage subscriptions and organize spending.</p></td></tr>
-  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
+  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="offer-terms" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
    <!-- Portfolio sample: Rocket Money. Confirm the event definition and payout before a production send. -->
    <tr><td valign="top" style="padding:13px 10px 9px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Publisher payout</td><td width="130" align="right" valign="top" style="padding:13px 0 9px;"><span style="display:block;min-height:16px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:normal;line-height:16px;color:#625573;"><span style="color:#7144ff;">$20.00</span>&nbsp;CPA</span></td></tr>
    <tr><td valign="top" style="padding:0 10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Conversion event</td><td align="right" valign="top"><span style="display:block;min-height:32px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;line-height:16px;color:#625573;">Premium account sign-up</span></td></tr>
@@ -133,7 +149,7 @@
   <tr><td style="padding:23px 22px 0;"><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.4px;line-height:14px;color:#756d86;">INVESTING</p></td></tr>
   <tr><td height="86" valign="middle" style="height:86px;padding:0 22px;"><img src="/emails/assets/revpie/acorns.png" width="134" height="35" alt="Acorns" style="display:block;width:134px;height:auto;max-width:100%;border:0;outline:none;text-decoration:none;" /></td></tr>
   <tr><td height="94" valign="top" class="card-copy" style="height:94px;padding:0 22px 19px;"><h3 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;letter-spacing:-.3px;line-height:21px;color:#191526;">Investing made approachable</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#6a6378;">A fit for audiences exploring automated saving and investing.</p></td></tr>
-  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
+  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="offer-terms" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
    <!-- Portfolio sample: Acorns. Confirm the event definition and payout before a production send. -->
    <tr><td valign="top" style="padding:13px 10px 9px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Publisher payout</td><td width="130" align="right" valign="top" style="padding:13px 0 9px;"><span style="display:block;min-height:16px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:normal;line-height:16px;color:#625573;"><span style="color:#7144ff;">$35.00</span>&nbsp;CPA</span></td></tr>
    <tr><td valign="top" style="padding:0 10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Conversion event</td><td align="right" valign="top"><span style="display:block;min-height:32px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;line-height:16px;color:#625573;">Funded account</span></td></tr>
@@ -144,7 +160,7 @@
   <tr><td style="padding:23px 22px 0;"><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.4px;line-height:14px;color:#756d86;">PERSONAL LOANS</p></td></tr>
   <tr><td height="86" valign="middle" style="height:86px;padding:0 22px;"><img src="/emails/assets/revpie/lendingtree.png" width="145" height="45" alt="LendingTree" style="display:block;width:145px;height:auto;max-width:100%;border:0;outline:none;text-decoration:none;" /></td></tr>
   <tr><td height="94" valign="top" class="card-copy" style="height:94px;padding:0 22px 19px;"><h3 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;letter-spacing:-.3px;line-height:21px;color:#191526;">Loan comparison</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#6a6378;">For people researching personal loans and comparing their options.</p></td></tr>
-  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
+  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="offer-terms" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
    <!-- Portfolio sample: LendingTree. Confirm the event definition and payout before a production send. -->
    <tr><td valign="top" style="padding:13px 10px 9px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Publisher payout</td><td width="130" align="right" valign="top" style="padding:13px 0 9px;"><span style="display:block;min-height:16px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:normal;line-height:16px;color:#625573;"><span style="color:#7144ff;">$1.10</span>&nbsp;CPC</span></td></tr>
    <tr><td valign="top" style="padding:0 10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Conversion event</td><td align="right" valign="top"><span style="display:block;min-height:32px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;line-height:16px;color:#625573;">Valid advertiser click</span></td></tr>
@@ -154,7 +170,7 @@
   <tr><td style="padding:23px 22px 0;"><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:9px;font-weight:bold;letter-spacing:1.4px;line-height:14px;color:#756d86;">HOME SERVICES</p></td></tr>
   <tr><td height="86" valign="middle" style="height:86px;padding:0 22px;"><img src="/emails/assets/revpie/lowes.png" width="102" height="47" alt="Lowe&#x27;s" style="display:block;width:102px;height:auto;max-width:100%;border:0;outline:none;text-decoration:none;" /></td></tr>
   <tr><td height="94" valign="top" class="card-copy" style="height:94px;padding:0 22px 19px;"><h3 style="margin:0 0 8px;font-family:Arial,Helvetica,sans-serif;font-size:16px;font-weight:bold;letter-spacing:-.3px;line-height:21px;color:#191526;">Home project planning</h3><p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#6a6378;">Reach homeowners preparing for improvements and their next project.</p></td></tr>
-  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
+  <tr><td style="padding:0 22px 21px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="offer-terms" style="border-collapse:collapse;border-top:1px solid #eeeaf5;">
    <!-- Portfolio sample: Lowe&#x27;s. Confirm the event definition and payout before a production send. -->
    <tr><td valign="top" style="padding:13px 10px 9px 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Publisher payout</td><td width="130" align="right" valign="top" style="padding:13px 0 9px;"><span style="display:block;min-height:16px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:normal;line-height:16px;color:#625573;"><span style="color:#7144ff;">$45.00</span>&nbsp;CPQL</span></td></tr>
    <tr><td valign="top" style="padding:0 10px 0 0;font-family:Arial,Helvetica,sans-serif;font-size:10px;line-height:16px;color:#7b738b;">Conversion event</td><td align="right" valign="top"><span style="display:block;min-height:32px;padding-bottom:3px;font-family:Arial,Helvetica,sans-serif;font-size:10px;font-weight:normal;line-height:16px;color:#625573;">Qualified home services lead</span></td></tr>

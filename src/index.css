@@ -181,7 +181,7 @@
   display: block;
   width: 100%;
   height: 460px;
-  height: min(460px, calc(100svh - max(env(safe-area-inset-top), 1rem) - 8rem));
+  height: min(460px, var(--preview-available-height, calc(100svh - 13rem)));
   border: 0;
   background: #f5efe4;
   pointer-events: none;
@@ -191,21 +191,22 @@
   pointer-events: auto;
 }
 
-.email-preview-scroll-guard {
+.preview-scroll-guard {
   position: absolute;
   inset: 44px 0 0;
-  z-index: 1;
+  z-index: 4;
   touch-action: pan-y;
 }
 
-.email-preview-frame--interactive .email-preview-scroll-guard {
+.email-preview-frame--interactive .preview-scroll-guard,
+.landing-preview-frame--interactive .preview-scroll-guard {
   pointer-events: none;
 }
 
 @media (min-width: 768px) {
   .email-preview-iframe {
     height: 580px;
-    height: min(580px, calc(100svh - max(env(safe-area-inset-top), 1rem) - 8rem));
+    height: min(580px, var(--preview-available-height, calc(100svh - 13rem)));
   }
 }
 
@@ -218,8 +219,13 @@
   box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
 }
 
+.landing-preview-frame .preview-scroll-guard {
+  top: 40px;
+}
+
 .landing-preview-canvas {
   height: 420px;
+  height: min(420px, var(--preview-available-height, calc(100svh - 13rem)));
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: auto;
@@ -349,6 +355,8 @@
   right: 0;
   width: 18%;
   height: 16%;
+  min-width: 44px;
+  min-height: 44px;
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -362,6 +370,7 @@
 @media (max-width: 640px) {
   .landing-preview-canvas {
     height: 320px;
+    height: min(320px, var(--preview-available-height, calc(100svh - 13rem)));
   }
 
   .grandties-popup {
@@ -653,5 +662,27 @@
 
   .standalone-video-placeholder::after {
     animation: none;
+  }
+}
+
+
+/* Keep narrow mobile headings within their cards without clipping controls. */
+@media (min-width: 1024px) {
+  .email-section-title {
+    font-size: clamp(4rem, 6.8vw, 4.5rem);
+  }
+}
+
+@media (max-width: 767px) {
+  .hero-content {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+@media (max-width: 380px) {
+  .email-campaign-card h3,
+  .landing-page-card h3 {
+    font-size: 2rem;
   }
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { isPreviewFullyVisible, usePreviewScrollGate } from './usePreviewScrollGate';
 import {
   motion,
   AnimatePresence,
@@ -42,6 +43,9 @@ type SelectedContentVisual = {
   caption: "Destination" | "Product" | "Business" | "Podcast" | "Animations";
   posterSrc?: string;
   videoAspect?: string;
+  imageSrcSet?: string;
+  imageWidth?: number;
+  imageHeight?: number;
 } & ({ imageSrc: string; videoSrc?: never } | { videoSrc: string; imageSrc?: never });
 
 type SelectedContentCategory = {
@@ -66,6 +70,7 @@ type LandingPagePanel = {
   pageType: string;
   description: string;
   imageSrc: string;
+  imageSrcSet: string;
   imageHeight: number;
   alt: string;
 };
@@ -91,79 +96,118 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
     visuals: [
       {
         id: "destination-vertical",
-        imageSrc: "/selected-content/Destination/DSCF0149.JPG",
+        imageSrc: "/selected-content/previews/destination-vertical-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-vertical-640.webp 640w, /selected-content/previews/destination-vertical-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1920,
         alt: "Tipis at a mountain retreat",
         caption: "Destination"
       },
       {
         id: "destination-retreat",
-        imageSrc: "/selected-content/Destination/DSCF0308.JPG",
+        imageSrc: "/selected-content/previews/destination-retreat-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-retreat-640.webp 640w, /selected-content/previews/destination-retreat-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1920,
         alt: "Traveler relaxing in an outdoor pool",
         caption: "Destination"
       },
       {
         id: "destination-detail",
-        imageSrc: "/selected-content/Destination/DSCF0824.JPG",
+        imageSrc: "/selected-content/previews/destination-detail-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-detail-640.webp 640w, /selected-content/previews/destination-detail-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1920,
         alt: "Outdoor gear beside a mountain lake",
         caption: "Product"
       },
       {
         id: "destination-pagoda",
-        imageSrc: "/selected-content/Destination/DSCF2015.JPG",
+        imageSrc: "/selected-content/previews/destination-pagoda-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-pagoda-640.webp 640w, /selected-content/previews/destination-pagoda-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1920,
         alt: "Red pagoda in warm evening light",
         caption: "Destination"
       },
       {
         id: "destination-landscape",
-        imageSrc: "/selected-content/Destination/DSCF2173.jpg",
+        imageSrc: "/selected-content/previews/destination-landscape-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-landscape-640.webp 640w, /selected-content/previews/destination-landscape-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1920,
         alt: "Mountain landscape and retreat buildings",
         caption: "Destination"
       },
       {
         id: "destination-landmark",
-        imageSrc: "/selected-content/Destination/DSCF2704.JPG",
+        imageSrc: "/selected-content/previews/destination-landmark-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-landmark-640.webp 640w, /selected-content/previews/destination-landmark-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1920,
         alt: "Tower seen from below",
         caption: "Destination"
       },
       {
         id: "destination-architecture",
-        imageSrc: "/selected-content/Destination/IMG_2658.JPG",
+        imageSrc: "/selected-content/previews/destination-architecture-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-architecture-640.webp 640w, /selected-content/previews/destination-architecture-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1707,
         alt: "Illuminated pagoda at night",
         caption: "Destination"
       },
       {
         id: "destination-kayak",
-        imageSrc: "/selected-content/Destination/IMG_9710.PNG",
+        imageSrc: "/selected-content/previews/destination-kayak-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-kayak-640.webp 640w, /selected-content/previews/destination-kayak-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1714,
         alt: "Guest kayaking beside a hillside retreat",
         caption: "Destination"
       },
       {
         id: "destination-hot-tub",
-        imageSrc: "/selected-content/Destination/IMG_9711.PNG",
+        imageSrc: "/selected-content/previews/destination-hot-tub-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-hot-tub-640.webp 640w, /selected-content/previews/destination-hot-tub-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1714,
         alt: "Guest relaxing in an outdoor hot tub by the river",
         caption: "Destination"
       },
       {
         id: "destination-tennis",
-        imageSrc: "/selected-content/Destination/IMG_9712.PNG",
+        imageSrc: "/selected-content/previews/destination-tennis-1280.webp",
+        imageSrcSet: "/selected-content/previews/destination-tennis-640.webp 640w, /selected-content/previews/destination-tennis-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1714,
         alt: "Two people playing tennis with mountain views",
         caption: "Destination"
       },
       {
         id: "product-motorbike",
-        imageSrc: "/selected-content/Product/DE1A5602-2.jpg",
+        imageSrc: "/selected-content/previews/product-motorbike-1280.webp",
+        imageSrcSet: "/selected-content/previews/product-motorbike-640.webp 640w, /selected-content/previews/product-motorbike-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1600,
         alt: "Rider on a red electric dirt bike",
         caption: "Product"
       },
       {
         id: "product-crop",
-        imageSrc: "/selected-content/Product/GrandTies Main Image.png",
+        imageSrc: "/selected-content/previews/product-crop-1200.webp",
+        imageSrcSet: "/selected-content/previews/product-crop-640.webp 640w, /selected-content/previews/product-crop-1200.webp 1200w",
+        imageWidth: 1200,
+        imageHeight: 1600,
         alt: "GrandTies water bottles in lifestyle campaign imagery",
         caption: "Product"
       },
       {
         id: "product-hero",
-        imageSrc: "/selected-content/Product/Product Photo.webp",
+        imageSrc: "/selected-content/previews/product-hero-1280.webp",
+        imageSrcSet: "/selected-content/previews/product-hero-640.webp 640w, /selected-content/previews/product-hero-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1280,
         alt: "GrandTies chef knife in its presentation box",
         caption: "Product"
       }
@@ -193,19 +237,28 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
       },
       {
         id: "business-partner",
-        imageSrc: "/selected-content/Business Content/P33 RevPie + True copy.png",
+        imageSrc: "/selected-content/previews/business-partner-1280.webp",
+        imageSrcSet: "/selected-content/previews/business-partner-640.webp 640w, /selected-content/previews/business-partner-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1280,
         alt: "RevPie and True partner campaign graphic",
         caption: "Business"
       },
       {
         id: "business-account-types",
-        imageSrc: "/selected-content/Business Content/P39 Account Types copy.png",
+        imageSrc: "/selected-content/previews/business-account-types-1200.webp",
+        imageSrcSet: "/selected-content/previews/business-account-types-640.webp 640w, /selected-content/previews/business-account-types-1200.webp 1200w",
+        imageWidth: 1200,
+        imageHeight: 1200,
         alt: "RevPie managed and self-serve campaign options",
         caption: "Business"
       },
       {
         id: "business-source-bid",
-        imageSrc: "/selected-content/Business Content/Source Bid copy.png",
+        imageSrc: "/selected-content/previews/business-source-bid-1280.webp",
+        imageSrcSet: "/selected-content/previews/business-source-bid-640.webp 640w, /selected-content/previews/business-source-bid-1280.webp 1280w",
+        imageWidth: 1280,
+        imageHeight: 1280,
         alt: "RevPie source bidding explainer",
         caption: "Business"
       }
@@ -216,14 +269,14 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
 const EMAIL_CAMPAIGNS: EmailCampaign[] = [
   {
     id: "revpie",
-    brand: "RevPie",
+    brand: "Publisher Campaign",
     description: "Publisher partner campaigns built to introduce advertiser offers, communicate payout terms, and help publishers monetize their traffic.",
     previewSrc: "/emails/revpie-advertiser-opportunities.html",
     previewTitle: "RevPie advertiser opportunities email campaign preview"
   },
   {
     id: "grantties",
-    brand: "Sale Campaigns",
+    brand: "Sale Campaign",
     description: "Promotional email campaigns built around timely offers, seasonal messaging, and customer conversion.",
     previewSrc: "/emails/grandties-bosco-campaign.html",
     previewTitle: "GrandTies BOSCO chef knife email campaign preview"
@@ -236,7 +289,8 @@ const LANDING_PAGES: LandingPagePanel[] = [
     brand: "GrandTies",
     pageType: "Ecommerce website",
     description: "Ecommerce page design focused on lifestyle product storytelling, seasonal collections, and retail-driven discovery.",
-    imageSrc: "/landing-pages/GrandTies Website.png",
+    imageSrc: "/landing-pages/previews/grandties-1920.webp",
+    imageSrcSet: "/landing-pages/previews/grandties-960.webp 960w, /landing-pages/previews/grandties-1920.webp 1920w",
     imageHeight: 9234,
     alt: "GrandTies full-page website preview"
   },
@@ -245,7 +299,8 @@ const LANDING_PAGES: LandingPagePanel[] = [
     brand: "MichaelPro",
     pageType: "Product website",
     description: "Product-focused websites built to highlight features, communicate value, and support retail-driven customer action.",
-    imageSrc: "/landing-pages/MichaelPro Website.png",
+    imageSrc: "/landing-pages/previews/michaelpro-1920.webp",
+    imageSrcSet: "/landing-pages/previews/michaelpro-960.webp 960w, /landing-pages/previews/michaelpro-1920.webp 1920w",
     imageHeight: 8838,
     alt: "MichaelPro full-page website preview"
   },
@@ -254,7 +309,8 @@ const LANDING_PAGES: LandingPagePanel[] = [
     brand: "RevPie",
     pageType: "B2B platform website",
     description: "B2B website work focused on explaining platform value, simplifying complex offers, and guiding partner interest.",
-    imageSrc: "/landing-pages/RevPie Website.png",
+    imageSrc: "/landing-pages/previews/revpie-1920.webp",
+    imageSrcSet: "/landing-pages/previews/revpie-960.webp 960w, /landing-pages/previews/revpie-1920.webp 1920w",
     imageHeight: 10672,
     alt: "RevPie full-page website preview"
   }
@@ -357,7 +413,7 @@ const VideoBackground = ({ src, overlay = true }: { src: string, overlay?: boole
           loop
           muted
           playsInline
-          className="absolute min-w-full min-h-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
           style={{ filter: 'grayscale(0.2)' }}
           preload="metadata"
           onLoadedData={() => setVideoReady(true)}
@@ -399,10 +455,10 @@ const ResumeModal = ({ onClose }: { onClose: () => void }) => {
         <div className="flex items-center justify-between gap-4 border-b border-white/10 px-4 py-3 sm:px-6">
           <h2 id="resume-dialog-title" className="font-editorial text-2xl font-semibold text-white sm:text-3xl">Resume</h2>
           <div className="flex items-center gap-2">
-            <a href="/resume.pdf" download="Mark-Anastasiadi-Resume.pdf" className="flex min-h-10 items-center gap-2 rounded-full border border-brand-earth/35 px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/80 transition-colors hover:border-brand-earth hover:text-white">
+            <a href="/resume.pdf" download="Mark-Anastasiadi-Resume.pdf" className="flex min-h-11 items-center gap-2 rounded-full border border-brand-earth/35 px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-white/80 transition-colors hover:border-brand-earth hover:text-white">
               <Download size={15} /> Download
             </a>
-            <button ref={closeButtonRef} type="button" aria-label="Close resume" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white">
+            <button ref={closeButtonRef} type="button" aria-label="Close resume" onClick={onClose} className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-white/40 hover:text-white">
               <X size={19} />
             </button>
           </div>
@@ -439,8 +495,8 @@ const Navbar = () => {
         scrolled ? 'py-4 bg-[#000000]/58 backdrop-blur-xl shadow-[0_8px_30px_rgba(0,0,0,0.12)]' : 'py-4 md:py-6 bg-transparent'
       }`}
     >
-      <div className="site-header-inner w-full grid grid-cols-[1fr_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-4">
-        <a href="#" className="col-start-1 justify-self-start font-editorial text-[1.5rem] md:text-[1.9rem] font-semibold tracking-normal hover:opacity-85 transition-opacity tap-target !justify-start">
+      <div className="site-header-inner w-full grid grid-cols-[minmax(0,1fr)_auto] md:grid-cols-[1fr_auto_1fr] items-center gap-3 md:gap-4">
+        <a href="#" className="col-start-1 justify-self-start min-w-0 font-editorial text-[clamp(1.125rem,5.6vw,1.5rem)] md:text-[1.9rem] font-semibold tracking-normal hover:opacity-85 transition-opacity tap-target !justify-start">
           Mark Anastasiadi
         </a>
 
@@ -507,13 +563,13 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   return (
-    <section className="relative min-h-screen w-full overflow-hidden">
+    <section className="relative min-h-svh w-full overflow-hidden">
       <VideoBackground src={VIDEOS.hero} />
 
-      <div className="relative z-10 grid min-h-screen grid-rows-[1fr_auto] px-6 pt-36 md:pt-44">
+      <div className="relative z-10 grid min-h-svh grid-rows-[1fr_auto] px-6 pt-36 md:pt-44">
         <motion.div
           style={{ y, opacity }}
-          className="mx-auto flex max-w-5xl flex-col items-center justify-center self-center pb-16 text-center md:pb-20"
+          className="hero-content mx-auto flex max-w-5xl flex-col items-center justify-center self-center pb-16 text-center md:pb-20"
         >
           <motion.span
             initial={{ opacity: 0, y: 20 }}
@@ -632,7 +688,7 @@ const SelectedContentVisualCard = ({ visual, isBusiness, isActive, eager }: { vi
             src={visual.posterSrc}
             alt=""
             aria-hidden="true"
-            loading={eager ? "eager" : "lazy"}
+            loading={eager && isActive ? "eager" : "lazy"}
             decoding="async"
             onError={hideBrokenImage}
             className="selected-content-media-backdrop"
@@ -670,8 +726,12 @@ const SelectedContentVisualCard = ({ visual, isBusiness, isActive, eager }: { vi
         ) : (
           <img
             src={visual.imageSrc}
+            srcSet={visual.imageSrcSet}
+            sizes="(min-width: 1024px) 240px, (min-width: 640px) 44vw, 78vw"
+            width={visual.imageWidth}
+            height={visual.imageHeight}
             alt={visual.alt}
-            loading={eager ? "eager" : "lazy"}
+            loading={eager && isActive ? "eager" : "lazy"}
             decoding="async"
             onError={hideBrokenImage}
             className={`selected-content-media-foreground relative z-10 block h-full w-full object-cover transition-transform duration-500 ${isBusiness ? "" : "group-hover:scale-[1.04]"}`}
@@ -713,7 +773,7 @@ const SelectedContent = () => {
                 A visual archive of consumer and business content created for clear, compelling brand storytelling.
               </p>
 
-              <div className="mb-8 flex gap-2 overflow-x-auto pb-1 no-scrollbar lg:flex-col lg:overflow-visible lg:pb-0">
+              <div className="mb-8 grid grid-cols-2 gap-2 lg:grid-cols-1">
                 {SELECTED_CONTENT_CATEGORIES.map((category) => {
                   const isActive = category.id === activeCategory.id;
 
@@ -723,7 +783,7 @@ const SelectedContent = () => {
                       type="button"
                       aria-pressed={isActive}
                       onClick={() => setActiveCategoryId(category.id)}
-                      className={`min-w-max rounded-full border px-5 py-3 text-left text-xs font-semibold uppercase tracking-[0.18em] transition-all duration-300 lg:min-w-0 lg:rounded-2xl lg:px-5 lg:py-4 ${
+                      className={`min-h-11 min-w-0 rounded-full border px-3 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] sm:text-xs lg:text-left transition-all duration-300 lg:min-w-0 lg:rounded-2xl lg:px-5 lg:py-4 ${
                         isActive
                           ? "border-brand-earth/45 bg-brand-earth/10 text-white shadow-[0_0_28px_rgba(166,138,86,0.08)]"
                           : "border-white/8 bg-white/[0.025] text-white/45 hover:border-white/18 hover:text-white/70"
@@ -761,10 +821,10 @@ const SelectedContent = () => {
                           ))}
                         </div>
                         <div className="mt-5 flex justify-end gap-2">
-                          <button type="button" aria-label={`Scroll ${category.label.toLowerCase()} left`} onClick={() => scrollContent(-1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                          <button type="button" aria-label={`Scroll ${category.label.toLowerCase()} left`} onClick={() => scrollContent(-1)} className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
                             <ArrowRight size={17} className="rotate-180" />
                           </button>
-                          <button type="button" aria-label={`Scroll ${category.label.toLowerCase()} right`} onClick={() => scrollContent(1)} className="grid h-9 w-9 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
+                          <button type="button" aria-label={`Scroll ${category.label.toLowerCase()} right`} onClick={() => scrollContent(1)} className="grid h-11 w-11 place-items-center rounded-full border border-white/20 bg-black/30 text-white/75 transition-colors hover:border-brand-earth/60 hover:text-white">
                             <ArrowRight size={17} />
                           </button>
                         </div>
@@ -786,56 +846,59 @@ const SelectedContent = () => {
 };
 
 const EmailCampaignPreview = ({ campaign }: { campaign: EmailCampaign }) => {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const [canScrollPreview, setCanScrollPreview] = useState(false);
+  const { frameRef, canScrollPreview } = usePreviewScrollGate();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [iframeLoaded, setIframeLoaded] = useState(false);
 
   useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-
-    const header = document.querySelector<HTMLElement>("nav");
-    const visualViewport = window.visualViewport;
-    let observer: IntersectionObserver | undefined;
-
-    const observeVisibility = () => {
-      const visibleTop = Math.max(visualViewport?.offsetTop ?? 0, header?.getBoundingClientRect().bottom ?? 0);
-      const visibleBottom = (visualViewport?.offsetTop ?? 0) + (visualViewport?.height ?? window.innerHeight);
-      const bottomInset = Math.max(0, document.documentElement.clientHeight - visibleBottom);
-
-      observer?.disconnect();
-      observer = new IntersectionObserver(([entry]) => {
-        const fullyVisible = entry.isIntersecting && entry.intersectionRatio >= 1;
-        setCanScrollPreview(fullyVisible);
-
-        const iframe = frame.querySelector("iframe");
-        if (!fullyVisible && document.activeElement === iframe) iframe?.blur();
-      }, {
-        rootMargin: `-${visibleTop.toFixed(2)}px 0px -${bottomInset.toFixed(2)}px 0px`,
-        threshold: [0, 1]
-      });
-      observer.observe(frame);
+    const document = iframeRef.current?.contentDocument;
+    if (!iframeLoaded || !document) return;
+    let lastTouchY: number | undefined;
+    const passToPage = (delta: number) => {
+      const scrollRoot = document.scrollingElement;
+      if (!scrollRoot || !delta) return false;
+      return !isPreviewFullyVisible(frameRef.current) || (delta < 0 && scrollRoot.scrollTop <= 1) ||
+        (delta > 0 && scrollRoot.scrollTop + scrollRoot.clientHeight >= scrollRoot.scrollHeight - 1);
     };
-
-    // Account for the fixed header and phone browser bars without rebuilding the iframe.
-    const resizeObserver = new ResizeObserver(observeVisibility);
-    resizeObserver.observe(frame);
-    if (header) resizeObserver.observe(header);
-    window.addEventListener("resize", observeVisibility);
-    visualViewport?.addEventListener("resize", observeVisibility);
-    visualViewport?.addEventListener("scroll", observeVisibility);
-    observeVisibility();
-
+    const onWheel = (event: WheelEvent) => {
+      if (event.ctrlKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? document.documentElement.clientHeight : 1);
+      if (passToPage(delta)) {
+        event.preventDefault();
+        window.scrollBy({ top: delta });
+      }
+    };
+    const onTouchStart = (event: TouchEvent) => {
+      lastTouchY = event.touches.length === 1 ? event.touches[0].clientY : undefined;
+    };
+    const onTouchMove = (event: TouchEvent) => {
+      if (lastTouchY === undefined || event.touches.length !== 1) return;
+      const nextY = event.touches[0].clientY;
+      const delta = lastTouchY - nextY;
+      lastTouchY = nextY;
+      if (passToPage(delta)) {
+        if (event.cancelable) event.preventDefault();
+        window.scrollBy({ top: delta });
+      }
+    };
+    const onTouchEnd = () => { lastTouchY = undefined; };
+    // Same-origin email previews pass input back to the page at their boundaries.
+    document.addEventListener('wheel', onWheel, { passive: false });
+    document.addEventListener('touchstart', onTouchStart, { passive: true });
+    document.addEventListener('touchmove', onTouchMove, { passive: false });
+    document.addEventListener('touchend', onTouchEnd);
+    document.addEventListener('touchcancel', onTouchEnd);
     return () => {
-      observer?.disconnect();
-      resizeObserver.disconnect();
-      window.removeEventListener("resize", observeVisibility);
-      visualViewport?.removeEventListener("resize", observeVisibility);
-      visualViewport?.removeEventListener("scroll", observeVisibility);
+      document.removeEventListener('wheel', onWheel);
+      document.removeEventListener('touchstart', onTouchStart);
+      document.removeEventListener('touchmove', onTouchMove);
+      document.removeEventListener('touchend', onTouchEnd);
+      document.removeEventListener('touchcancel', onTouchEnd);
     };
-  }, []);
+  }, [iframeLoaded, frameRef]);
 
   return (
-    <div ref={frameRef} className={`email-preview-frame${canScrollPreview ? " email-preview-frame--interactive" : ""}`} data-scroll-enabled={canScrollPreview}>
+    <div ref={frameRef} className={`preview-frame email-preview-frame${canScrollPreview ? " email-preview-frame--interactive" : ""}`} data-scroll-enabled={canScrollPreview}>
       <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
         <div className="flex gap-2">
           <span className="h-2 w-2 rounded-full bg-white/20" />
@@ -847,13 +910,15 @@ const EmailCampaignPreview = ({ campaign }: { campaign: EmailCampaign }) => {
         </span>
       </div>
       <iframe
+        ref={iframeRef}
+        onLoad={() => setIframeLoaded(true)}
         src={campaign.previewSrc}
         title={campaign.previewTitle}
         loading="eager"
         tabIndex={canScrollPreview ? 0 : -1}
         className="email-preview-iframe"
       />
-      <div className="email-preview-scroll-guard" aria-hidden="true" />
+      <div className="preview-scroll-guard" aria-hidden="true" />
     </div>
   );
 };
@@ -866,7 +931,7 @@ const EmailCampaigns = () => (
           EMAIL CAMPAIGNS
         </p>
         <div className="mx-auto mb-12 max-w-5xl text-center md:mb-14">
-          <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
+          <h2 className="email-section-title font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
             Built for clicks, conversions and sales.
           </h2>
         </div>
@@ -876,8 +941,8 @@ const EmailCampaigns = () => (
         {EMAIL_CAMPAIGNS.map((campaign, index) => (
           <motion.article
             key={campaign.id}
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="email-campaign-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
@@ -922,40 +987,24 @@ const BrowserTopBar = ({ label }: { label: string }) => (
 );
 
 const LandingPagePreview = ({ page, eager }: { page: LandingPagePanel; eager: boolean }) => {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(frameRef, { once: true, amount: 0.35 });
-  const [canScrollPreview, setCanScrollPreview] = useState(false);
+  const { frameRef, canScrollPreview } = usePreviewScrollGate();
   const [showPopup, setShowPopup] = useState(false);
   const [popupDismissed, setPopupDismissed] = useState(false);
 
   useEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-
-    const observer = new IntersectionObserver(([entry]) => {
-      const viewportHeight = entry.rootBounds?.height ?? window.innerHeight;
-      const visibleHeight = Math.min(entry.boundingClientRect.height, viewportHeight);
-      setCanScrollPreview(visibleHeight > 0 && entry.intersectionRect.height / visibleHeight >= 0.85);
-    }, { threshold: Array.from({ length: 21 }, (_, index) => index / 20) });
-
-    observer.observe(frame);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (page.id !== "grandties" || !isInView || popupDismissed) return;
+    if (page.id !== "grandties" || !canScrollPreview || popupDismissed) return;
     const popupImage = new Image();
-    popupImage.src = "/landing-pages/GrandTies Popup.png";
+    popupImage.src = "/landing-pages/previews/grandties-popup-640.webp";
     const timer = window.setTimeout(() => setShowPopup(true), 3500);
     return () => window.clearTimeout(timer);
-  }, [page.id, isInView, popupDismissed]);
+  }, [page.id, canScrollPreview, popupDismissed]);
 
   return (
-    <div ref={frameRef} className="landing-preview-frame">
+    <div ref={frameRef} className={`preview-frame landing-preview-frame${canScrollPreview ? " landing-preview-frame--interactive" : ""}`} data-scroll-enabled={canScrollPreview}>
       <BrowserTopBar label="Website Preview" />
       <div className={`landing-preview-canvas${canScrollPreview ? " landing-preview-canvas--interactive" : ""}`} tabIndex={canScrollPreview ? 0 : -1} aria-label={`Scroll ${page.brand} website screenshot`}>
         <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
-          <img src={page.imageSrc} alt={page.alt} width={2940} height={page.imageHeight} loading={eager ? "eager" : "lazy"} decoding="async" onError={hideBrokenImage} />
+          <img src={page.imageSrc} srcSet={page.imageSrcSet} sizes="(min-width: 1024px) 720px, 100vw" alt={page.alt} width={2940} height={page.imageHeight} loading={eager ? "eager" : "lazy"} decoding="async" onError={hideBrokenImage} />
           {page.id === "revpie" && (
             <div className="revpie-marquee-section" aria-hidden="true">
               <div className="revpie-marquee-track">
@@ -968,11 +1017,12 @@ const LandingPagePreview = ({ page, eager }: { page: LandingPagePanel; eager: bo
           )}
         </div>
       </div>
+      <div className="preview-scroll-guard" aria-hidden="true" />
       {showPopup && (
         <div className="grandties-popup" role="dialog" aria-label="GrandTies promotional preview">
           <div className="grandties-popup-image">
             <img
-              src="/landing-pages/GrandTies Popup.png"
+              src="/landing-pages/previews/grandties-popup-640.webp"
               alt="GrandTies first purchase discount promotion"
               width={1370}
               height={1286}
@@ -1014,8 +1064,8 @@ const LandingPages = () => (
         {LANDING_PAGES.map((page, index) => (
           <motion.article
             key={page.id}
-            initial={{ opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
