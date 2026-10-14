@@ -1113,6 +1113,9 @@ const SelectedOutcomes = () => (
           <h2 className="font-editorial text-5xl font-semibold leading-none text-white md:text-7xl lg:whitespace-nowrap">
             Measured marketing growth.
           </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-base font-light leading-relaxed text-white/62 md:text-lg">
+            Selected results from content, paid media, social, and campaign work across consumer and business brands.
+          </p>
         </div>
       </SectionReveal>
 
