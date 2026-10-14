@@ -317,7 +317,7 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
   {
     id: "followers",
     metric: "55,000+",
-    label: "Follower Growth",
+    label: "Audience Growth",
     explanation: "Audience growth supported through consistent content, social strategy, and brand-focused storytelling.",
     graphPath: "M-35 102 C 5 92, 72 98, 104 76 S 176 50, 252 24",
     dot: { cx: 252, cy: 24 }
@@ -325,26 +325,26 @@ const SELECTED_OUTCOMES: OutcomeCard[] = [
   {
     id: "views",
     metric: "5M+",
-    label: "Views Generated",
+    label: "Content Reach",
     explanation: "Short-form and campaign-driven content created to expand reach and increase brand visibility.",
     graphPath: "M-35 100 C 1 88, 70 100, 104 82 S 170 28, 252 34",
     dot: { cx: 252, cy: 34 }
   },
   {
+    id: "leads",
+    metric: "8,000+",
+    label: "Leads Captured",
+    explanation: "Lead capture supported through campaigns, clear messaging, and focused calls to action.",
+    graphPath: "M-35 102 C 5 98, 70 72, 106 68 S 180 42, 252 28",
+    dot: { cx: 252, cy: 28 }
+  },
+  {
     id: "roas",
     metric: "4.2x",
-    label: "ROAS on Social Campaigns",
+    label: "Campaign ROAS",
     explanation: "Paid social performance supported through stronger creative, clearer messaging, and campaign optimization.",
     graphPath: "M-35 104 C 2 96, 62 58, 104 66 S 176 58, 252 22",
     dot: { cx: 252, cy: 22 }
-  },
-  {
-    id: "engagement",
-    metric: "140%",
-    label: "Engagement Growth",
-    explanation: "Improved interaction driven by content direction, message clarity, and more relevant creative.",
-    graphPath: "M-35 102 C 5 98, 70 72, 106 68 S 180 42, 252 28",
-    dot: { cx: 252, cy: 28 }
   }
 ];
 
