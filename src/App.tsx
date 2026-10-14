@@ -641,11 +641,11 @@ const BrandExperienceStrip = () => {
           </p>
 
           <div
-            className="work-experience-card grid gap-8 md:grid-cols-2 md:gap-0 rounded-[1.75rem] border border-white/8 bg-white/[0.025] backdrop-blur-md transition-shadow duration-500 hover:shadow-[0_0_34px_rgba(185,151,107,0.08)]"
+            className="work-experience-card grid md:grid-cols-2 rounded-[1.75rem] border border-white/8 bg-white/[0.025] backdrop-blur-md transition-shadow duration-500 hover:shadow-[0_0_34px_rgba(185,151,107,0.08)]"
             onPointerMove={handleCardPointerMove}
           >
             {items.map((item, index) => (
-              <div key={item.company} className="relative flex flex-col items-center px-8 py-8 text-center md:py-10">
+              <div key={item.company} className={`relative flex flex-col items-center px-8 text-center ${index === 0 ? "pt-8 pb-4" : "pt-4 pb-8"} md:py-10`}>
                 {index > 0 && (
                   <div className="hidden md:block absolute left-0 top-1/2 h-16 w-px -translate-y-1/2 bg-white/10" />
                 )}
@@ -767,7 +767,7 @@ const SelectedContent = () => {
                 Selected Content
               </h2>
               <p className="mb-9 text-base font-light leading-relaxed text-white/62 md:text-lg">
-                A visual archive of consumer and business content created for clear, compelling brand storytelling.
+                A visual archive of consumer and business content created for clear and compelling brand storytelling.
               </p>
 
               <div className="mx-auto grid max-w-xl grid-cols-2 gap-2 sm:gap-3">
