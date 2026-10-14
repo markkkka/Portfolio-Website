@@ -187,20 +187,11 @@
   pointer-events: none;
 }
 
-.email-preview-frame--interactive .email-preview-iframe {
-  pointer-events: auto;
-}
-
 .preview-scroll-guard {
   position: absolute;
   inset: 44px 0 0;
-  z-index: 4;
+  z-index: 1;
   touch-action: pan-y;
-}
-
-.email-preview-frame--interactive .preview-scroll-guard,
-.landing-preview-frame--interactive .preview-scroll-guard {
-  pointer-events: none;
 }
 
 @media (min-width: 768px) {
@@ -232,10 +223,6 @@
   background: #11100e;
   scrollbar-width: none;
   pointer-events: none;
-}
-
-.landing-preview-canvas--interactive {
-  pointer-events: auto;
 }
 
 .landing-preview-canvas::-webkit-scrollbar {
@@ -685,4 +672,16 @@
   .landing-page-card h3 {
     font-size: 2rem;
   }
+}
+
+
+.preview-scroll-scene {
+  position: relative;
+  min-width: 0;
+  height: var(--preview-scene-height, auto);
+}
+
+.preview-scroll-pin {
+  position: sticky;
+  top: var(--preview-pin-top, 0px);
 }

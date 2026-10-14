@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { isPreviewFullyVisible, usePreviewScrollGate } from './usePreviewScrollGate';
+import { usePageScrollPreview } from './usePageScrollPreview';
 import {
   motion,
   AnimatePresence,
@@ -269,7 +269,7 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
 const EMAIL_CAMPAIGNS: EmailCampaign[] = [
   {
     id: "revpie",
-    brand: "Publisher Campaign",
+    brand: "Offer Launch Campaign",
     description: "Publisher partner campaigns built to introduce advertiser offers, communicate payout terms, and help publishers monetize their traffic.",
     previewSrc: "/emails/revpie-advertiser-opportunities.html",
     previewTitle: "RevPie advertiser opportunities email campaign preview"
@@ -845,86 +845,64 @@ const SelectedContent = () => {
   );
 };
 
-const EmailCampaignPreview = ({ campaign }: { campaign: EmailCampaign }) => {
-  const { frameRef, canScrollPreview } = usePreviewScrollGate();
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeLoaded, setIframeLoaded] = useState(false);
+type PreviewFrameProps = Pick<ReturnType<typeof usePageScrollPreview>, "frameRef" | "canScrollPreview" | "onPreviewLoad">;
 
-  useEffect(() => {
-    const document = iframeRef.current?.contentDocument;
-    if (!iframeLoaded || !document) return;
-    let lastTouchY: number | undefined;
-    const passToPage = (delta: number) => {
-      const scrollRoot = document.scrollingElement;
-      if (!scrollRoot || !delta) return false;
-      return !isPreviewFullyVisible(frameRef.current) || (delta < 0 && scrollRoot.scrollTop <= 1) ||
-        (delta > 0 && scrollRoot.scrollTop + scrollRoot.clientHeight >= scrollRoot.scrollHeight - 1);
-    };
-    const onWheel = (event: WheelEvent) => {
-      if (event.ctrlKey || event.shiftKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
-      const delta = event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? document.documentElement.clientHeight : 1);
-      if (passToPage(delta)) {
-        event.preventDefault();
-        window.scrollBy({ top: delta });
-      }
-    };
-    const onTouchStart = (event: TouchEvent) => {
-      lastTouchY = event.touches.length === 1 ? event.touches[0].clientY : undefined;
-    };
-    const onTouchMove = (event: TouchEvent) => {
-      if (lastTouchY === undefined || event.touches.length !== 1) return;
-      const nextY = event.touches[0].clientY;
-      const delta = lastTouchY - nextY;
-      lastTouchY = nextY;
-      if (passToPage(delta)) {
-        if (event.cancelable) event.preventDefault();
-        window.scrollBy({ top: delta });
-      }
-    };
-    const onTouchEnd = () => { lastTouchY = undefined; };
-    // Same-origin email previews pass input back to the page at their boundaries.
-    document.addEventListener('wheel', onWheel, { passive: false });
-    document.addEventListener('touchstart', onTouchStart, { passive: true });
-    document.addEventListener('touchmove', onTouchMove, { passive: false });
-    document.addEventListener('touchend', onTouchEnd);
-    document.addEventListener('touchcancel', onTouchEnd);
-    return () => {
-      document.removeEventListener('wheel', onWheel);
-      document.removeEventListener('touchstart', onTouchStart);
-      document.removeEventListener('touchmove', onTouchMove);
-      document.removeEventListener('touchend', onTouchEnd);
-      document.removeEventListener('touchcancel', onTouchEnd);
-    };
-  }, [iframeLoaded, frameRef]);
-
-  return (
-    <div ref={frameRef} className={`preview-frame email-preview-frame${canScrollPreview ? " email-preview-frame--interactive" : ""}`} data-scroll-enabled={canScrollPreview}>
-      <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
-        <div className="flex gap-2">
-          <span className="h-2 w-2 rounded-full bg-white/20" />
-          <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
-          <span className="h-2 w-2 rounded-full bg-white/12" />
-        </div>
-        <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">
-          Email Preview
-        </span>
+const EmailCampaignPreview = ({ campaign, frameRef, canScrollPreview, onPreviewLoad }: { campaign: EmailCampaign } & PreviewFrameProps) => (
+  <div ref={frameRef} className="preview-frame email-preview-frame" data-scroll-enabled={canScrollPreview} data-preview-id={campaign.id}>
+    <div className="flex h-11 items-center justify-between border-b border-white/8 bg-white/[0.035] px-4">
+      <div className="flex gap-2">
+        <span className="h-2 w-2 rounded-full bg-white/20" />
+        <span className="h-2 w-2 rounded-full bg-brand-earth/45" />
+        <span className="h-2 w-2 rounded-full bg-white/12" />
       </div>
-      <iframe
-        ref={iframeRef}
-        onLoad={() => setIframeLoaded(true)}
-        src={campaign.previewSrc}
-        title={campaign.previewTitle}
-        loading="eager"
-        tabIndex={canScrollPreview ? 0 : -1}
-        className="email-preview-iframe"
-      />
-      <div className="preview-scroll-guard" aria-hidden="true" />
+      <span className="text-[9px] font-bold uppercase tracking-[0.24em] text-white/34">Email Preview</span>
+    </div>
+    <iframe src={campaign.previewSrc} onLoad={onPreviewLoad} title={campaign.previewTitle} loading="eager" tabIndex={-1} className="email-preview-iframe" />
+    <div className="preview-scroll-guard" aria-hidden="true" />
+  </div>
+);
+
+const EmailCampaignCard = ({ campaign, index }: { campaign: EmailCampaign; index: number }) => {
+  const preview = usePageScrollPreview();
+  return (
+    <div ref={preview.sceneRef} className="preview-scroll-scene">
+      <div ref={preview.pinRef} className="preview-scroll-pin">
+        <motion.article
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="email-campaign-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(185,151,107,0.12),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%)] opacity-70" />
+
+          <div className="relative z-10">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
+              className="mb-5"
+            >
+              <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
+                {campaign.brand}
+              </h3>
+              <p className="mt-4 text-sm font-light leading-relaxed text-white/58 md:text-base">
+                {campaign.description}
+              </p>
+            </motion.div>
+
+            <EmailCampaignPreview campaign={campaign} frameRef={preview.frameRef} canScrollPreview={preview.canScrollPreview} onPreviewLoad={preview.onPreviewLoad} />
+
+          </div>
+        </motion.article>
+      </div>
     </div>
   );
 };
 
 const EmailCampaigns = () => (
-  <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
+  <section id="email-campaigns" className="relative overflow-x-clip bg-brand-black px-6 py-16 md:py-20">
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -939,36 +917,7 @@ const EmailCampaigns = () => (
 
       <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
         {EMAIL_CAMPAIGNS.map((campaign, index) => (
-          <motion.article
-            key={campaign.id}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="email-campaign-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
-          >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(185,151,107,0.12),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_36%)] opacity-70" />
-
-            <div className="relative z-10">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
-                className="mb-5"
-              >
-                <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
-                  {campaign.brand}
-                </h3>
-                <p className="mt-4 text-sm font-light leading-relaxed text-white/58 md:text-base">
-                  {campaign.description}
-                </p>
-              </motion.div>
-
-              <EmailCampaignPreview campaign={campaign} />
-
-            </div>
-          </motion.article>
+          <React.Fragment key={campaign.id}><EmailCampaignCard campaign={campaign} index={index} /></React.Fragment>
         ))}
       </div>
     </div>
@@ -986,8 +935,7 @@ const BrowserTopBar = ({ label }: { label: string }) => (
   </div>
 );
 
-const LandingPagePreview = ({ page, eager }: { page: LandingPagePanel; eager: boolean }) => {
-  const { frameRef, canScrollPreview } = usePreviewScrollGate();
+const LandingPagePreview = ({ page, eager, frameRef, canScrollPreview, onPreviewLoad }: { page: LandingPagePanel; eager: boolean } & PreviewFrameProps) => {
   const [showPopup, setShowPopup] = useState(false);
   const [popupDismissed, setPopupDismissed] = useState(false);
 
@@ -1000,11 +948,11 @@ const LandingPagePreview = ({ page, eager }: { page: LandingPagePanel; eager: bo
   }, [page.id, canScrollPreview, popupDismissed]);
 
   return (
-    <div ref={frameRef} className={`preview-frame landing-preview-frame${canScrollPreview ? " landing-preview-frame--interactive" : ""}`} data-scroll-enabled={canScrollPreview}>
+    <div ref={frameRef} className="preview-frame landing-preview-frame" data-scroll-enabled={canScrollPreview} data-preview-id={page.id}>
       <BrowserTopBar label="Website Preview" />
-      <div className={`landing-preview-canvas${canScrollPreview ? " landing-preview-canvas--interactive" : ""}`} tabIndex={canScrollPreview ? 0 : -1} aria-label={`Scroll ${page.brand} website screenshot`}>
+      <div className="landing-preview-canvas" tabIndex={-1} aria-label={`Scroll ${page.brand} website screenshot`}>
         <div className={`landing-preview-document ${page.id === "michaelpro" ? "landing-preview-document--michaelpro" : ""}`}>
-          <img src={page.imageSrc} srcSet={page.imageSrcSet} sizes="(min-width: 1024px) 720px, 100vw" alt={page.alt} width={2940} height={page.imageHeight} loading={eager ? "eager" : "lazy"} decoding="async" onError={hideBrokenImage} />
+          <img onLoad={onPreviewLoad} src={page.imageSrc} srcSet={page.imageSrcSet} sizes="(min-width: 1024px) 720px, 100vw" alt={page.alt} width={2940} height={page.imageHeight} loading={eager ? "eager" : "lazy"} decoding="async" onError={hideBrokenImage} />
           {page.id === "revpie" && (
             <div className="revpie-marquee-section" aria-hidden="true">
               <div className="revpie-marquee-track">
@@ -1046,8 +994,50 @@ const LandingPagePreview = ({ page, eager }: { page: LandingPagePanel; eager: bo
   );
 };
 
+const LandingPageCard = ({ page, index }: { page: LandingPagePanel; index: number }) => {
+  const preview = usePageScrollPreview();
+  return (
+    <div ref={preview.sceneRef} className="preview-scroll-scene">
+      <div ref={preview.pinRef} className="preview-scroll-pin">
+        <motion.article
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
+        >
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
+          <div className="relative z-10 grid gap-6 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
+              className="lg:pr-4"
+            >
+              <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
+                {page.pageType}
+              </p>
+              <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
+                {page.brand}
+              </h3>
+              <p className="mt-4 text-sm font-light leading-relaxed text-white/58 md:text-base">
+                {page.description}
+              </p>
+            </motion.div>
+
+            <div>
+              <LandingPagePreview page={page} eager={index === 0} frameRef={preview.frameRef} canScrollPreview={preview.canScrollPreview} onPreviewLoad={preview.onPreviewLoad} />
+            </div>
+          </div>
+        </motion.article>
+      </div>
+    </div>
+  );
+};
+
 const LandingPages = () => (
-  <section className="relative overflow-hidden bg-brand-black px-6 py-16 md:py-20">
+  <section id="websites" className="relative overflow-x-clip bg-brand-black px-6 py-16 md:py-20">
     <div className="relative z-10 mx-auto max-w-7xl">
       <SectionReveal>
         <p className="mb-10 text-center text-[10px] font-bold uppercase tracking-[0.35em] text-brand-earth/85 md:mb-12">
@@ -1062,39 +1052,7 @@ const LandingPages = () => (
 
       <div className="mx-auto grid max-w-6xl gap-8 md:gap-10">
         {LANDING_PAGES.map((page, index) => (
-          <motion.article
-            key={page.id}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: index * 0.12, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="landing-page-card group relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-brand-earth/28 hover:shadow-[0_28px_90px_rgba(0,0,0,0.48)] sm:p-5 md:p-6"
-          >
-            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_24%_0%,rgba(185,151,107,0.11),transparent_34%),linear-gradient(135deg,rgba(255,255,255,0.04),transparent_38%)] opacity-70" />
-            <div className="relative z-10 grid gap-6 lg:grid-cols-[0.34fr_0.66fr] lg:items-center">
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ delay: 0.1 + index * 0.1, duration: 0.55, ease: "easeOut" }}
-                className="lg:pr-4"
-              >
-                <p className="mb-3 text-[10px] font-bold uppercase tracking-[0.28em] text-brand-earth/80">
-                  {page.pageType}
-                </p>
-                <h3 className="font-editorial text-4xl font-semibold leading-none text-white md:text-5xl">
-                  {page.brand}
-                </h3>
-                <p className="mt-4 text-sm font-light leading-relaxed text-white/58 md:text-base">
-                  {page.description}
-                </p>
-              </motion.div>
-
-              <div>
-                <LandingPagePreview page={page} eager={index === 0} />
-              </div>
-            </div>
-          </motion.article>
+          <React.Fragment key={page.id}><LandingPageCard page={page} index={index} /></React.Fragment>
         ))}
       </div>
     </div>
@@ -1443,7 +1401,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="bg-brand-black min-h-screen text-brand-white overflow-x-hidden selection:bg-brand-earth scroll-smooth">
+    <div className="bg-brand-black min-h-screen text-brand-white overflow-x-clip selection:bg-brand-earth scroll-smooth">
       <AnimatePresence>
         {loading && (
           <motion.div
