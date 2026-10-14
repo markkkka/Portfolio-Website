@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { usePageScrollPreview } from './usePageScrollPreview';
+import { createFlowerRenderer } from './flowerRenderer';
 import {
   motion,
   AnimatePresence,
@@ -377,17 +378,18 @@ const CORE_COMPETENCY_ROWS = {
 interface SectionRevealProps {
   children: React.ReactNode;
   className?: string;
+  distance?: number;
 }
 
-const SectionReveal = ({ children, className = "" }: SectionRevealProps) => {
+const SectionReveal = ({ children, className = "", distance = 30 }: SectionRevealProps) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.2 });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: distance }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: distance }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       className={className}
     >
@@ -1163,9 +1165,12 @@ const StandaloneVideoSection = () => {
     if (!video || !canvas || !frame) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const renderer = createFlowerRenderer(canvas);
     let scrollFrame: number | null = null;
     let targetTime = 0;
     let lastRenderedTime = -1;
+    let lastRenderWidth = 0;
+    let lastRenderHeight = 0;
     let lastFrameTop = frame.getBoundingClientRect().top;
     let progress = Math.min(1, Math.max(0, (window.innerHeight * 0.78 - lastFrameTop) / (window.innerHeight * 0.82)));
 
@@ -1173,25 +1178,15 @@ const StandaloneVideoSection = () => {
       if (video.readyState < 2 || !video.videoWidth) return;
       const width = Math.min(video.videoWidth, Math.max(1, Math.ceil(frame.clientWidth * window.devicePixelRatio)));
       const height = Math.round(width * video.videoHeight / video.videoWidth);
-      if (canvas.width === width && Math.abs(video.currentTime - lastRenderedTime) < 0.01) return;
-      if (canvas.width !== width || canvas.height !== height) {
-        canvas.width = width;
-        canvas.height = height;
-      }
-      const context = canvas.getContext("2d", { willReadFrequently: true });
-      if (!context) return;
-      context.drawImage(video, 0, 0, width, height);
-      const pixels = context.getImageData(0, 0, width, height);
-      for (let i = 0; i < pixels.data.length; i += 4) {
-        const red = pixels.data[i];
-        const green = pixels.data[i + 1];
-        const blueCast = pixels.data[i + 2] - red;
-        if (blueCast > 5 && green >= red - 2) {
-          pixels.data[i + 3] = Math.max(0, 255 - (blueCast - 5) * 28);
-        }
-      }
-      context.putImageData(pixels, 0, 0);
+      if (lastRenderWidth === width && lastRenderHeight === height && Math.abs(video.currentTime - lastRenderedTime) < 0.01) return;
+      const renderStart = performance.now();
+      if (!renderer.draw(video, width, height)) return;
+      frame.dataset.flowerReady = "true";
+      frame.dataset.flowerRenderer = renderer.mode;
+      frame.dataset.flowerRenderMs = (performance.now() - renderStart).toFixed(2);
       lastRenderedTime = video.currentTime;
+      lastRenderWidth = width;
+      lastRenderHeight = height;
     };
 
     const seekToTarget = () => {
@@ -1256,13 +1251,14 @@ const StandaloneVideoSection = () => {
       window.removeEventListener("scroll", scheduleScrollUpdate);
       window.removeEventListener("resize", scheduleScrollUpdate);
       reducedMotion.removeEventListener("change", scheduleScrollUpdate);
+      renderer.dispose();
     };
   }, []);
 
   return (
     <section className="relative overflow-hidden bg-brand-black px-6 py-12 md:py-16">
       <div className="mx-auto max-w-6xl">
-        <SectionReveal>
+        <SectionReveal distance={0}>
           <div ref={frameRef} className="standalone-video-frame">
             {hasVideoSource ? (
               <>
@@ -1278,7 +1274,7 @@ const StandaloneVideoSection = () => {
                   {STANDALONE_VIDEO.videoWebm && <source src={STANDALONE_VIDEO.videoWebm} type="video/webm" />}
                   {STANDALONE_VIDEO.videoMp4 && <source src={STANDALONE_VIDEO.videoMp4} type="video/mp4" />}
                 </video>
-                <canvas ref={canvasRef} className="h-full w-full object-cover" aria-label="Flower blooming" role="img" />
+                <canvas ref={canvasRef} className="flower-canvas h-full w-full object-cover" aria-label="Flower blooming" role="img" />
               </>
             ) : (
               <div className="standalone-video-placeholder" aria-hidden="true" />
