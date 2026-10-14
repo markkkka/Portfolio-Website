@@ -576,7 +576,7 @@ const Hero = () => {
             transition={{ delay: 0.2 }}
             className="mb-8 inline-block text-[11px] font-bold tracking-[0.32em] uppercase text-[#E8D8BC] drop-shadow-[0_1px_12px_rgba(0,0,0,0.35)] md:mb-10"
           >
-            B2C MARKETING · BRAND GROWTH · DIGITAL CAMPAIGNS
+            CONTENT STRATEGY · CAMPAIGN EXECUTION · DIGITAL GROWTH
           </motion.span>
 
           <motion.h1
@@ -594,7 +594,7 @@ const Hero = () => {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="mx-auto mb-11 max-w-2xl px-2 text-base font-light leading-relaxed text-brand-white/78 md:text-lg"
           >
-            I create content, campaigns, websites, and marketing systems that help consumer brands look sharper, communicate clearly, and grow with intention.
+            I create content, campaigns, websites, and email experiences that help consumer brands look sharper, communicate clearly, and build stronger customer connections.
           </motion.p>
 
           <motion.div
