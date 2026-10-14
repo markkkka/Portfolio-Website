@@ -72,6 +72,19 @@
   margin-right: calc(50% - 50vw);
 }
 
+.hero-media-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.38) 22%,
+    rgba(0, 0, 0, 0.2) 43%,
+    rgba(0, 0, 0, 0.34) 59%,
+    rgba(0, 0, 0, 0.62) 74%,
+    rgba(0, 0, 0, 0.88) 88%,
+    #000 100%
+  );
+}
+
 .work-experience-card {
   position: relative;
   isolation: isolate;

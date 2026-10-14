@@ -51,7 +51,6 @@ type SelectedContentVisual = {
 type SelectedContentCategory = {
   id: string;
   label: string;
-  description: string;
   boardClassName: string;
   visuals: SelectedContentVisual[];
 };
@@ -91,7 +90,6 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
   {
     id: "consumer",
     label: "Consumer Content",
-    description: "Consumer-facing visuals for products, destinations, and lifestyle moments shaped by atmosphere and retail appeal.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_22%,rgba(166,138,86,0.2),transparent_28%),radial-gradient(circle_at_80%_64%,rgba(80,105,92,0.26),transparent_34%),linear-gradient(135deg,#090909_0%,#11100c_48%,#050505_100%)]",
     visuals: [
       {
@@ -216,7 +214,6 @@ const SELECTED_CONTENT_CATEGORIES: SelectedContentCategory[] = [
   {
     id: "business",
     label: "Business Content",
-    description: "B2B visuals for platform education, partner-facing campaigns, and professional ideas.",
     boardClassName: "bg-[radial-gradient(circle_at_28%_24%,rgba(185,151,107,0.15),transparent_26%),radial-gradient(circle_at_74%_74%,rgba(100,118,132,0.16),transparent_32%),linear-gradient(135deg,#060606_0%,#101010_48%,#050505_100%)]",
     visuals: [
       {
@@ -422,7 +419,7 @@ const VideoBackground = ({ src, overlay = true }: { src: string, overlay?: boole
           <source src={src} type="video/mp4" />
         </motion.video>
       {overlay && (
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-black/60 via-brand-black/20 to-brand-black/90 pointer-events-none" />
+        <div className="hero-media-overlay absolute inset-0 pointer-events-none" />
       )}
     </div>
   );
@@ -613,7 +610,7 @@ const Hero = () => {
           </motion.div>
         </motion.div>
 
-        <div className="full-bleed-strip flex min-h-[72px] items-center justify-center bg-brand-black/30 px-6 py-0 text-center backdrop-blur-sm md:min-h-[80px]">
+        <div className="full-bleed-strip flex min-h-[72px] items-center justify-center px-6 py-0 text-center md:min-h-[80px]">
           <p className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-[10px] font-bold uppercase leading-none tracking-[0.26em] text-white/50 md:gap-x-8 md:tracking-[0.3em]">
             <span>CONTENT CREATION</span> <span>·</span> <span>EMAIL CAMPAIGNS</span> <span>·</span> <span>WEBSITES</span> <span>·</span> <span>AI AUTOMATION</span>
           </p>
@@ -764,8 +761,8 @@ const SelectedContent = () => {
             Content Creation
           </p>
 
-          <div className="grid gap-12 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
-            <div className="max-w-xl">
+          <div className="grid gap-10 md:gap-12">
+            <div className="mx-auto w-full max-w-3xl text-center">
               <h2 className="mb-6 font-editorial text-5xl font-semibold leading-none text-white md:text-7xl">
                 Selected Content
               </h2>
@@ -773,7 +770,7 @@ const SelectedContent = () => {
                 A visual archive of consumer and business content created for clear, compelling brand storytelling.
               </p>
 
-              <div className="mb-8 grid grid-cols-2 gap-2 lg:grid-cols-1">
+              <div className="mx-auto grid max-w-xl grid-cols-2 gap-2 sm:gap-3">
                 {SELECTED_CONTENT_CATEGORIES.map((category) => {
                   const isActive = category.id === activeCategory.id;
 
@@ -783,7 +780,7 @@ const SelectedContent = () => {
                       type="button"
                       aria-pressed={isActive}
                       onClick={() => setActiveCategoryId(category.id)}
-                      className={`min-h-11 min-w-0 rounded-full border px-3 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] sm:text-xs lg:text-left transition-all duration-300 lg:min-w-0 lg:rounded-2xl lg:px-5 lg:py-4 ${
+                      className={`min-h-11 min-w-0 rounded-full border px-3 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.12em] sm:px-5 sm:py-4 sm:text-xs transition-all duration-300 ${
                         isActive
                           ? "border-brand-earth/45 bg-brand-earth/10 text-white shadow-[0_0_28px_rgba(166,138,86,0.08)]"
                           : "border-white/8 bg-white/[0.025] text-white/45 hover:border-white/18 hover:text-white/70"
@@ -794,13 +791,9 @@ const SelectedContent = () => {
                   );
                 })}
               </div>
-
-              <p className="mb-5 min-h-[4.5rem] text-sm font-light leading-relaxed text-white/58 md:text-base">
-                {activeCategory.description}
-              </p>
             </div>
 
-            <div className="relative overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-md sm:p-5 md:p-6">
+            <div className="relative mx-auto w-full max-w-[800px] overflow-hidden rounded-[2rem] border border-white/8 bg-white/[0.025] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.36)] backdrop-blur-md sm:p-5 md:p-6">
               <div className={`absolute inset-0 ${activeCategory.boardClassName}`} />
               <div className="absolute inset-0 bg-[linear-gradient(120deg,rgba(255,255,255,0.08),transparent_30%,rgba(0,0,0,0.35)_100%)]" />
               <div className="absolute left-6 top-6 z-20 rounded-full border border-white/10 bg-black/20 px-4 py-2 text-[10px] font-bold uppercase tracking-[0.24em] text-white/50 backdrop-blur-md">
@@ -1345,8 +1338,8 @@ const ContactSection = () => (
   <section id="contact" className="py-16 md:py-20 px-6 bg-[#050505] scroll-mt-24">
     <div className="max-w-7xl mx-auto">
       <SectionReveal>
-        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(260px,0.75fr)] lg:gap-20">
-          <div className="max-w-3xl">
+        <div className="grid justify-items-center gap-10 md:gap-12">
+          <div className="mx-auto w-full max-w-3xl text-center">
             <span className="text-[10px] font-bold tracking-[0.35em] uppercase text-brand-earth mb-5 block">
               Contact
             </span>
@@ -1356,7 +1349,7 @@ const ContactSection = () => (
             <p className="text-base md:text-lg text-white/55 font-light leading-relaxed mb-10">
               Interested in working together or viewing more examples of my work?
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="mx-auto flex max-w-sm flex-col justify-center gap-4 sm:max-w-none sm:flex-row sm:flex-wrap">
               <a href="https://www.linkedin.com/in/mark-anastasiadi-1388481bb/" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto px-7 py-3.5 bg-white/[0.03] border border-white/10 rounded-full hover:bg-white/[0.08] text-white/80 font-medium transition-all flex items-center justify-center gap-2 tap-target">
                 LinkedIn
               </a>
@@ -1368,7 +1361,7 @@ const ContactSection = () => (
               </a>
             </div>
           </div>
-          <div className="portrait-orbit mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-[1.75rem] border border-white/8 bg-[#11100e] shadow-[0_24px_70px_rgba(0,0,0,0.35)] lg:ml-auto">
+          <div className="portrait-orbit mx-auto aspect-[4/5] w-full max-w-[360px] overflow-hidden rounded-[1.75rem] border border-white/8 bg-[#11100e] shadow-[0_24px_70px_rgba(0,0,0,0.35)]">
             <img
               src="/images/mark-portrait.jpg"
               alt="Portrait of Mark Anastasiadi"

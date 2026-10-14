@@ -34,7 +34,8 @@ export const usePageScrollPreview = () => {
       const visibleBottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight);
       const pairedEmailRow = !!frame.closest('#email-campaigns') && window.matchMedia('(min-width: 1024px)').matches;
       const previewCount = pairedEmailRow ? 2 : 1;
-      const travelPerPreview = Math.max(440, Math.min(900, (viewport?.height ?? window.innerHeight) * 0.8));
+      // Spread the preview over more page travel so individual gestures advance less content.
+      const travelPerPreview = Math.max(800, Math.min(1600, (viewport?.height ?? window.innerHeight) * 1.5));
       // Reserve enough page travel for both cards, while moving only the chosen column.
       const travel = travelPerPreview * previewCount;
       const frameOffset = frame.getBoundingClientRect().top - pin.getBoundingClientRect().top;
