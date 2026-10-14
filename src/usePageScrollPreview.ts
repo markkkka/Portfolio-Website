@@ -3,6 +3,17 @@ import { isPreviewFullyVisible, usePreviewScrollGate } from './usePreviewScrollG
 
 const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
+const getScrollTarget = (frame: HTMLElement) => {
+  const iframe = frame.querySelector<HTMLIFrameElement>('iframe');
+  return iframe ? iframe.contentDocument?.scrollingElement :
+    frame.querySelector<HTMLElement>('.landing-preview-canvas');
+};
+
+const getScrollRange = (frame: HTMLElement) => {
+  const target = getScrollTarget(frame);
+  return target ? Math.max(0, target.scrollHeight - target.clientHeight) : 0;
+};
+
 export const usePageScrollPreview = () => {
   const sceneRef = useRef<HTMLDivElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
@@ -21,6 +32,7 @@ export const usePageScrollPreview = () => {
     let pointerX: number | undefined;
     let animationFrame = 0;
     let lastPhase = 0;
+    let lastPageY = window.scrollY;
     let progress = 0;
     let wasActive = false;
 
@@ -34,10 +46,15 @@ export const usePageScrollPreview = () => {
       const visibleBottom = (viewport?.offsetTop ?? 0) + (viewport?.height ?? window.innerHeight);
       const pairedEmailRow = !!frame.closest('#email-campaigns') && window.matchMedia('(min-width: 1024px)').matches;
       const previewCount = pairedEmailRow ? 2 : 1;
-      // Spread the preview over more page travel so individual gestures advance less content.
-      const travelPerPreview = Math.max(800, Math.min(1600, (viewport?.height ?? window.innerHeight) * 1.5));
-      // Reserve enough page travel for both cards, while moving only the chosen column.
-      const travel = travelPerPreview * previewCount;
+      const frames = [...document.querySelectorAll<HTMLElement>('.preview-frame')];
+      const scrollTarget = getScrollTarget(frame);
+      const maxScroll = getScrollRange(frame);
+      const rowFrames = pairedEmailRow ? frames.filter(candidate => candidate.closest('#email-campaigns') === frame.closest('#email-campaigns')) : [frame];
+      const scrollRanges = rowFrames.map(getScrollRange);
+      const fallbackTravel = Math.max(800, Math.min(1600, (viewport?.height ?? window.innerHeight) * 1.5));
+      // Reserve one page pixel per content pixel, including both columns in an email row.
+      const travel = scrollRanges.every(range => range > 0) ?
+        scrollRanges.reduce((total, range) => total + range, 0) : fallbackTravel * previewCount;
       const frameOffset = frame.getBoundingClientRect().top - pin.getBoundingClientRect().top;
       const previewTop = Math.max(visibleTop + 18, visibleBottom - frame.getBoundingClientRect().height - 18);
       const pinTop = previewTop - frameOffset;
@@ -46,7 +63,8 @@ export const usePageScrollPreview = () => {
 
       const start = scene.getBoundingClientRect().top + window.scrollY - pinTop;
       const phase = clamp((window.scrollY - start) / travel);
-      const frames = [...document.querySelectorAll<HTMLElement>('.preview-frame')];
+      const pageMovement = Math.min(travel, Math.max(0, window.scrollY - start)) -
+        Math.min(travel, Math.max(0, lastPageY - start));
       const visibleFrames = frames.filter(isPreviewFullyVisible);
       // Choose a column before checking visibility, so a clipped left card cannot start the right card.
       const pairedEmails = visibleFrames[0]?.closest('#email-campaigns') && window.matchMedia('(min-width: 1024px)').matches;
@@ -67,14 +85,10 @@ export const usePageScrollPreview = () => {
       else if (active || (wasActive && phase === 1 && lastPhase < 1)) {
         // Each preview keeps its position when the cursor moves to the other card.
         if (lastPhase === 1 && phase < 1 && active) progress = 1;
-        progress = clamp(progress + (phase - lastPhase) * previewCount);
+        if (maxScroll > 0) progress = clamp(progress + pageMovement / maxScroll);
       }
 
-      const iframe = frame.querySelector<HTMLIFrameElement>('iframe');
-      const scrollTarget = iframe ? iframe.contentDocument?.scrollingElement :
-        frame.querySelector<HTMLElement>('.landing-preview-canvas');
       if (scrollTarget) {
-        const maxScroll = Math.max(0, scrollTarget.scrollHeight - scrollTarget.clientHeight);
         if (active || phase === 0 || (wasActive && phase === 1)) scrollTarget.scrollTop = progress * maxScroll;
         frame.dataset.pageScrollPosition = String(Math.round(scrollTarget.scrollTop));
         frame.dataset.pageScrollMaximum = String(maxScroll);
@@ -83,6 +97,7 @@ export const usePageScrollPreview = () => {
       frame.dataset.pageScrollPhase = phase.toFixed(4);
       frame.dataset.pageScrollActive = String(active);
       lastPhase = phase;
+      lastPageY = window.scrollY;
       wasActive = active;
     };
 
